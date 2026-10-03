@@ -65,10 +65,7 @@ export const createDefaultPage = ({
           contentPageHeader: { summary: "This is the page summary" },
           database: {
             dataSource: {
-              type: "dgs", // we only support DGS creation on studio for now
-              // Hardcoded placeholder dataset ID; users are expected to
-              // replace it with their own dataset before publishing
-              resourceId: "d_3c55210de27fcccda2ed0c63fdd2b352",
+              type: "native",
             },
           },
         },

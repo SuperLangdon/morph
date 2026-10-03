@@ -52,7 +52,6 @@ export const TYPE_TO_ICON: Record<
   collectionblock: BiData,
   imagegallery: BiImages,
   contactinformation: BiPhoneCall,
-  dynamiccomponentlist: BiListUl,
   childrenpages: BiListUl,
 }
 

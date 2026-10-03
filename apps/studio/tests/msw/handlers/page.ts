@@ -1460,8 +1460,7 @@ export const pageHandlers = {
               contentPageHeader: { summary: "" },
               database: {
                 dataSource: {
-                  type: "dgs",
-                  resourceId: "d_3c55210de27fcccda2ed0c63fdd2b352", // hardcoded
+                  type: "native",
                 },
               },
             },

@@ -300,20 +300,6 @@ export const DEFAULT_BLOCKS = {
       },
     ],
   },
-  dynamiccomponentlist: {
-    type: "dynamiccomponentlist",
-    dataSource: {
-      type: "dgs",
-      resourceId: "PLACEHOLDER_RESOURCE_ID",
-    },
-    component: {
-      type: "contactinformation",
-      title: "[dgs:entity_name]",
-      description: "[dgs:description]",
-      methods: "[dgs:methods]",
-      otherInformation: "[dgs:other_information]",
-    },
-  },
 }
 
 export const BLOCK_TO_META: Record<
@@ -456,12 +442,6 @@ export const BLOCK_TO_META: Record<
     description: "Display contact information.",
     usageText: "Let people know how they can reach you.",
     imageSrc: "/assets/block-images/ContactInformation.png",
-  },
-  dynamiccomponentlist: {
-    label: "Dynamic component list",
-    description: "Display a list of dynamic components.",
-    usageText: "Showcase a list of dynamic components.",
-    // TODO: Add imageSrc
   },
 } as const
 
