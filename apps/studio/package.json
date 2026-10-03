@@ -137,6 +137,7 @@
     "kysely": "catalog:",
     "lodash-es": "catalog:",
     "nanoid": "catalog:",
+    "nodemailer": "^10.0.13",
     "next": "catalog:",
     "papaparse": "catalog:",
     "pdfreader": "^3.0.8",
@@ -159,10 +160,10 @@
     "type-fest": "catalog:",
     "usehooks-ts": "catalog:",
     "validator": "catalog:",
-    "wretch": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/nodemailer": "^8.0.2",
     "@babel/plugin-transform-class-properties": "catalog:babel",
     "@babel/plugin-transform-object-rest-spread": "catalog:babel",
     "@babel/preset-env": "catalog:babel",

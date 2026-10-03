@@ -1,5 +1,4 @@
 import { partition } from "lodash-es"
-import wretch from "wretch"
 import { env } from "~/env.mjs"
 import { createBaseLogger } from "~/lib/logger"
 import { isEmailWhitelisted } from "~/server/modules/whitelist/whitelist.service"
@@ -13,6 +12,36 @@ interface SendMailParams {
 
 const logger = createBaseLogger({ path: "lib/mail" })
 
+// Lazily-created nodemailer transport. SMTP is optional: when SMTP_HOST is
+// not configured, outgoing mail (including login OTPs) is logged to the
+// console instead — enough for local development without any mail server.
+let transportPromise: Promise<
+  import("nodemailer").Transporter | undefined
+> | null = null
+
+const getTransport = async () => {
+  if (!transportPromise) {
+    transportPromise = (async () => {
+      if (!env.SMTP_HOST) return undefined
+      const nodemailer = await import("nodemailer")
+      return nodemailer.createTransport({
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
+        secure: env.SMTP_SECURE ?? env.SMTP_PORT === 465,
+        ...(env.SMTP_USER && env.SMTP_PASS
+          ? {
+              auth: {
+                user: env.SMTP_USER,
+                pass: env.SMTP_PASS,
+              },
+            }
+          : {}),
+      })
+    })()
+  }
+  return transportPromise
+}
+
 export const sendMail = async (params: SendMailParams): Promise<void> => {
   // Safe guard to prevent sending emails to non-whitelisted emails
   const isWhitelisted = await isEmailWhitelisted(params.recipient)
@@ -21,8 +50,7 @@ export const sendMail = async (params: SendMailParams): Promise<void> => {
   }
 
   // Same safeguard for cc recipients, but drop the non-whitelisted ones
-  // instead of failing the whole send — mirrors Postman's own behaviour of
-  // ignoring blacklisted cc addresses while still delivering to the rest.
+  // instead of failing the whole send.
   const [whitelistedCc, droppedCc] = partition(
     await Promise.all(
       (params.cc ?? []).map(async (email) => ({
@@ -40,68 +68,38 @@ export const sendMail = async (params: SendMailParams): Promise<void> => {
     })
   }
   const cc = whitelistedCc.map((r) => r.email)
-  const payload = {
-    recipient: params.recipient,
-    subject: params.subject,
-    body: params.body,
-    ...(cc.length > 0 && { cc }),
+
+  const transport = await getTransport()
+
+  if (!transport) {
+    console.warn(
+      "SMTP_HOST is not configured. Logging the following mail instead of sending: ",
+      params,
+    )
+    return
   }
 
-  if (env.POSTMAN_API_KEY) {
-    try {
-      const response = await wretch(
-        "https://api.postman.gov.sg/v1/transactional/email/send",
-      )
-        .auth(`Bearer ${env.POSTMAN_API_KEY}`)
-        .post(payload)
-        .res()
+  try {
+    await transport.sendMail({
+      from: env.SMTP_FROM ?? params.recipient,
+      to: params.recipient,
+      ...(cc.length > 0 && { cc }),
+      subject: params.subject,
+      html: params.body,
+    })
 
-      if (response.status >= 300) {
-        logger.error({
-          error: "Postman API error",
-          status: response.status,
-          recipient: params.recipient,
-          subject: params.subject,
-        })
-        throw new PostmanApiStatusError(
-          `Postman API error with status ${response.status}`,
-          response.status,
-        )
-      }
-
-      logger.info({
-        event: "email_send_succeeded",
-        status: response.status,
-        recipient: params.recipient,
-        subject: params.subject,
-      })
-      return
-    } catch (error) {
-      if (error instanceof PostmanApiStatusError) throw error
-
-      logger.error({
-        error: "Postman API call failed",
-        originalError: error,
-        recipient: params.recipient,
-        subject: params.subject,
-      })
-      throw error
-    }
-  }
-
-  console.warn(
-    "POSTMAN_API_KEY is missing. Logging the following mail: ",
-    params,
-  )
-  return
-}
-
-class PostmanApiStatusError extends Error {
-  constructor(
-    message: string,
-    public readonly status: number,
-  ) {
-    super(message)
-    this.name = "PostmanApiStatusError"
+    logger.info({
+      event: "email_send_succeeded",
+      recipient: params.recipient,
+      subject: params.subject,
+    })
+  } catch (error) {
+    logger.error({
+      error: "SMTP send failed",
+      originalError: error,
+      recipient: params.recipient,
+      subject: params.subject,
+    })
+    throw error
   }
 }
