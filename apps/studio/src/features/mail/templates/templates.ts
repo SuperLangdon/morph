@@ -21,7 +21,6 @@ import type {
   FailedPublishTemplateData,
   FailedSiteRebuildTemplateData,
   FailedUnpublishTemplateData,
-  GazetteDeletionEmailTemplateData,
   InvitationEmailTemplateData,
   SchedulePageTemplateData,
   ScheduleUnpublishTemplateData,
@@ -49,22 +48,6 @@ const getDownloadLinkLabel = (
 
 const constructStudioRedirect = () =>
   `<a target="_blank" href="${escapeHtml(env.NEXT_PUBLIC_APP_URL)}">${escapeHtml(env.NEXT_PUBLIC_APP_URL?.replace("https://", ""))}</a>`
-
-export const gazetteDeletionTemplate = (
-  data: GazetteDeletionEmailTemplateData,
-) => {
-  const { fileId, gazetteTitle } = data
-
-  // Greeting is not personalised. This email goes to all site admins (to + cc).
-  return {
-    subject: `[Isomer Studio] The gazette with file id: ${fileId} and title: ${gazetteTitle} has been deleted`,
-    body: `<p>Hi everyone,</p>
-<p>The gazette ${gazetteTitle} has been deleted from your site and removed from the search results</p>
-<p>If you believe this was a mistake or need assistance, please contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a>.</p>
-<p>Best,</p>
-<p>Isomer team</p>`,
-  }
-}
 
 const invitationTemplate = (
   data: InvitationEmailTemplateData,
@@ -111,7 +94,7 @@ const schedulePageTemplate = (
   return {
     subject: `[Isomer Studio] You scheduled a page to be published`,
     body: `<p>Hi ${recipientEmail},</p>
-    <p>You’ve scheduled a page to be published at a later time. Your page will publish at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "Asia/Singapore"), false)} (SGT)</strong>.</p>
+    <p>You’ve scheduled a page to be published at a later time. Your page will publish at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "UTC"), false)} (UTC)</strong>.</p>
     <p>Log in to Isomer Studio at ${studioResourceUrl} to modify or cancel your schedule.</p>
     <p>Best,</p>
     <p>Isomer team</p>`,
@@ -141,7 +124,7 @@ const scheduleUnpublishTemplate = (
   return {
     subject: `[Isomer Studio] You scheduled a page to be unpublished`,
     body: `<p>Hi ${recipientEmail},</p>
-    <p>You’ve scheduled a page to be unpublished at a later time. Your page will be unpublished at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "Asia/Singapore"), false)} (SGT)</strong>.</p>
+    <p>You’ve scheduled a page to be unpublished at a later time. Your page will be unpublished at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "UTC"), false)} (UTC)</strong>.</p>
     <p>Log in to Isomer Studio at ${studioResourceUrl} to modify or cancel your schedule.</p>
     <p>Best,</p>
     <p>Isomer team</p>`,
@@ -466,8 +449,6 @@ const _templates = {
     accountDeactivationWarningTemplate satisfies EmailTemplateFunction<AccountDeactivationWarningEmailTemplateData>,
   accountDeactivation:
     accountDeactivationTemplate satisfies EmailTemplateFunction<AccountDeactivationEmailTemplateData>,
-  gazetteDeletion:
-    gazetteDeletionTemplate satisfies EmailTemplateFunction<GazetteDeletionEmailTemplateData>,
   auditLogExportReady:
     auditLogExportReadyTemplate satisfies EmailTemplateFunction<AuditLogExportReadyEmailTemplateData>,
   auditLogExportFailed:

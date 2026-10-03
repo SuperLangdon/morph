@@ -37,14 +37,10 @@ const ContentSecurityPolicy = `
     https://www.google.com
     https://www.googletagmanager.com
     https://td.doubleclick.net
-    https://www.onemap.gov.sg
-    https://mobile.onemap.gov.sg
     https://www.youtube-nocookie.com
     https://player.vimeo.com
     https://m.facebook.com
     https://www.facebook.com
-    https://maps.gov.sg
-    https://form.gov.sg
     https://open.spotify.com
     https://embed-standalone.spotify.com
     https://embed.podcasts.apple.com
@@ -54,7 +50,6 @@ const ContentSecurityPolicy = `
   script-src
     'self'
     'unsafe-eval'
-    https://*.wogaa.sg
     https://app.intercom.io
     https://widget.intercom.io
     https://js.intercomcdn.com
@@ -87,15 +82,13 @@ const ContentSecurityPolicy = `
     https://vitals.vercel-insights.com
     https://*.amazonaws.com
     ${env.R2_ACCOUNT_ID ? `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com` : ""}
-    https://*.wogaa.sg
     https://placehold.co
     https://cdn.growthbook.io
     ${
       !!env.NEXT_PUBLIC_S3_ASSETS_DOMAIN_NAME
         ? `https://${env.NEXT_PUBLIC_S3_ASSETS_DOMAIN_NAME}`
-        : "https://*.by.gov.sg"
+        : ""
     }
-    https://${env.S3_GAZETTE_DOMAIN_NAME}
     https://via.intercom.io
     https://api.intercom.io
     https://api.au.intercom.io
@@ -119,8 +112,6 @@ const ContentSecurityPolicy = `
     https://uploads.au.intercomcdn.com
     https://uploads.eu.intercomcdn.com
     https://uploads.intercomusercontent.com
-    https://data.gov.sg
-    https://*.data.gov.sg
     https://www.youtube.com
     https://vimeo.com
     https://*.spotify.com

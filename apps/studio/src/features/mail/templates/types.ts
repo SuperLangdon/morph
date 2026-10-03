@@ -79,11 +79,6 @@ export interface AccountDeactivationEmailTemplateData extends BaseEmailTemplateD
   }[]
 }
 
-export interface GazetteDeletionEmailTemplateData extends BaseEmailTemplateData {
-  fileId: string
-  gazetteTitle: string
-}
-
 export interface AuditLogExportDownloadLink {
   label: "access" | "audit"
   url: string
@@ -96,7 +91,7 @@ export interface AuditLogExportReadyEmailTemplateData extends BaseEmailTemplateD
   // Each export job produces exactly one report, so exactly one link.
   link: AuditLogExportDownloadLink
   sizeInBytes: number | null
-  // Absolute, timezone-labelled expiry instant, e.g. "22/09/2026, 11:59pm (SGT)".
+  // Absolute, timezone-labelled expiry instant, e.g. "22/09/2026, 11:59pm (UTC)".
   expiresAt: string
 }
 

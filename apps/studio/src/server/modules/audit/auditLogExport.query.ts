@@ -14,17 +14,17 @@ const MID_OF_MONTH = 15 as const
 
 // The fixed business timezone for audit months. We convert through date-fns-tz
 // (rather than hardcoding the +08:00 offset) so the zone handling is explicit.
-const SINGAPORE_TIME_ZONE = "Asia/Singapore"
+const EXPORT_TIME_ZONE = "UTC"
 
 // Canonical Postgres daterange form: `[YYYY-MM-DD,YYYY-MM-DD)` — inclusive
-// lower, exclusive upper. The bounds are SGT (Asia/Singapore) CALENDAR DATES,
+// lower, exclusive upper. The bounds are UTC (UTC) CALENDAR DATES,
 // and the DB CHECK guarantees the stored range is non-empty and bounded.
 // Postgres always echoes ranges back in this canonical form.
 const AUDIT_LOG_DATE_RANGE_REGEX =
   /^\[(\d{4}-\d{2}-\d{2}),(\d{4}-\d{2}-\d{2})\)$/
 
 /**
- * Serialize SGT calendar-date bounds into the canonical daterange string,
+ * Serialize UTC calendar-date bounds into the canonical daterange string,
  * `[lowerInclusive,upperExclusive)`.
  */
 export const formatAuditLogDateRange = (
@@ -33,7 +33,7 @@ export const formatAuditLogDateRange = (
 ): string => `[${lowerInclusive},${upperExclusive})`
 
 /**
- * Parse a canonical daterange string back into its SGT calendar-date bounds.
+ * Parse a canonical daterange string back into its UTC calendar-date bounds.
  * Throws on non-canonical input — defensive only, since the DB CHECK plus
  * Postgres canonicalisation guarantee we only ever read the canonical form.
  */
@@ -52,13 +52,13 @@ export const parseAuditLogDateRange = (
 const ISO_MONTH_REGEX = /^\d{4}-(0[1-9]|1[0-2])$/ // yyyy-MM pattern
 
 /**
- * Convert a `yyyy-MM` month (interpreted in Singapore time) into the stored
- * daterange string, `[YYYY-MM-DD,YYYY-MM-DD)` over SGT calendar dates.
+ * Convert a `yyyy-MM` month (interpreted in UTC) into the stored
+ * daterange string, `[YYYY-MM-DD,YYYY-MM-DD)` over UTC calendar dates.
  *
  * - Past month: the full calendar month, e.g. "2024-03" →
  *   `[2024-03-01,2024-04-01)`.
- * - Current SGT month (the month of `now` in Asia/Singapore): the upper bound
- *   is clamped to SGT-today + 1 day so today's partial day is included. On the
+ * - Current UTC month (the month of `now` in UTC): the upper bound
+ *   is clamped to UTC-today + 1 day so today's partial day is included. On the
  *   1st this yields `[yyyy-MM-01,yyyy-MM-02)` — never empty.
  *
  * Future months are rejected upstream by zod; `now` is an explicit parameter
@@ -73,31 +73,31 @@ export const getMonthDateRange = (month: IsoMonth, now: Date): string => {
   const [year, monthIndex] = month.split("-").map(Number) as [number, number]
 
   // A UTC instant mid-month falls inside the target month in every timezone,
-  // so we can derive the SGT month start from it without boundary surprises.
-  // `toZonedTime` re-labels the instant with SGT wall-clock fields, so the
+  // so we can derive the UTC month start from it without boundary surprises.
+  // `toZonedTime` re-labels the instant with UTC wall-clock fields, so the
   // plain date-fns `format`/`startOfMonth`/`addMonths` below all operate on
-  // SGT calendar dates regardless of the server timezone.
+  // UTC calendar dates regardless of the server timezone.
   const midMonth = new Date(Date.UTC(year, monthIndex - 1, MID_OF_MONTH))
-  const monthStart = startOfMonth(toZonedTime(midMonth, SINGAPORE_TIME_ZONE))
+  const monthStart = startOfMonth(toZonedTime(midMonth, EXPORT_TIME_ZONE))
   const lowerInclusive = format(monthStart, "yyyy-MM-dd")
   const nextMonthStart = format(addMonths(monthStart, 1), "yyyy-MM-dd")
 
-  // Clamp the upper bound to SGT-today + 1 day so an in-progress month covers
+  // Clamp the upper bound to UTC-today + 1 day so an in-progress month covers
   // up to (and including) today's partial day. For past months the next month
   // start is always the earlier bound, so the clamp is a no-op.
-  const sgtToday = toZonedTime(now, SINGAPORE_TIME_ZONE)
-  const dayAfterSgtToday = format(addDays(sgtToday, 1), "yyyy-MM-dd")
+  const zonedToday = toZonedTime(now, EXPORT_TIME_ZONE)
+  const dayAfterZonedToday = format(addDays(zonedToday, 1), "yyyy-MM-dd")
   const upperExclusive =
-    nextMonthStart < dayAfterSgtToday ? nextMonthStart : dayAfterSgtToday
+    nextMonthStart < dayAfterZonedToday ? nextMonthStart : dayAfterZonedToday
 
   return formatAuditLogDateRange(lowerInclusive, upperExclusive)
 }
 
 /**
  * The UTC instants bounding an export range, half-open: [rangeStart, rangeEnd).
- * Each SGT calendar-date bound of the stored daterange maps to its SGT-midnight
+ * Each UTC calendar-date bound of the stored daterange maps to its UTC-midnight
  * instant: the inclusive lower bound becomes `rangeStart` and the exclusive
- * upper bound becomes `rangeEnd`. Singapore has no DST, so SGT midnight is
+ * upper bound becomes `rangeEnd`. UTC has no DST, so UTC midnight is
  * unambiguous.
  */
 export const getExportRange = (
@@ -106,8 +106,8 @@ export const getExportRange = (
   const { lowerInclusive, upperExclusive } =
     parseAuditLogDateRange(auditLogDateRange)
   return {
-    rangeStart: fromZonedTime(lowerInclusive, SINGAPORE_TIME_ZONE),
-    rangeEnd: fromZonedTime(upperExclusive, SINGAPORE_TIME_ZONE),
+    rangeStart: fromZonedTime(lowerInclusive, EXPORT_TIME_ZONE),
+    rangeEnd: fromZonedTime(upperExclusive, EXPORT_TIME_ZONE),
   }
 }
 
@@ -115,7 +115,7 @@ export const getExportRange = (
  * POINT-IN-TIME access report (ADR docs/adr/0003).
  *
  * Returns who had access to the site **as of the trailing edge of the export
- * range** (the SGT-midnight instant of the daterange's exclusive upper bound),
+ * range** (the UTC-midnight instant of the daterange's exclusive upper bound),
  * reconstructed from `ResourcePermission` createdAt/deletedAt soft-delete
  * history — NOT who has access now.
  *
@@ -132,7 +132,7 @@ export const getExportRange = (
  * inclusive bound, but Postgres timestamps carry microsecond precision, so
  * rows in the final millisecond of the range were misclassified.)
  *
- * For an in-progress range (a current-month export clamped to SGT-today + 1
+ * For an in-progress range (a current-month export clamped to UTC-today + 1
  * day, whose trailing edge is still in the future) the predicate naturally
  * collapses to "who has access now" — this is intended.
  *
@@ -246,8 +246,8 @@ const AUDIT_LOGS_EVENTS_QUERIES: Record<
  * the export range), and a Login/Logout row is included only if its email
  * belonged to a window covering the event's own timestamp. Internal Isomer
  * admins (rows in `IsomerAdmin`) are excluded. Only
- * `siteId`/`auditLogDateRange` are parameterised; the daterange's SGT
- * calendar-date bounds are converted to SGT-midnight instants via
+ * `siteId`/`auditLogDateRange` are parameterised; the daterange's UTC
+ * calendar-date bounds are converted to UTC-midnight instants via
  * `getExportRange`.
  */
 export const activityReportQuery = ({
@@ -453,9 +453,9 @@ export type ActivityReportRow = Awaited<
 /**
  * Serialize report rows to CSV. Headers are the object keys (quotes stripped,
  * matching the script). Values are stringified as: `Date` → ISO-8601 in
- * Singapore time with a `+08:00` offset, `null`/`undefined` → empty string,
- * strings verbatim, everything else → JSON. Rendering dates in SGT (rather than
- * the script's UTC `toISOString`) keeps the file coherent with the SGT month it
+ * UTC with a `+08:00` offset, `null`/`undefined` → empty string,
+ * strings verbatim, everything else → JSON. Rendering dates in UTC (rather than
+ * the script's UTC `toISOString`) keeps the file coherent with the UTC month it
  * is scoped to and shows timestamps in the auditor's local wall-clock time.
  */
 export const getStringifiedValue = (value: unknown): string => {
@@ -465,7 +465,7 @@ export const getStringifiedValue = (value: unknown): string => {
   if (value instanceof Date) {
     return formatInTimeZone(
       value,
-      SINGAPORE_TIME_ZONE,
+      EXPORT_TIME_ZONE,
       "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
     )
   }

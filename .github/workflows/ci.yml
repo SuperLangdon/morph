@@ -18,11 +18,9 @@ jobs:
     outputs:
       skip: ${{ steps.check_skip.outputs.skip }}
     steps:
-      - name: Optimize CI
+      - name: Decide whether to skip CI
         id: check_skip
-        uses: withgraphite/graphite-ci-action@402a89bc8aa6db18ae1f9c61953d001d5f9d828f
-        with:
-          graphite_token: ${{ secrets.GRAPHITE_CI_OPTIMIZER_TOKEN }}
+        run: echo "skip=false" >> "$GITHUB_OUTPUT"
   # Detect which areas changed so dependent jobs can opt out when irrelevant.
   changes:
     runs-on: ubuntu-latest
@@ -121,8 +119,7 @@ jobs:
         env:
           # Required to allow Datadog to trace Vitest tests
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          # Set timezone to Singapore to ensure that the tests are run in the correct timezone
-          TZ: Asia/Singapore
+          TZ: UTC
 
   test-components:
     name: Test Components
@@ -148,8 +145,7 @@ jobs:
         env:
           # Required to allow Datadog to trace Vitest tests
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          # Set timezone to Singapore to ensure that the tests are run in the correct timezone
-          TZ: Asia/Singapore
+          TZ: UTC
 
   test-template:
     name: Test Template (Bundle Pruning)
@@ -171,7 +167,7 @@ jobs:
         env:
           # Required to allow Datadog to trace Vitest tests
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          TZ: Asia/Singapore
+          TZ: UTC
 
   test-validators:
     name: Test Validators
@@ -192,7 +188,7 @@ jobs:
         run: pnpm exec turbo test-ci:unit --filter=@isomer/validators --env-mode=loose
         env:
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          TZ: Asia/Singapore
+          TZ: UTC
 
   test-pgboss:
     name: Test pgboss
@@ -216,7 +212,7 @@ jobs:
         run: pnpm exec turbo test-ci:unit --filter=@isomer/pgboss --env-mode=loose
         env:
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          TZ: Asia/Singapore
+          TZ: UTC
 
   publishing-script-tests:
     name: Publishing script tests
@@ -239,13 +235,12 @@ jobs:
         env:
           # Required to allow Datadog to trace Vitest tests
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          # Set timezone to Singapore to ensure that the tests are run in the correct timezone
-          TZ: Asia/Singapore
+          TZ: UTC
       - name: Test full template build from publishing script output
         run: pnpm exec turbo test-ci:build --filter=publishing --env-mode=loose
         env:
           NODE_OPTIONS: -r ${{ env.DD_TRACE_PACKAGE }} --import ${{ env.DD_TRACE_ESM_IMPORT }}
-          TZ: Asia/Singapore
+          TZ: UTC
 
   end-to-end-tests:
     name: End-to-end tests
@@ -259,10 +254,12 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
       - name: Load .env file
-        uses: opengovsg/dotenv@eff1dce037c4c0143cc4180a810511024c2560c0 # v2
-        with:
-          path: apps/studio
-          mode: test
+        shell: bash
+        run: |
+          set -a
+          . apps/studio/.env.test
+          set +a
+          echo "ENV_LOADED=true" >> "$GITHUB_ENV"
       - name: Next.js cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:

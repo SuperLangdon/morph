@@ -1,1 +1,0 @@
-export { Wogaa } from "./Wogaa"

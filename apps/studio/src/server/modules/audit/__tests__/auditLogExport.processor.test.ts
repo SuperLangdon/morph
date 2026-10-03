@@ -91,7 +91,7 @@ vi.mock("~/features/mail/service", () => ({
   sendAuditLogExportBatchReadyEmail: mockSendAuditLogExportBatchReadyEmail,
 }))
 
-import { getCurrentSingaporeMonth } from "~/schemas/audit"
+import { getCurrentExportMonth } from "~/schemas/audit"
 
 import { db } from "../../database"
 import { getMonthDateRange } from "../auditLogExport.query"
@@ -669,7 +669,7 @@ describe("auditLogExport processor", () => {
       // instant is still in the future, so its Done row is a point-in-time
       // snapshot (completedAt < rangeEnd) — never a Complete Artifact.
       const currentMonthRange = getMonthDateRange(
-        getCurrentSingaporeMonth(),
+        getCurrentExportMonth(),
         new Date(),
       )
       const { site } = await setupSite()
@@ -707,7 +707,7 @@ describe("auditLogExport processor", () => {
 
     it("stamps completedAt with the pre-query instant, not delivery time (query and finish can straddle the range end)", async () => {
       // Arrange: the midnight race. A current-month job that queries before
-      // SGT midnight is missing the tail of the month; if completedAt were
+      // UTC midnight is missing the tail of the month; if completedAt were
       // stamped when the job FINISHES (after upload/email/retries cross the
       // boundary), the row would satisfy `completedAt >= rangeEnd` and
       // masquerade as a Complete Artifact forever. The fix stamps completedAt

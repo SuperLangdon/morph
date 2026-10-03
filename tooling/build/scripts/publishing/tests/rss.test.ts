@@ -69,9 +69,9 @@ const makeSite = (
     siteMap,
     siteMapArray: [siteMap, collectionNode, ...children],
     siteName: "Test Agency",
-    url: "https://www.isomer.gov.sg",
+    url: "https://example.com",
     logoUrl: "/images/logo.svg",
-    assetsBaseUrl: "https://cdn.example.gov.sg",
+    assetsBaseUrl: "https://cdn.example.org",
     lastUpdated: "2026-07-01",
     navbar: { items: [] },
     footerItems: {
@@ -230,7 +230,7 @@ describe("getFeedItems", () => {
         id: "b",
         permalink: `${COLLECTION_PERMALINK}/b`,
         layout: "link",
-        ref: "https://external.example.gov.sg/news",
+        ref: "https://external.example.org/news",
       }),
     ])
 
@@ -265,7 +265,7 @@ describe("buildFeedXml", () => {
         permalink: `${COLLECTION_PERMALINK}/link-1`,
         title: "External link",
         layout: "link",
-        ref: "https://external.example.gov.sg/news",
+        ref: "https://external.example.org/news",
         date: "2026-07-10",
       }),
       makeItem({
@@ -294,18 +294,18 @@ describe("buildFeedXml", () => {
     )
     expect(xml).toContain("<language>en</language>")
     expect(xml).toContain(
-      "<generator>Isomer (https://www.isomer.gov.sg)</generator>",
+      "<generator>Morph (https://github.com/morph-cms/morph)</generator>",
     )
     expect(xml).toContain(
-      '<atom:link href="https://www.isomer.gov.sg/newsroom/rss.xml" rel="self" type="application/rss+xml" />',
+      '<atom:link href="https://example.com/newsroom/rss.xml" rel="self" type="application/rss+xml" />',
     )
     // Assert — items
     expect(xml.match(/<item>/g)).toHaveLength(3)
     expect(xml).toContain(
-      "<link>https://www.isomer.gov.sg/newsroom/article-1</link>",
+      "<link>https://example.com/newsroom/article-1</link>",
     )
-    expect(xml).toContain("<link>https://external.example.gov.sg/news</link>")
-    expect(xml).toContain(`<link>https://cdn.example.gov.sg${ASSET_REF}</link>`)
+    expect(xml).toContain("<link>https://external.example.org/news</link>")
+    expect(xml).toContain(`<link>https://cdn.example.org${ASSET_REF}</link>`)
     // guids are the stable database resource ids, never the permalink
     expect(xml).toContain(
       '<guid isPermaLink="false">urn:isomer:resource:article</guid>',

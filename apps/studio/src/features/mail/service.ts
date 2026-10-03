@@ -14,7 +14,6 @@ import type {
   FailedPublishTemplateData,
   FailedSiteRebuildTemplateData,
   FailedUnpublishTemplateData,
-  GazetteDeletionEmailTemplateData,
   InvitationEmailTemplateData,
   SchedulePageTemplateData,
   ScheduleUnpublishTemplateData,
@@ -188,16 +187,6 @@ export async function sendAccountDeactivationEmail(
     data,
     template: templates.accountDeactivation(data),
     emailType: "account deactivation",
-  })
-}
-
-export async function sendGazetteDeletionEmail(
-  data: GazetteDeletionEmailTemplateData,
-): Promise<void> {
-  await sendEmailWithTemplate({
-    data,
-    template: templates.gazetteDeletion(data),
-    emailType: "gazette deletion",
   })
 }
 

@@ -84,7 +84,6 @@ model Resource {
   updatedAt          DateTime             @default(now()) @updatedAt
   ResourcePermission ResourcePermission[]
   CodeBuildJobs      CodeBuildJobs[]
-  pushDocumentJobs   PushDocumentJob[]
 
   // This unique index is subsequently replaced with a custom index that
   // treats nulls as not distinct.
@@ -149,7 +148,6 @@ model User {
   AuditLog              AuditLog[]
   CodeBuildJobs         CodeBuildJobs[]
   ScheduledResources    Resource[]
-  pushDocumentJobs      PushDocumentJob[]
   AuditLogExportRequest AuditLogExportRequest[]
 
   // This unique index is subsequently replaced with a custom index that
@@ -361,24 +359,6 @@ model CodeBuildJobs {
   @@index([siteId])
   @@index([userId])
   @@index([buildId])
-}
-
-// Schedules a document (a Resource pointing at a PDF in S3) for ingestion
-// into the SearchSG index at scheduledAt. Worker reads, dispatches to
-// SearchSG, and deletes the row on success.
-model PushDocumentJob {
-  id          BigInt   @id @default(autoincrement())
-  resourceId  BigInt
-  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Restrict)
-  scheduledAt DateTime
-  scheduledBy String
-  scheduler   User     @relation(fields: [scheduledBy], references: [id], onDelete: Restrict)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  @@index([scheduledAt])
-  @@index([resourceId])
 }
 
 enum AuditLogExportReportType {

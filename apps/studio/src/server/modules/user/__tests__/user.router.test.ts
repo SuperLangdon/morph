@@ -2111,13 +2111,15 @@ describe("user.router", () => {
         })
       }
 
-      const incorrectLengthPhones = ["1234567", "123456789", "812345"]
+      const incorrectLengthPhones = ["123456", "12345678901234567", "812345"]
       for (const phone of incorrectLengthPhones) {
         it(`should throw error if phone number has incorrect length: ${phone}`, async () => {
           // Act & Assert
           await expect(
             caller.updateDetails({ name: testUserName, phone }),
-          ).rejects.toThrow("Phone number must be exactly 8 digits")
+          ).rejects.toThrow(
+            "Phone number must be 7-15 digits, optionally prefixed with +",
+          )
 
           // Assert DB - audit logs
           const auditLogs = await db
@@ -2129,13 +2131,15 @@ describe("user.router", () => {
         })
       }
 
-      const invalidPhones = ["12345678", "23456789", "45678901", "78901234"]
+      const invalidPhones = ["abcdefgh", "8123-456a"]
       for (const phone of invalidPhones) {
-        it(`should throw error if phone number starts with invalid digit: ${phone}`, async () => {
+        it(`should throw error if phone number is not numeric: ${phone}`, async () => {
           // Act & Assert
           await expect(
             caller.updateDetails({ name: testUserName, phone }),
-          ).rejects.toThrow("Phone number must start with 6, 8, or 9")
+          ).rejects.toThrow(
+            "Phone number must be 7-15 digits, optionally prefixed with +",
+          )
 
           // Assert DB - audit logs
           const auditLogs = await db
@@ -2152,6 +2156,7 @@ describe("user.router", () => {
         "8123 4567",
         " 8123 4567 ",
         "  81234567  ",
+        "(812) 345-6789",
       ]
       for (const phone of validPhonesWithSpaces) {
         it(`should handle phone numbers with whitespace: ${phone}`, async () => {
@@ -2190,7 +2195,7 @@ describe("user.router", () => {
           })
         })
       }
-      it("should remove +65 country code if present", async () => {
+      it("should keep a + country-code prefix intact", async () => {
         // Arrange
         const phone = "+6581234567"
 
@@ -2198,7 +2203,7 @@ describe("user.router", () => {
         const result = await caller.updateDetails({ name: testUserName, phone })
 
         // Assert
-        expect(result).toEqual({ name: testUserName, phone: "81234567" })
+        expect(result).toEqual({ name: testUserName, phone: "+6581234567" })
 
         // Verify in database
         const updatedUser = await db
@@ -2229,9 +2234,9 @@ describe("user.router", () => {
         })
       })
 
-      const validSingaporePhones = ["61234567", "81234567", "91234567"]
-      for (const phone of validSingaporePhones) {
-        it(`should accept valid Singapore phone numbers: ${phone}`, async () => {
+      const validPhones = ["61234567", "81234567", "+14155552671"]
+      for (const phone of validPhones) {
+        it(`should accept valid phone numbers: ${phone}`, async () => {
           // Act & Assert
           const result = await caller.updateDetails({
             name: testUserName,

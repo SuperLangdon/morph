@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { AuditLogExportScope, getCurrentSingaporeMonth } from "~/schemas/audit"
+import { AuditLogExportScope, getCurrentExportMonth } from "~/schemas/audit"
 
 // This file deliberately mocks the DB (unlike the sibling integration tests) so
 // it can drive the ONE code path that a real-Postgres test cannot deterministic-
@@ -51,7 +51,7 @@ vi.mock("../../permissions/permissions.service", () => ({
 const { createAuditLogExportRequestsForSites } =
   await import("../auditLogExport.service")
 
-const VALID_MONTH = getCurrentSingaporeMonth()
+const VALID_MONTH = getCurrentExportMonth()
 
 // The requesting user, as the service's in-transaction `User` lookup returns
 // it (the actor of the AuditLogExportCreate event).

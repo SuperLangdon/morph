@@ -19,11 +19,9 @@ jobs:
     outputs:
       skip: ${{ steps.check_skip.outputs.skip }}
     steps:
-      - name: Optimize CI
+      - name: Decide whether to skip CI
         id: check_skip
-        uses: withgraphite/graphite-ci-action@402a89bc8aa6db18ae1f9c61953d001d5f9d828f
-        with:
-          graphite_token: ${{ secrets.GRAPHITE_CI_OPTIMIZER_TOKEN }}
+        run: echo "skip=false" >> "$GITHUB_OUTPUT"
 
   # Detect which areas changed so components-bundle-size can opt out when irrelevant.
   changes:

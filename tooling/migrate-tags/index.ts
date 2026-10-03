@@ -18,7 +18,7 @@ export const migrateTagsOfSite = async (siteId: number) => {
     ? { id: process.env.PUBLISHER_USER_ID }
     : await db
         .selectFrom("User")
-        .where("email", "=", "jiachin@open.gov.sg")
+        .where("email", "=", "admin@example.com")
         .select("id")
         .executeTakeFirstOrThrow()
 

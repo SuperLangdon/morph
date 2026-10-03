@@ -1,1 +1,0 @@
-export { Polyglot } from "./Polyglot"

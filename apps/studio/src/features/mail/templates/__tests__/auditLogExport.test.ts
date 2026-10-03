@@ -9,7 +9,7 @@ describe("auditLogExportReady template", () => {
     month: "June 2026",
     // 2.5 MB with ONE_MB_IN_BYTES = 1_000_000, so the label reads "2.5 MB".
     sizeInBytes: 2_500_000,
-    expiresAt: "22/09/2026, 11:59pm (SGT)",
+    expiresAt: "22/09/2026, 11:59pm (UTC)",
   }
 
   it("maps the access label to its display text and keeps its signed URL", () => {
@@ -130,7 +130,7 @@ describe("auditLogExportReady template", () => {
     })
 
     // Assert
-    expect(template.body).toContain("expire on 22/09/2026, 11:59pm (SGT)")
+    expect(template.body).toContain("expire on 22/09/2026, 11:59pm (UTC)")
     expect(template.body).not.toContain("days")
   })
 
@@ -189,7 +189,7 @@ describe("auditLogExportBatchReady template", () => {
     failedSiteNames: [],
   }
 
-  const expiresAt = "22/09/2026, 11:59pm (SGT)"
+  const expiresAt = "22/09/2026, 11:59pm (UTC)"
 
   it("formats each link's size independently, distinguishing 0 bytes from an unknown size", () => {
     // Act
@@ -305,23 +305,23 @@ describe("auditLogExportBatchReady template", () => {
           siteName: "A",
           url: "https://s3.example/a",
           sizeInBytes: 100,
-          expiresAt: "22/09/2026, 11:59pm (SGT)",
+          expiresAt: "22/09/2026, 11:59pm (UTC)",
         },
         {
           siteName: "B",
           url: "https://s3.example/b",
           sizeInBytes: 200,
-          expiresAt: "23/09/2026, 09:00am (SGT)",
+          expiresAt: "23/09/2026, 09:00am (UTC)",
         },
       ],
     })
 
     // Assert
     expect(template.body).toContain(
-      "(0.1 KB, expires 22/09/2026, 11:59pm (SGT))",
+      "(0.1 KB, expires 22/09/2026, 11:59pm (UTC))",
     )
     expect(template.body).toContain(
-      "(0.2 KB, expires 23/09/2026, 09:00am (SGT))",
+      "(0.2 KB, expires 23/09/2026, 09:00am (UTC))",
     )
     expect(template.body).not.toContain("Each link below will expire on")
   })

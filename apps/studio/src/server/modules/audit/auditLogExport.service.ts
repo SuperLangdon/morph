@@ -22,7 +22,7 @@ import {
   AUDIT_LOG_EXPORT_MAX_MONTHS,
   AuditLogExportScope,
   type CreateAuditLogExportRequestInput,
-  getCurrentSingaporeMonth,
+  getCurrentExportMonth,
   validateIsMonthInPastYear,
   validateIsNotFutureMonth,
 } from "~/schemas/audit"
@@ -87,7 +87,7 @@ const resolveAuditLogDateRange = (
   // schema-level check (createAuditLogExportRequestServerSchema) is likewise
   // scoped to Activity only.
   if (reportType === AuditLogExportReportType.Access) {
-    return getMonthDateRange(getCurrentSingaporeMonth(), now)
+    return getMonthDateRange(getCurrentExportMonth(), now)
   }
 
   const futureMonthCheck = validateIsNotFutureMonth(month)
@@ -316,25 +316,25 @@ export const createAuditLogExportRequestsForSites = async ({
   })
 }
 
-// The fixed business timezone for audit months — see the SGT rationale on
-// `getCurrentSingaporeMonth` in schemas/audit.ts.
-const SINGAPORE_TIME_ZONE = "Asia/Singapore"
+// The fixed business timezone for audit months — see the fixed-timezone rationale on
+// `getCurrentExportMonth` in schemas/audit.ts.
+const EXPORT_TIME_ZONE = "UTC"
 
 // How many months back the audit-log export picker/window may offer for a
 // site created on `siteCreatedAt`: the standard export window
 // (AUDIT_LOG_EXPORT_MAX_MONTHS), or fewer if the site is younger than that —
 // there is nothing to export before the site existed. Always at least 1 (the
 // current month), even if `siteCreatedAt` is unexpectedly in the future.
-// `toZonedTime` re-labels each instant with SGT wall-clock fields (same
+// `toZonedTime` re-labels each instant with UTC wall-clock fields (same
 // technique as `getMonthDateRange` in auditLogExport.query.ts), so the plain
-// date-fns `differenceInCalendarMonths` below operates on SGT calendar
+// date-fns `differenceInCalendarMonths` below operates on UTC calendar
 // months regardless of the server's own timezone.
 export const getMaxExportableMonths = (
   siteCreatedAt: Date,
   now: Date = new Date(),
 ): number => {
-  const zonedCreatedAt = toZonedTime(siteCreatedAt, SINGAPORE_TIME_ZONE)
-  const zonedNow = toZonedTime(now, SINGAPORE_TIME_ZONE)
+  const zonedCreatedAt = toZonedTime(siteCreatedAt, EXPORT_TIME_ZONE)
+  const zonedNow = toZonedTime(now, EXPORT_TIME_ZONE)
   // +1 to make the count inclusive of both the creation month and the
   // current month (e.g. a site created this same calendar month -> 1).
   const monthsSinceCreation =
@@ -402,7 +402,7 @@ const PROCESSING_LEASE_MS = 15 * 60 * 1000
 /**
  * Human-readable label for an export's period (e.g. "June 2026") for the email
  * subject/body, derived from the stored daterange's inclusive lower bound
- * (already an SGT calendar date). The picker is month-based, so the lower
+ * (already an UTC calendar date). The picker is month-based, so the lower
  * bound is the 1st of the month and the month name is an accurate label.
  */
 const getExportPeriodLabel = (auditLogDateRange: string): string => {
@@ -451,7 +451,7 @@ const getExpiryLabel = (completedAt: Date): string =>
  * Slug for the S3 object key, rendering the half-open stored range with an
  * INCLUSIVE end for human readability: `[2026-04-01,2026-05-01)` →
  * `2026-04-01-to-2026-04-30`. Plain calendar arithmetic on the date string —
- * the bounds are SGT calendar dates and SGT has no DST.
+ * the bounds are UTC calendar dates and UTC has no DST.
  */
 const getRangeSlug = (auditLogDateRange: string): string => {
   const { lowerInclusive, upperExclusive } =
@@ -808,7 +808,7 @@ export const processAuditLogExportRequest = async (
     // go stale and re-delivering it is safe. This is sound only because the
     // generate path stamps `completedAt` with an instant captured BEFORE its
     // report query runs (see Step 4/6) — stamping at finish time would let a
-    // current-month job query an incomplete day, cross SGT midnight (or spend
+    // current-month job query an incomplete day, cross UTC midnight (or spend
     // time in retries) during upload/email, and then advertise a permanently
     // incomplete CSV as complete. A row whose data was frozen BEFORE the
     // range end (an in-progress-month snapshot, whose clamped range carries a
@@ -933,7 +933,7 @@ export const processAuditLogExportRequest = async (
     // Download Window and is what a later request compares against `rangeEnd`
     // to decide whether THIS row holds a Complete Artifact — so on the
     // generate path it carries the pre-query freeze instant (`queriedAt`),
-    // NOT the time this update runs: the two can straddle the range end (SGT
+    // NOT the time this update runs: the two can straddle the range end (UTC
     // midnight, retries), and stamping at finish time would advertise a
     // permanently incomplete CSV as complete. The reuse path ran no query, so
     // delivery time is used there.

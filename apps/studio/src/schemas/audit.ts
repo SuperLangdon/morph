@@ -14,12 +14,12 @@ import {
 } from "~/server/modules/audit/audit.errors"
 import { AuditLogExportReportType } from "~prisma/generated/generatedEnums"
 
-const SINGAPORE_TIME_ZONE = "Asia/Singapore"
+const EXPORT_TIME_ZONE = "UTC"
 
 export const validateIsNotFutureMonth = (
   requestedMonth: string,
 ): FutureMonthError | true => {
-  const currentMonth = getCurrentSingaporeMonth()
+  const currentMonth = getCurrentExportMonth()
   const requestedMonthDate = parseISO(`${requestedMonth}-01`)
   const currentMonthDate = parseISO(`${currentMonth}-01`)
   if (
@@ -37,7 +37,7 @@ export const validateIsMonthInPastYear = (
 ): true | MonthRangeError => {
   const parsed = parseISO(`${requestedMonth}-01`)
   const earliest = parseISO(
-    `${getEarliestExportableMonth(getCurrentSingaporeMonth())}-01`,
+    `${getEarliestExportableMonth(getCurrentExportMonth())}-01`,
   )
 
   if (!isSameMonth(parsed, earliest) && isBefore(parsed, earliest)) {
@@ -91,7 +91,7 @@ export type IsoMonth = `${IsoYear}-${IsoMonthSegment}`
 // `IsoMonth`, used where values cross from untyped input into the type.
 const MONTH_REGEX = /^\d{4}-(0[1-9]|1[0-2])$/
 
-// The export window: a Site Admin may request the current Singapore-time month
+// The export window: a Site Admin may request the current month
 // plus the 11 months before it (12 months inclusive of the current month).
 // This schema enforces the window directly (so both the client form and the
 // server's input validation reject out-of-window months); the service keeps an
@@ -123,15 +123,15 @@ export const getEarliestExportableMonth = (
   return format(earliest, "yyyy-MM") as IsoMonth
 }
 
-// The current calendar month in Singapore time as "yyyy-MM". SGT is UTC+8 all
+// The current calendar month in UTC as "yyyy-MM". UTC is UTC+8 all
 // year (no DST); we format in that zone explicitly so the window check is
 // correct wherever this runs — the server in any timezone, or the user's
 // browser. We use date-fns-tz's explicit "yyyy-MM" token rather than an
 // Intl locale trick (e.g. "en-CA"), which depends on ICU locale data and can
 // silently format differently on minimal-ICU runtimes.
-export const getCurrentSingaporeMonth = (): IsoMonth =>
+export const getCurrentExportMonth = (): IsoMonth =>
   // Same reasoning as above: "yyyy-MM" always zero-pads, so the cast is sound.
-  formatInTimeZone(new Date(), SINGAPORE_TIME_ZONE, "yyyy-MM") as IsoMonth
+  formatInTimeZone(new Date(), EXPORT_TIME_ZONE, "yyyy-MM") as IsoMonth
 
 // Input for the query that tells the client how many months back the picker
 // may offer (see `getMaxExportableMonths` in auditLogExport.service.ts).

@@ -18,7 +18,7 @@ import {
   AuditLogExportRequestedReportType,
   AuditLogExportScope,
   createAuditLogExportRequestSchema,
-  getCurrentSingaporeMonth,
+  getCurrentExportMonth,
 } from "~/schemas/audit"
 
 import {
@@ -58,7 +58,7 @@ export const ExportAccessLogsModal = () => {
     createExportRequest({
       scope,
       siteId,
-      month: getCurrentSingaporeMonth(),
+      month: getCurrentExportMonth(),
       reportType: AuditLogExportRequestedReportType.Access,
     }),
   )

@@ -1,1 +1,0 @@
-export { DGSSearchableTable } from "./DGSSearchableTable"

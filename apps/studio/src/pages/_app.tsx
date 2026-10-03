@@ -26,31 +26,36 @@ type AppPropsWithAuthAndLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-datadogRum.init({
-  applicationId: "32c64617-51e3-4a6e-a977-ad113021ffae",
-  clientToken: "pub89baaf356268edcb9ed95847d7c5d679",
-  // `site` refers to the Datadog site parameter of your organization
-  // see https://docs.datadoghq.com/getting_started/site/
-  site: "datadoghq.com",
-  service: "isomer-next",
-  env: env.NEXT_PUBLIC_APP_ENV,
-  version: env.NEXT_PUBLIC_APP_VERSION,
-  sessionSampleRate: 100,
-  sessionReplaySampleRate: 100,
-  trackUserInteractions: true,
-  trackResources: true,
-  trackLongTasks: true,
-  defaultPrivacyLevel: "mask-user-input",
-  // inject tracing information inside headers, to correlate RUM with backend traces
-  allowedTracingUrls: [
-    (url) => {
-      if (!env.NEXT_PUBLIC_APP_URL) {
-        return false
-      }
-      return url.includes(env.NEXT_PUBLIC_APP_URL)
-    },
-  ],
-})
+// Datadog RUM is opt-in: only initialised when both the application id and
+// client token are configured via env vars. Without them, no telemetry is
+// sent anywhere.
+if (env.NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID && env.NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN) {
+  datadogRum.init({
+    applicationId: env.NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID,
+    clientToken: env.NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN,
+    // `site` refers to the Datadog site parameter of your organization
+    // see https://docs.datadoghq.com/getting_started/site/
+    site: "datadoghq.com",
+    service: "morph",
+    env: env.NEXT_PUBLIC_APP_ENV,
+    version: env.NEXT_PUBLIC_APP_VERSION,
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 100,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: "mask-user-input",
+    // inject tracing information inside headers, to correlate RUM with backend traces
+    allowedTracingUrls: [
+      (url) => {
+        if (!env.NEXT_PUBLIC_APP_URL) {
+          return false
+        }
+        return url.includes(env.NEXT_PUBLIC_APP_URL)
+      },
+    ],
+  })
+}
 
 // Create a GrowthBook instance
 const gb = new GrowthBook({

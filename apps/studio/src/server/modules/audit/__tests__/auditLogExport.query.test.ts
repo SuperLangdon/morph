@@ -21,7 +21,7 @@ import {
 } from "../auditLogExport.query"
 
 // A non-future, deterministic month literal used throughout, plus its stored
-// daterange representation (canonical `[YYYY-MM-DD,YYYY-MM-DD)` over SGT
+// daterange representation (canonical `[YYYY-MM-DD,YYYY-MM-DD)` over UTC
 // calendar dates). `NOW` is fixed well after the month so the range is the
 // full calendar month (no current-month clamping).
 const MONTH = "2024-03"
@@ -102,7 +102,7 @@ describe("auditLogExport.query", () => {
   })
 
   describe("formatAuditLogDateRange / parseAuditLogDateRange", () => {
-    it("round-trips SGT calendar-date bounds through the canonical form", () => {
+    it("round-trips UTC calendar-date bounds through the canonical form", () => {
       const range = formatAuditLogDateRange("2026-04-01", "2026-05-01")
       expect(range).toBe("[2026-04-01,2026-05-01)")
       expect(parseAuditLogDateRange(range)).toEqual({
@@ -140,32 +140,32 @@ describe("auditLogExport.query", () => {
       expect(getMonthDateRange("2024-02", NOW)).toBe("[2024-02-01,2024-03-01)")
     })
 
-    it("clamps the current SGT month to SGT-today + 1 day", () => {
-      // 2026-07-16 10:00 SGT → upper bound is the 17th (today's partial day
+    it("clamps the current UTC month to UTC-today + 1 day", () => {
+      // 2026-07-16 10:00 UTC → upper bound is the 17th (today's partial day
       // is included).
       expect(
         getMonthDateRange("2026-07", new Date("2026-07-16T02:00:00Z")),
       ).toBe("[2026-07-01,2026-07-17)")
-      // The SGT date — not the UTC date — decides "today":
-      // 2026-07-15T17:00Z is already 2026-07-16 01:00 SGT.
+      // The UTC date — not the UTC date — decides "today":
+      // 2026-07-15T17:00Z is already 2026-07-16 01:00 UTC.
       expect(
         getMonthDateRange("2026-07", new Date("2026-07-15T17:00:00Z")),
       ).toBe("[2026-07-01,2026-07-17)")
     })
 
-    it("yields a non-empty range on the 1st of the current SGT month", () => {
-      // 2026-07-01 10:00 SGT
+    it("yields a non-empty range on the 1st of the current UTC month", () => {
+      // 2026-07-01 10:00 UTC
       expect(
         getMonthDateRange("2026-07", new Date("2026-07-01T02:00:00Z")),
       ).toBe("[2026-07-01,2026-07-02)")
-      // 2026-06-30T18:00Z is already 2026-07-01 02:00 SGT.
+      // 2026-06-30T18:00Z is already 2026-07-01 02:00 UTC.
       expect(
         getMonthDateRange("2026-07", new Date("2026-06-30T18:00:00Z")),
       ).toBe("[2026-07-01,2026-07-02)")
     })
 
-    it("does not clamp on the last SGT day of the current month", () => {
-      // 2026-07-31 10:00 SGT → SGT-today + 1 === next month start, so the
+    it("does not clamp on the last UTC day of the current month", () => {
+      // 2026-07-31 10:00 UTC → UTC-today + 1 === next month start, so the
       // range is the full month.
       expect(
         getMonthDateRange("2026-07", new Date("2026-07-31T02:00:00Z")),
@@ -182,11 +182,11 @@ describe("auditLogExport.query", () => {
   })
 
   describe("getExportRange", () => {
-    it("maps the SGT calendar-date bounds to SGT-midnight UTC instants", () => {
+    it("maps the UTC calendar-date bounds to UTC-midnight UTC instants", () => {
       const { rangeStart, rangeEnd } = getExportRange("[2024-03-01,2024-04-01)")
-      // 2024-03-01 00:00 SGT === 2024-02-29 16:00 UTC
+      // 2024-03-01 00:00 UTC === 2024-02-29 16:00 UTC
       expect(rangeStart.toISOString()).toBe("2024-02-29T16:00:00.000Z")
-      // 2024-04-01 00:00 SGT === 2024-03-31 16:00 UTC
+      // 2024-04-01 00:00 UTC === 2024-03-31 16:00 UTC
       expect(rangeEnd.toISOString()).toBe("2024-03-31T16:00:00.000Z")
     })
 
@@ -240,7 +240,7 @@ describe("auditLogExport.query", () => {
 
       // Created Jan 2024, revoked just inside the range's trailing edge
       // (deletedAt === rangeEnd - 1ms === 2024-03-31T15:59:59.999Z, i.e.
-      // 2024-03-31 23:59:59.999 SGT) → EXCLUDED: `deletedAt >= rangeEnd`
+      // 2024-03-31 23:59:59.999 UTC) → EXCLUDED: `deletedAt >= rangeEnd`
       // fails, so the user no longer had access at the end of the range.
       const revokedAtBoundaryUser = await setupUser({
         email: "revoked-at-boundary@agency.gov.sg",
@@ -310,10 +310,10 @@ describe("auditLogExport.query", () => {
       expect(rows).toHaveLength(0)
     })
 
-    it("buckets the boundary by SGT, not UTC", async () => {
+    it("buckets the boundary by UTC, not UTC", async () => {
       const { site } = await setupSite()
 
-      // 2024-03-31T23:30:00Z === 2024-04-01 07:30 SGT → belongs to April,
+      // 2024-03-31T23:30:00Z === 2024-04-01 07:30 UTC → belongs to April,
       // so a permission created at that instant is AFTER March's monthEnd
       // and must be EXCLUDED from the March report.
       const boundaryUser = await setupUser({ email: "boundary@agency.gov.sg" })
@@ -323,8 +323,8 @@ describe("auditLogExport.query", () => {
         createdAt: new Date("2024-03-31T23:30:00Z"),
       })
 
-      // A permission created just before the SGT month end is INCLUDED.
-      // 2024-03-31T15:00:00Z === 2024-03-31 23:00 SGT.
+      // A permission created just before the UTC month end is INCLUDED.
+      // 2024-03-31T15:00:00Z === 2024-03-31 23:00 UTC.
       const inMonthUser = await setupUser({ email: "in-month@agency.gov.sg" })
       await setupPermission({
         userId: inMonthUser.id,
@@ -493,11 +493,11 @@ describe("auditLogExport.query", () => {
       expect(rows[0]?.Description).not.toBe("-")
     })
 
-    it("buckets a boundary event by SGT, not UTC", async () => {
+    it("buckets a boundary event by UTC, not UTC", async () => {
       const { site } = await setupSite()
       const user = await setupUser({ email: "editor@agency.gov.sg" })
 
-      // 2024-03-31T23:30:00Z === 2024-04-01 07:30 SGT → April, EXCLUDED from March
+      // 2024-03-31T23:30:00Z === 2024-04-01 07:30 UTC → April, EXCLUDED from March
       await insertAuditLog({
         eventType: AuditLogEvent.ResourceCreate,
         userId: user.id,
@@ -509,7 +509,7 @@ describe("auditLogExport.query", () => {
         createdAt: new Date("2024-03-31T23:30:00Z"),
       })
 
-      // 2024-03-31T15:00:00Z === 2024-03-31 23:00 SGT → still March, INCLUDED
+      // 2024-03-31T15:00:00Z === 2024-03-31 23:00 UTC → still March, INCLUDED
       await insertAuditLog({
         eventType: AuditLogEvent.ResourceCreate,
         userId: user.id,
@@ -698,7 +698,7 @@ describe("auditLogExport.query", () => {
       })
 
       // Permission revoked BEFORE the range began (deletedAt in Feb, before
-      // rangeStart === 2024-03-01 00:00 SGT) → EXCLUDED.
+      // rangeStart === 2024-03-01 00:00 UTC) → EXCLUDED.
       const revokedBeforeUser = await setupUser({
         email: "revoked-before@agency.gov.sg",
       })
@@ -1084,7 +1084,7 @@ describe("auditLogExport.query", () => {
       expect(getStringifiedValue(undefined)).toBe("")
     })
 
-    it("renders dates in Singapore time with a +08:00 offset", () => {
+    it("renders dates in UTC with a +08:00 offset", () => {
       expect(getStringifiedValue(new Date("2025-01-15T10:00:00.000Z"))).toBe(
         "2025-01-15T18:00:00.000+08:00",
       )
@@ -1133,7 +1133,7 @@ describe("auditLogExport.query", () => {
       // 1 header + 2 data rows. Quotes are stripped from the header labels.
       expect(lines).toHaveLength(3)
       expect(lines[0]).toBe("Email,Role,Date added,Last login")
-      // Dates render in Singapore time (+08:00), so 00:00Z → 08:00+08:00.
+      // Dates render in UTC (+08:00), so 00:00Z → 08:00+08:00.
       expect(lines[1]).toBe(
         "a@agency.gov.sg,Admin,2024-02-15T08:00:00.000+08:00,",
       )

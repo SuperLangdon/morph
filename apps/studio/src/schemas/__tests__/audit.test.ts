@@ -7,14 +7,14 @@ import {
   AuditLogExportScope,
   createAuditLogExportRequestSchema,
   createAuditLogExportRequestServerSchema,
-  getCurrentSingaporeMonth,
+  getCurrentExportMonth,
   getEarliestExportableMonth,
 } from "../audit"
 
 // The schema now enforces the export window relative to "now", so the valid
-// fixture month is the current Singapore month (always in-window) rather than a
+// fixture month is the current month (always in-window) rather than a
 // fixed literal that would fall out of the window as real time advances.
-const CURRENT_MONTH = getCurrentSingaporeMonth()
+const CURRENT_MONTH = getCurrentExportMonth()
 
 const VALID_INPUT = {
   scope: AuditLogExportScope.Site,
@@ -185,7 +185,7 @@ describe("createAuditLogExportRequestSchema", () => {
     // fine request over a discarded value (e.g. browser clock skew nudging
     // it into "next month").
     describe("month window", () => {
-      it("accepts the current Singapore month for an Activity export", () => {
+      it("accepts the current month for an Activity export", () => {
         // Arrange / Act
         const result = createAuditLogExportRequestServerSchema.safeParse({
           ...VALID_INPUT,

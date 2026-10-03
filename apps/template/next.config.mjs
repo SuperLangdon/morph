@@ -22,11 +22,7 @@ const useLocalJson = (resource) => {
 }
 
 // `data/config.json` is written to disk (by the publisher) before `build:template` runs,
-// so we can read it here to drive build-time module pruning.
-const { site } = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "data/config.json"), "utf-8"),
-)
-
+// so we can read it here if build-time decisions need site config.
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: isDevelopment ? undefined : "export",
@@ -50,18 +46,6 @@ const nextConfig = {
         new webpack.ContextReplacementPlugin(
           /[\\/]apps[\\/]template[\\/]schema$/,
           path.join(localPublishDir, "schema"),
-        ),
-      )
-    }
-
-    // Site doesn't use egazette's Algolia-powered search: replace the module with a
-    // null-stub so `algoliasearch`/`react-instantsearch` never enter the client bundle.
-    // Applies to both the server and client compilers; a `() => null` stub is correct in both.
-    if (!isDevelopment && site?.search?.type !== "egazette-algolia") {
-      config.plugins.push(
-        new webpack.NormalModuleReplacementPlugin(
-          /[\\/]templates[\\/]next[\\/]layouts[\\/]Search[\\/]EgazetteAlgoliaSearch[\\/]index\.js$/,
-          path.join(__dirname, "stubs/EgazetteAlgoliaSearch.js"),
         ),
       )
     }

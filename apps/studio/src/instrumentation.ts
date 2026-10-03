@@ -9,7 +9,7 @@ export async function register() {
     // setup datadog tracing
     const { initTracer } = await import("@isomer/logging/tracer")
     // oxlint-disable-next-line node/no-process-env
-    initTracer({ service: process.env.DD_SERVICE ?? "isomer-next" })
+    initTracer({ service: process.env.DD_SERVICE ?? "morph" })
 
     if (env.ENABLE_CRON_WORKERS) {
       // Import only if runtime is nodejs. This avoids running it on the browser, build time etc.

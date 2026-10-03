@@ -2,4 +2,4 @@
 
 This repository contains the build scripts for Isomer Next.
 
-For more information, please visit [the Isomer product website](https://www.isomer.gov.sg).
+Morph is derived from the open-source Isomer project; see the repository README.

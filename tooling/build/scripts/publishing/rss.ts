@@ -159,7 +159,7 @@ export const buildFeedXml = ({
     `<description>${escapeXml(description)}</description>`,
     `<language>en</language>`,
     `<lastBuildDate>${toRfc822(buildDate)}</lastBuildDate>`,
-    `<generator>Isomer (https://www.isomer.gov.sg)</generator>`,
+    `<generator>Morph (https://github.com/morph-cms/morph)</generator>`,
     `<atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml" />`,
     ...getFeedItems(
       site,

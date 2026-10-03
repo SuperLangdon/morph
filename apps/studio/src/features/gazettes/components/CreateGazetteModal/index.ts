@@ -1,1 +1,0 @@
-export { CreateGazetteModal } from "./CreateGazetteModal"

@@ -109,16 +109,10 @@ export const updateUserDetailsInputSchema = z.object({
     .string()
     .trim()
     .min(1, "Phone number is required")
-    .transform((phone) => phone.replace(/\s+/g, ""))
-    .transform((phone) => (phone.startsWith("+65") ? phone.slice(3) : phone)) // Remove country code if present
+    .transform((phone) => phone.replace(/[\s()-]/g, ""))
     .refine(
-      (phone) => !isNaN(Number(phone)) && phone.length === 8,
-      "Phone number must be exactly 8 digits",
-    )
-    .refine(
-      (phone) =>
-        phone.startsWith("6") || phone.startsWith("8") || phone.startsWith("9"),
-      "Phone number must start with 6, 8, or 9",
+      (phone) => /^\+?\d{7,15}$/.test(phone),
+      "Phone number must be 7-15 digits, optionally prefixed with +",
     ),
 })
 

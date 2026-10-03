@@ -68,10 +68,11 @@ export const registerPgbossJob = async (
     }
   })
 
-  // Merge default timezone with provided scheduleOptions
-  // Default to Asia/Singapore timezone unless explicitly overridden
+  // Merge default timezone with provided scheduleOptions.
+  // Default to the server's local timezone (falling back to UTC) unless
+  // explicitly overridden.
   const mergedScheduleOptions: ScheduleOptions = {
-    tz: "Asia/Singapore",
+    tz: process.env.TZ || "UTC",
     ...scheduleOptions,
   }
 

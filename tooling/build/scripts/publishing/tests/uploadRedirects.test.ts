@@ -158,7 +158,7 @@ describe("isSelfReferentialRedirect", () => {
     expect(
       isSelfReferentialRedirect({
         source: "/resources/students",
-        destination: "https://www.example.gov.sg/resources/students",
+        destination: "https://www.example.org/resources/students",
       }),
     ).toBe(false)
   })
@@ -169,7 +169,7 @@ describe("partitionRedirects", () => {
     const { exact, manifestEntries } = partitionRedirects([
       { source: "/faq", destination: "/faqs" },
       { source: "/news/*", destination: "/newsroom" },
-      { source: "/promotions/*", destination: "https://x.gov.sg/g" },
+      { source: "/promotions/*", destination: "https://example.org/g" },
     ])
     expect(exact.map((r) => r.source)).toEqual(["/faq"])
     expect(manifestEntries.map((r) => r.source)).toEqual([
@@ -198,13 +198,13 @@ describe("buildManifest", () => {
     expect(
       buildManifest([
         { source: "/news/*", destination: "/newsroom" },
-        { source: "/promotions/*", destination: "https://x.gov.sg/g" },
+        { source: "/promotions/*", destination: "https://example.org/g" },
       ]),
     ).toEqual({
       version: 1,
       redirects: {
         "/news/*": "/newsroom",
-        "/promotions/*": "https://x.gov.sg/g",
+        "/promotions/*": "https://example.org/g",
       },
     })
   })

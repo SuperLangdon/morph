@@ -79,7 +79,7 @@ else
     cd isomer/
   else
     echo "Branch cache miss; cloning from GitHub (branch=$ISOMER_BUILD_REPO_BRANCH)"
-    git clone --depth 1 --branch "$ISOMER_BUILD_REPO_BRANCH" https://github.com/opengovsg/isomer.git
+    git clone --depth 1 --branch "$ISOMER_BUILD_REPO_BRANCH" "${MORPH_REPO_URL:-https://github.com/morph-cms/morph.git}"
     cd isomer/
     # Checkout specific branch
     echo "Checking out branch..."

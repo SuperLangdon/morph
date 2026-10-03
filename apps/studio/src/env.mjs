@@ -19,7 +19,6 @@ const r2Schema = z.object({
 const cronHeartbeatSchema = z.object({
   SCHEDULED_PUBLISHING_HEARTBEAT_URL: z.string().url().optional(),
   DEACTIVATE_INACTIVE_USERS_HEARTBEAT_URL: z.string().url().optional(),
-  SCHEDULE_PUSH_DOCUMENT_JOB_HEARTBEAT_URL: z.string().url().optional(),
 })
 
 /**
@@ -45,6 +44,8 @@ const client = z
     NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().url().optional(),
     NEXT_PUBLIC_POSTHOG_ASSETS_HOST: z.string().url().optional(),
+    NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID: z.string().optional(),
+    NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN: z.string().optional(),
   })
   .extend(s3Schema.shape)
   .extend(cronHeartbeatSchema.shape)
@@ -66,16 +67,9 @@ const server = z
     SESSION_SECRET: z.string().min(32),
     GROWTHBOOK_CLIENT_KEY: z.string().optional(),
     STUDIO_SSM_WEBHOOK_API_KEY: z.string().optional(),
-    S3_GAZETTE_BUCKET_NAME: z.string(),
-    S3_GAZETTE_DOMAIN_NAME: z.string(),
     S3_STUDIO_ASSETS_BUCKET_NAME: z.string().optional(),
     CLOUDFRONT_ASSETS_DISTRIBUTION_ID: z.string().optional(),
-    EGAZETTE_DOCUMENT_INDEX: z.string().optional(),
     DD_DELETION_EMAIL: z.email(),
-    SEARCHSG_API_KEY: z.string(),
-    ALGOLIA_APP_ID: z.string(),
-    ALGOLIA_API_KEY: z.string(),
-    ALGOLIA_INDEX_NAME: z.string(),
     SYSTEM_USER_EMAIL: z.email().optional().default(SYSTEM_USER_EMAIL),
   })
   .extend(s3Schema.shape)
@@ -132,12 +126,6 @@ const processEnv = {
   POSTMAN_API_KEY: process.env.POSTMAN_API_KEY,
   SESSION_SECRET: process.env.SESSION_SECRET,
   GROWTHBOOK_CLIENT_KEY: process.env.GROWTHBOOK_CLIENT_KEY,
-  EGAZETTE_DOCUMENT_INDEX: process.env.EGAZETTE_DOCUMENT_INDEX,
-  S3_GAZETTE_BUCKET_NAME: process.env.S3_GAZETTE_BUCKET_NAME,
-  S3_GAZETTE_DOMAIN_NAME: process.env.S3_GAZETTE_DOMAIN_NAME,
-  ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
-  ALGOLIA_API_KEY: process.env.ALGOLIA_API_KEY,
-  ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME,
   NEXT_PUBLIC_S3_REGION: process.env.NEXT_PUBLIC_S3_REGION,
   NEXT_PUBLIC_S3_ASSETS_DOMAIN_NAME:
     process.env.NEXT_PUBLIC_S3_ASSETS_DOMAIN_NAME,
@@ -165,19 +153,20 @@ const processEnv = {
   // normalize to undefined so `.optional()` in the schema still applies.
   NEXT_PUBLIC_POSTHOG_ASSETS_HOST:
     process.env.NEXT_PUBLIC_POSTHOG_ASSETS_HOST || undefined,
+  NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID:
+    process.env.NEXT_PUBLIC_DATADOG_RUM_APPLICATION_ID || undefined,
+  NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN:
+    process.env.NEXT_PUBLIC_DATADOG_RUM_CLIENT_TOKEN || undefined,
   NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST || undefined,
   NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN:
     process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN || undefined,
   NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY:
     process.env.NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY,
   NEXT_PUBLIC_INTERCOM_APP_ID: process.env.NEXT_PUBLIC_INTERCOM_APP_ID,
-  SEARCHSG_API_KEY: process.env.SEARCHSG_API_KEY,
   SCHEDULED_PUBLISHING_HEARTBEAT_URL:
     process.env.SCHEDULED_PUBLISHING_HEARTBEAT_URL,
   DEACTIVATE_INACTIVE_USERS_HEARTBEAT_URL:
     process.env.DEACTIVATE_INACTIVE_USERS_HEARTBEAT_URL,
-  SCHEDULE_PUSH_DOCUMENT_JOB_HEARTBEAT_URL:
-    process.env.SCHEDULE_PUSH_DOCUMENT_JOB_HEARTBEAT_URL,
 }
 
 // Don't touch the part below

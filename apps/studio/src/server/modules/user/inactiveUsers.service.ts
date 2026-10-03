@@ -32,8 +32,8 @@ const activeIsomerAdminUserIds = () =>
     .select("userId")
 
 export function getDateOnlyInSG(daysAgo: number): Date {
-  const singaporeTime = toZonedTime(new Date(), "Asia/Singapore")
-  const targetDate = subDays(singaporeTime, daysAgo)
+  const zonedNow = toZonedTime(new Date(), "UTC")
+  const targetDate = subDays(zonedNow, daysAgo)
   const startOfTargetDate = startOfDay(targetDate)
   return toZonedTime(startOfTargetDate, "UTC")
 }

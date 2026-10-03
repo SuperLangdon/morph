@@ -13,7 +13,7 @@ import {
   setupSite,
   setupUser,
 } from "tests/integration/helpers/seed"
-import { getCurrentSingaporeMonth } from "~/schemas/audit"
+import { getCurrentExportMonth } from "~/schemas/audit"
 import { createCallerFactory } from "~/server/trpc"
 
 import type { User } from "../../database"
@@ -23,10 +23,10 @@ import { getMonthDateRange } from "../auditLogExport.query"
 
 const createCaller = createCallerFactory(auditRouter)
 
-// A month inside the allowed export window. The current Singapore-time month
+// A month inside the allowed export window. The current UTC month
 // is always valid: never in the future, and within the 12-month window — so
 // the happy-path tests don't rot as real time advances.
-const VALID_MONTH = getCurrentSingaporeMonth()
+const VALID_MONTH = getCurrentExportMonth()
 
 // All AuditLogExportRequest rows for a (site, user), oldest-id first. Tables
 // are reset per test, so this is every row the test created. Deliberately not
