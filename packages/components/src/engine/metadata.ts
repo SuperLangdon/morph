@@ -6,13 +6,13 @@ import { ISOMER_PAGE_LAYOUTS } from "~/types/constants"
 import { getReferenceLinkHref } from "~/utils/getReferenceLinkHref"
 import { getSitemapAsArray } from "~/utils/getSitemapAsArray"
 
-const DEFAULT_SITE_NAME = "Isomer"
-const DEFAULT_SITE_URL = "https://www.isomer.gov.sg"
+const DEFAULT_SITE_NAME = "Morph"
+const DEFAULT_SITE_URL = "https://example.com"
 
 interface GetSiteJsonLdProps {
   site: Pick<
     IsomerSiteConfigProps,
-    "agencyName" | "isGovernment" | "siteEntity" | "siteName" | "url"
+    "agencyName" | "siteEntity" | "siteName" | "url"
   > & {
     assetsBaseUrl?: string
     logoUrl?: IsomerSiteConfigProps["logoUrl"]
@@ -116,11 +116,7 @@ export const getSiteJsonLd = ({
     .filter((url): url is string => url !== undefined)
 
   const organisation = {
-    "@type":
-      entity?.type ??
-      (site.isGovernment
-        ? ("GovernmentOrganization" as const)
-        : ("Organization" as const)),
+    "@type": entity?.type ?? ("Organization" as const),
     "@id": organisationId,
     name: organisationName,
     url: siteUrl,
@@ -350,10 +346,6 @@ export const getRobotsTxt = (props: IsomerPageSchemaType) => {
           {
             userAgent: "*",
             disallow: "/",
-          },
-          {
-            userAgent: "SearchSG",
-            allow: "/",
           },
         ]
       : rules,

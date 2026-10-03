@@ -1,8 +1,3 @@
-import {
-  fetchDgsFileDownloadUrl,
-  fetchDgsMetadata,
-  getDgsIdFromDgsLink,
-} from "~/utils/dgs"
 import { fetchFileMetadata } from "~/utils/fetchFileMetadata"
 import { formatBytes } from "~/utils/formatBytes"
 
@@ -13,34 +8,6 @@ interface DownloadStrategy {
   getDownloadUrl: (url: string) => Promise<string | null>
   /** Optionally provides custom display text for the button */
   getDisplayText: (url: string) => Promise<string | null>
-}
-
-const dgsDownloadStrategy: DownloadStrategy = {
-  canHandle: (url: string) => {
-    const dgsId = getDgsIdFromDgsLink(url)
-    return dgsId !== null
-  },
-  getDownloadUrl: async (url: string) => {
-    const dgsId = getDgsIdFromDgsLink(url)
-    if (!dgsId) return null
-
-    const result = await fetchDgsFileDownloadUrl({ resourceId: dgsId })
-    return result?.downloadUrl || null
-  },
-  getDisplayText: async (url: string) => {
-    const dgsId = getDgsIdFromDgsLink(url)
-    if (!dgsId) return null
-
-    try {
-      const metadata = await fetchDgsMetadata({ resourceId: dgsId })
-      if (metadata) {
-        return renderDownloadText(metadata)
-      }
-    } catch (error) {
-      console.error("Error fetching DGS metadata:", error)
-    }
-    return null
-  },
 }
 
 export const directDownloadStrategy: DownloadStrategy = {
@@ -69,7 +36,6 @@ export const directDownloadStrategy: DownloadStrategy = {
  * Default strategy registry with all available download strategies
  */
 export const defaultDownloadStrategies: DownloadStrategy[] = [
-  dgsDownloadStrategy,
   directDownloadStrategy, // Fallback strategy
 ]
 

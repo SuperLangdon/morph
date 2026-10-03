@@ -73,8 +73,6 @@ export function renderComponentPreviewText({
       return component.buttonLabel || "Button"
     case "callout":
       return getTextContentOfProse(component.content.content)
-    case "formsg":
-      return component.title || "FormSG form"
     case "hero":
       return "" // should not show up in the sidebar
     case "iframe":
@@ -100,8 +98,6 @@ export function renderComponentPreviewText({
       return component.title
     case "steps":
       return component.title
-    case "map":
-      return component.title || "Map embed"
     case "logocloud":
       return component.title || "Logo cloud"
     case "prose":
@@ -114,8 +110,6 @@ export function renderComponentPreviewText({
       return "Child pages"
     case "dynamicdatabanner":
       return component.apiEndpoint
-    case "antiscambanner":
-      return "Anti-scam disclaimer"
     case "collectionblock":
       return (
         component.customTitle ||
@@ -126,8 +120,6 @@ export function renderComponentPreviewText({
       return "Image Gallery"
     case "contactinformation":
       return component.title || "Contact Information"
-    case "dynamiccomponentlist":
-      return "Dynamic Component List"
     default:
       const _: never = component
       return (component as { type: string }).type || ""

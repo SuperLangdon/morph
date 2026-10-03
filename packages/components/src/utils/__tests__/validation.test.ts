@@ -4,9 +4,7 @@ import {
   AUDIO_EMBED_URL_PATTERN,
   GTM_ID_STRING_REGEX,
   isValidAudioEmbedUrl,
-  isValidMapEmbedUrl,
   LINK_HREF_PATTERN,
-  MAPS_EMBED_URL_PATTERN,
   VIDEO_EMBED_URL_PATTERN,
 } from "../validation"
 
@@ -16,9 +14,9 @@ describe("validation", () => {
       const testCases = [
         "https://example.com",
         "https://www.example.net",
-        "https://subdomain.example.gov.sg",
-        "https://very-nested.subsub.subdomain.example.gov.sg",
-        "https://gov.sg",
+        "https://subdomain.example.gov",
+        "https://very-nested.subsub.subdomain.example.gov",
+        "https://example.gov",
       ]
 
       testCases.forEach((testCase) => {
@@ -30,9 +28,9 @@ describe("validation", () => {
     it("should allow mailto links", () => {
       const testCases = [
         "test@example.com",
-        "support@agency.gov.sg",
-        "contact@subdomain.agency-name.gov.sg",
-        "Capital_Letters@example.gov.sg",
+        "support@agency.example.gov",
+        "contact@subdomain.agency-name.example.gov",
+        "Capital_Letters@example.com",
       ]
 
       testCases
@@ -46,9 +44,9 @@ describe("validation", () => {
     it("should allow tel links", () => {
       const testCases = [
         "tel:12345678",
-        "tel:+6512345678",
-        "tel:+65-1234-5678",
-        "tel:+65 1234 5678",
+        "tel:+11234567890",
+        "tel:+1-1234-5678",
+        "tel:+1 1234 5678",
         "tel:1800 123 4567",
       ]
 
@@ -61,8 +59,8 @@ describe("validation", () => {
     it("should allow sms links", () => {
       const testCases = [
         "sms:12345678",
-        "sms:+6512345678",
-        "sms:+6512345678?body=Hello",
+        "sms:+11234567890",
+        "sms:+11234567890?body=Hello",
       ]
 
       testCases.forEach((testCase) => {
@@ -119,90 +117,6 @@ describe("validation", () => {
 
       testCases.forEach((testCase) => {
         const result = new RegExp(LINK_HREF_PATTERN).test(testCase)
-        expect(result).toBe(false)
-      })
-    })
-  })
-
-  describe("MAPS_EMBED_URL_PATTERN", () => {
-    it("should allow Google Maps embed URLs", () => {
-      const testCases = [
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.473373876674!2d103.8486973142665!3d1.3035969990313745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b8b4c6e1e1%3A0x2f1f6b8f0a1b2a7d!2sMinistry%20of%20Communications%20and%20Information!5e0!3m2!1sen!2ssg!4v1632291134655!5m2!1sen!2ssg",
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.473373876674!2d103.8486973142665!3d1.3035969990313745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b8b4c6e1e1%3A0x2f1f6b8f0a1b2a7d!2sMinistry%20of%20Communications%20and%20Information!5e0!3m2!1en!2sg!4v1632291134655!5m2!1en!2sg",
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.1986718091739!2d103.84951406959217!3d1.2979038406790597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19ec2599519d%3A0x809fd655663da6d0!2sLazada%20One!5e0!3m2!1sen!2ssg!4v1731681752852!5m2!1sen!2ssg",
-      ]
-
-      testCases.forEach((testCase) => {
-        const result = new RegExp(MAPS_EMBED_URL_PATTERN).test(testCase)
-        expect(result).toBe(true)
-      })
-    })
-
-    it("should allow Google My Maps embed URLs", () => {
-      const testCases = [
-        "https://www.google.com/maps/d/embed?mid=1Mgnp3R1e7rYXGY2Vn1efD-AWXlfZa8o&ehbc=2E312F",
-      ]
-
-      testCases.forEach((testCase) => {
-        const result = new RegExp(MAPS_EMBED_URL_PATTERN).test(testCase)
-        expect(result).toBe(true)
-      })
-    })
-
-    it("should allow OneMap embed URLs", () => {
-      const testCases = [
-        "https://www.onemap.gov.sg/minimap/minimap.html?mapStyle=Default&zoomLevel=15&latLng=1.29793747849037,103.850182257356&ewt=JTNDcCUzRSUzQ3N0cm9uZyUzRU9wZW4lMjBHb3Zlcm5tZW50JTIwUHJvZHVjdHMlMjBvZmZpY2UlM0MlMkZzdHJvbmclM0UlM0MlMkZwJTNF&popupWidth=200&showPopup=true",
-        "https://www.onemap.gov.sg/amm/amm.html?mapStyle=Default&zoomLevel=15&marker=postalcode:189554!colour:darkblue&marker=postalcode:068877!colour:red&marker=postalcode:179097!colour:red&popupWidth=200",
-        "https://mobile.onemap.gov.sg/nparks/heritageTrees.html",
-        "https://mobile.onemap.gov.sg/minimap/minimap.html?mapStyle=Default&zoomLevel=15",
-      ]
-
-      testCases.forEach((testCase) => {
-        const result = new RegExp(MAPS_EMBED_URL_PATTERN).test(testCase)
-        expect(result).toBe(true)
-      })
-    })
-
-    it("should allow mobile OneMap embed URLs via isValidMapEmbedUrl", () => {
-      const testCases = [
-        "https://mobile.onemap.gov.sg/nparks/heritageTrees.html",
-        "https://mobile.onemap.gov.sg/minimap/minimap.html?mapStyle=Default&zoomLevel=15",
-      ]
-
-      testCases.forEach((testCase) => {
-        expect(isValidMapEmbedUrl(testCase)).toBe(true)
-      })
-    })
-
-    it("should allow OGP Maps embed URLs", () => {
-      const testCases = [
-        "https://maps.gov.sg/scdf-aed",
-        "https://maps.gov.sg/alphanumeric12354",
-        "https://maps.gov.sg/alphabets",
-        "https://maps.gov.sg/1234567890",
-        "https://maps.gov.sg/abc-def_ghi-jkl",
-      ]
-
-      testCases.forEach((testCase) => {
-        const result = new RegExp(MAPS_EMBED_URL_PATTERN).test(testCase)
-        expect(result).toBe(true)
-      })
-    })
-
-    it("should not allow any other site's URLs", () => {
-      const testCases = [
-        "https://www.example.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.473373876674!2d103.8486973142665!3d1.3035969990313745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b8b4c6e1e1%3A0x2f1f6b8f0a1b2a7d!2sMinistry%20of%20Communications%20and%20Information!5e0!3m2!1sen!2ssg!4v1632291134655!5m2!1en!2sg",
-        "https://www.google.com/maps?pb=!1m18!1m12!1m3!1d3961.473373876674!2d103.8486973142665!3d1.3035969990313745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b8b4c6e1e1%3A0x2f1f6b8f0a1b2a7d!2sMinistry%20of%20Communications%20and%20Information!5e0!3m2!1en!2sg!4v1632291134655!5m2!1en!2sg",
-        "https://www.google.com/maps/embeXYZ",
-        "https://www.google.com/maps/eee/embed?mid=1Mgnp3R1e7rYXGY2Vn1efD-AWXlfZa8o&ehbc=2E312F",
-        "https://www.google.fakesite.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.473373876674!2d103.8486973142665!3d1.3035969990313745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19b8b4c6e1e1%3A0x2f1f6b8f0a1b2a7d!2sMinistry%20of%20Communications%20and%20Information!5e0!3m2!1sen!2ssg!4v1632291134655!5m2!1en!2sg",
-        "https://www.onemap.gov.sg/minimap/amm.html?mapStyle=Default&zoomLevel=15&marker=postalcode:189554!colour:darkblue&marker=postalcode:068877!colour:red&marker=postalcode:179097!colour:red&popupWidth=200",
-        "https://mobile.onemap.gov.sg/",
-        "https://evil.onemap.gov.sg/nparks/heritageTrees.html",
-      ]
-
-      testCases.forEach((testCase) => {
-        const result = new RegExp(MAPS_EMBED_URL_PATTERN).test(testCase)
         expect(result).toBe(false)
       })
     })

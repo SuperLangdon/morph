@@ -39,7 +39,7 @@ interface DownloadButtonProps
 
 /**
  * Generic button that allows users to download a file.
- * Supports multiple download strategies including DGS and direct file downloads.
+ * Supports multiple download strategies including direct file downloads.
  */
 export const DownloadButton = ({
   className,

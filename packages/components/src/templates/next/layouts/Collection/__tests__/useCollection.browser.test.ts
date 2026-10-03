@@ -190,14 +190,14 @@ describe("useCollection", () => {
 
     beforeEach(() => {
       vi.useFakeTimers()
-      vi.setSystemTime(new Date(`${today}T12:00:00+08:00`))
+      vi.setSystemTime(new Date(`${today}T12:00:00`))
     })
 
     afterEach(() => {
       vi.useRealTimers()
     })
 
-    it("refreshes date bucket counts from the visitor's Singapore today on load", () => {
+    it("refreshes date bucket counts from the visitor's local today on load", () => {
       // Arrange — published sidebar still says Upcoming; the event is ongoing today
       const tagCategories: NonNullable<
         CollectionPageSchemaType["page"]["tagCategories"]

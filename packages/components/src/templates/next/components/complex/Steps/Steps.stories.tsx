@@ -25,7 +25,7 @@ const APPLICATION_STEPS: StepsProps["steps"] = [
   {
     title: "Check if you are eligible",
     description:
-      "You must be a Singapore Citizen or Permanent Resident aged 21 and above, and not currently receiving the same support from another agency.",
+      "You must be a citizen or permanent resident aged 21 and above, and not currently receiving the same support from another agency.",
   },
   {
     title: "Prepare your documents",
@@ -39,7 +39,7 @@ const APPLICATION_STEPS: StepsProps["steps"] = [
     description:
       "Applications are submitted online and take about 15 minutes to complete.",
     buttonLabel: "Start your application",
-    buttonUrl: "https://form.gov.sg",
+    buttonUrl: "https://forms.example.com",
   },
   {
     title: "Wait for the outcome",
@@ -149,7 +149,7 @@ export const LongContent: Story = {
         title: "Submit online",
         description: "Takes about 15 minutes.",
         buttonLabel: "Apply now",
-        buttonUrl: "https://form.gov.sg",
+        buttonUrl: "https://forms.example.com",
       },
     ],
   },

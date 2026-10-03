@@ -8,9 +8,9 @@ interface UseInteractionScriptLoaderOptions {
 }
 
 // TBT flags any script blocking the main thread for >50ms.
-// Large third-party widgets (Vica ~800kb, AskGov ~250kb) exceed this,
-// and Lighthouse still counts them even with async
-// Thus we use a custom loader hook to delay loading until after Wogaa has stopped measuring TBT.
+// Large third-party widgets can exceed this, and Lighthouse still counts
+// them even with async, so we delay loading until after the first
+// interaction (or a short timeout) instead.
 export const useInteractionScriptLoader = ({
   src,
   id,

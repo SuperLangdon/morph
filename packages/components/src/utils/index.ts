@@ -1,12 +1,12 @@
 export { getBreadcrumbFromSiteMap } from "./getBreadcrumbFromSiteMap"
 export { getFormattedDate } from "./getFormattedDate"
-export { getAskgovIdFromString } from "./getAskgovIdFromString"
 export { getNodeFromSiteMap } from "./getNodeFromSiteMap"
 export { getParsedDate } from "./getParsedDate"
 export { getReferenceLinkHref } from "./getReferenceLinkHref"
 export { getSanitizedIframeWithTitle } from "./getSanitizedIframeWithTitle"
 export { getSiderailFromSiteMap } from "./getSiderailFromSiteMap"
 export { getSitemapAsArray } from "./getSitemapAsArray"
+export { getSiteDate, getSiteDateLong, getSiteDateYYYYMMDD } from "./getSiteDate"
 export { getTableOfContents } from "./getTableOfContents"
 export { getTailwindVariantLayout } from "./getTailwindVariantLayout"
 export { getTextAsHtml } from "./getTextAsHtml"
@@ -16,12 +16,6 @@ export { isPhoneNumber, sanitizePhoneNumber } from "./isPhoneNumber"
 export { isUrl } from "./isUrl"
 export { isExternalUrl } from "./isExternalUrl"
 export { safeJsonParse } from "./safeJsonParse"
-export {
-  fetchDgsFileDownloadUrl,
-  fetchDgsMetadata,
-  getDgsIdFromDgsLink,
-  DGS_REQUEST_MAX_BYTES,
-} from "./dgs"
 export { fetchFileMetadata } from "./fetchFileMetadata"
 export { formatBytes } from "./formatBytes"
 export * from "./tailwind"
@@ -31,8 +25,6 @@ export {
   REFERENCE_LINK_REGEX,
 } from "./getResourceIdFromReferenceLink"
 export {
-  FORMSG_EMBED_URL_REGEXES,
-  MAPS_EMBED_URL_REGEXES,
   VIDEO_EMBED_URL_REGEXES,
   NON_EMPTY_STRING_REGEX,
   TRIMMED_NON_EMPTY_STRING_REGEX,

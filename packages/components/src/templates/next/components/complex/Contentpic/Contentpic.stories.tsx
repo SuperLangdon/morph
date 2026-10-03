@@ -167,7 +167,7 @@ const meta: Meta<ContentpicProps> = {
             {
               type: "text",
               marks: [],
-              text: "<a href='https://www.traffic.org/news/singapore-rhino-horn-smuggler-24/'>Singapore court gets tough on rhino horn smuggler</a>",
+              text: "<a href='https://www.traffic.org/news/rhino-horn-smuggler-24/'>Court gets tough on rhino horn smuggler</a>",
             },
           ],
         },

@@ -5,7 +5,7 @@ export const doesComponentHaveImage = ({
 }: {
   component: IsomerSchema["content"][number]
 }): boolean => {
-  // While "iframe", "map", "video" do not have images, they take up page real estate
+  // While "iframe", "video" do not have images, they take up page real estate
   // so we treat them as having images and return true
   // TODO: Do separate optimization for them to improve lighthouse SEO score
   switch (component.type) {
@@ -18,18 +18,14 @@ export const doesComponentHaveImage = ({
     case "steps":
     case "prose":
     case "dynamicdatabanner":
-    case "antiscambanner":
     case "contactinformation":
-    case "dynamiccomponentlist": // The content are fetched, so they eager load has no impact
       return false
     case "image":
     case "infopic":
-    case "formsg":
     case "hero":
     case "logocloud":
     case "contentpic":
     case "iframe":
-    case "map":
     case "audio":
     case "video":
     case "imagegallery":

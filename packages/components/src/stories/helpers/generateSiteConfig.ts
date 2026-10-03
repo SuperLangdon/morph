@@ -17,8 +17,7 @@ export const generateSiteConfig = (
     },
     siteMapArray: [],
     theme: "isomer-next",
-    isGovernment: true,
-    url: "https://www.isomer.gov.sg",
+    url: "https://www.example.com",
     logoUrl: "/isomer-logo.svg",
     navbar: {
       items: [
@@ -39,8 +38,8 @@ export const generateSiteConfig = (
       ],
     },
     footerItems: {
-      privacyStatementLink: "https://www.isomer.gov.sg/privacy",
-      termsOfUseLink: "https://www.isomer.gov.sg/terms",
+      privacyStatementLink: "https://www.example.com/privacy",
+      termsOfUseLink: "https://www.example.com/terms",
       siteNavItems: [],
     },
     lastUpdated: "1 Jan 2021",

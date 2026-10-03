@@ -113,7 +113,7 @@ const generateArgs = ({
     }),
     page: {
       title:
-        "Singapore's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
+        "Rivertown's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
       permalink:
         "/newsroom/news/man-sentenced-to-24-months-imprisonment-for-smuggling-34-7-kg-of-rhinoceros-horns",
       lastModified: "2024-05-02T14:12:57.160Z",
@@ -132,7 +132,7 @@ const generateArgs = ({
             content: [
               {
                 type: "text",
-                text: "Singapore - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Singapore is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
+                text: "Rivertown - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Rivertown is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
               },
             ],
           },
@@ -154,7 +154,7 @@ const generateArgs = ({
             content: [
               {
                 type: "text",
-                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Singapore's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
+                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Rivertown's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
               },
             ],
           },
@@ -260,7 +260,7 @@ export const Default: Story = {
     }),
     page: {
       title:
-        "Singapore's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
+        "Rivertown's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
       permalink:
         "/newsroom/news/man-sentenced-to-24-months-imprisonment-for-smuggling-34-7-kg-of-rhinoceros-horns",
       lastModified: "2024-05-02T14:12:57.160Z",
@@ -268,7 +268,7 @@ export const Default: Story = {
       date: "1 May 2024",
       articlePageHeader: {
         summary:
-          "Singapore is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Singaporeans of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
+          "Rivertown is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Rivertonians of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
       },
     },
     content: [
@@ -285,7 +285,7 @@ export const Default: Story = {
             content: [
               {
                 type: "text",
-                text: "Singapore - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Singapore is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
+                text: "Rivertown - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Rivertown is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
               },
             ],
           },
@@ -294,7 +294,7 @@ export const Default: Story = {
             content: [
               {
                 type: "text",
-                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Singapore's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
+                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Rivertown's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
               },
             ],
           },
@@ -367,7 +367,7 @@ export const Default: Story = {
             values: [
               "c/o Ministry of Isomer",
               "Lazada One",
-              "Singapore 123456",
+              "Rivertown 123456",
             ],
           },
           {
@@ -384,14 +384,14 @@ export const Default: Story = {
           {
             method: "email",
             label: "Email",
-            values: ["hello@isomer.gov.sg", "hello-too@isomer.gov.sg"],
+            values: ["hello@example.com", "hello-too@example.com"],
           },
           {
             method: "website",
             label: "Website",
             values: [
-              "https://www.isomer.gov.sg",
-              "https://sample.isomer.gov.sg",
+              "https://www.example.com",
+              "https://sample.example.com",
             ],
           },
           {
@@ -409,7 +409,7 @@ export const Default: Story = {
         otherInformation: {
           label: "Other Information",
           value:
-            "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@isomer.gov.sg. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.isomer.gov.sg'>cats and dogs matters</a>.",
+            "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@example.com. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.example.com'>cats and dogs matters</a>.",
         },
         url: "/",
         label: "I can't even help myself",
@@ -466,7 +466,7 @@ export const NoImage: Story = {
     }),
     page: {
       title:
-        "Singapore's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
+        "Rivertown's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
       permalink:
         "/newsroom/news/man-sentenced-to-24-months-imprisonment-for-smuggling-34-7-kg-of-rhinoceros-horns",
       lastModified: "2024-05-02T14:12:57.160Z",
@@ -474,7 +474,7 @@ export const NoImage: Story = {
       date: "1 May 2024",
       articlePageHeader: {
         summary:
-          "Singapore is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Singaporeans of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
+          "Rivertown is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Rivertonians of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
       },
     },
     content: [
@@ -491,7 +491,7 @@ export const NoImage: Story = {
             content: [
               {
                 type: "text",
-                text: "Singapore - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Singapore is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
+                text: "Rivertown - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Rivertown is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
               },
             ],
           },
@@ -500,7 +500,7 @@ export const NoImage: Story = {
             content: [
               {
                 type: "text",
-                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Singapore's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
+                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Rivertown's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
               },
             ],
           },
@@ -577,7 +577,7 @@ export const TaggedArticle: Story = {
     }),
     page: {
       title:
-        "Singapore's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
+        "Rivertown's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
       permalink:
         "/newsroom/news/man-sentenced-to-24-months-imprisonment-for-smuggling-34-7-kg-of-rhinoceros-horns",
       lastModified: "2024-05-02T14:12:57.160Z",
@@ -585,7 +585,7 @@ export const TaggedArticle: Story = {
       date: "1 May 2024",
       articlePageHeader: {
         summary:
-          "Singapore is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Singaporeans of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
+          "Rivertown is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Rivertonians of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
       },
       tags: [
         {
@@ -618,7 +618,7 @@ export const TaggedArticle: Story = {
             content: [
               {
                 type: "text",
-                text: "Singapore - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Singapore is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
+                text: "Rivertown - In a bid to foster community spirit and celebrate the rich tapestry of its diverse population, Rivertown is gearing up to host its first-ever Citizens' Festival. This unprecedented event promises to be a dazzling extravaganza filled with entertainment, cultural showcases, and gastronomic delights.",
               },
             ],
           },
@@ -627,7 +627,7 @@ export const TaggedArticle: Story = {
             content: [
               {
                 type: "text",
-                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Singapore's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
+                text: "One of the highlights of the festival is the Cultural Village, where visitors can immerse themselves in the sights, sounds, and flavors of Rivertown's various ethnic communities. From traditional Malay dance performances to Chinese calligraphy demonstrations and Indian culinary workshops, attendees will have the opportunity to gain a deeper appreciation for the country's multicultural heritage.",
               },
             ],
           },
@@ -735,7 +735,7 @@ export const TaggedArticleWithTagCategories: Story = {
     }),
     page: {
       title:
-        "Singapore's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
+        "Rivertown's Spectacular Citizens' Festival: a Celebration of Unity and Diversity",
       permalink:
         "/newsroom/news/man-sentenced-to-24-months-imprisonment-for-smuggling-34-7-kg-of-rhinoceros-horns",
       lastModified: "2024-05-02T14:12:57.160Z",
@@ -750,7 +750,7 @@ export const TaggedArticleWithTagCategories: Story = {
       date: "1 May 2024",
       articlePageHeader: {
         summary:
-          "Singapore is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Singaporeans of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
+          "Rivertown is preparing to host its inaugural Citizens' Festival in Marina Boulevard. The festival aims to unite Rivertonians of all backgrounds through cultural showcases, food markets, live music, and wellness activities.",
       },
     },
     content: [

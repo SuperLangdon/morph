@@ -6,17 +6,14 @@ import { BiError } from "react-icons/bi"
 import { DYNAMIC_DATA_BANNER_NUMBER_OF_DATA } from "~/interfaces/complex/DynamicDataBanner/constants"
 import { tv } from "~/lib/tv"
 import { twMerge } from "~/lib/twMerge"
-import {
-  getSingaporeDateLong,
-  getSingaporeDateYYYYMMDD,
-} from "~/utils/getSingaporeDate"
+import { getSiteDateLong, getSiteDateYYYYMMDD } from "~/utils/getSiteDate"
 
 import { ComponentContent } from "../../internal/customCssClass"
 import { Link } from "../../internal/Link"
 
 const createDynamicDataBannerStyles = tv({
   slots: {
-    // hardcoded bg color for now since MUIS is the only use case
+    // hardcoded bg color for now since there is currently only one use case
     // consider moving into site config if used by other sites
     screenWideOuterContainer: "bg-[#E1EAE6]",
     outerContainer: `${ComponentContent} md:gap-auto flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:px-10 md:py-5`,
@@ -93,7 +90,7 @@ const DynamicDataBannerUI = ({
           {!!title && <div className={compoundStyles.title()}>{title}</div>}
           <div className={compoundStyles.dateAndUrlContainer()}>
             <span className={compoundStyles.date()}>
-              {getSingaporeDateLong()}
+              {getSiteDateLong()}
             </span>
             {shouldRenderUrl &&
               renderUrl({ className: compoundStyles.urlHideOnMobile() })}
@@ -148,10 +145,10 @@ export const DynamicDataBannerClient = ({
     fetch(apiEndpoint)
       .then((res) => res.json())
       .then((apiData) => {
-        if (!apiData?.[getSingaporeDateYYYYMMDD()]) {
+        if (!apiData?.[getSiteDateYYYYMMDD()]) {
           throw new Error("No data found for current date")
         }
-        setDynamicData(apiData[getSingaporeDateYYYYMMDD()])
+        setDynamicData(apiData[getSiteDateYYYYMMDD()])
         setLoading(false)
       })
       .catch((error) => {

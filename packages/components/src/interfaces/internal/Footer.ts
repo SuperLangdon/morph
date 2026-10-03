@@ -113,7 +113,6 @@ export type FooterSchemaType = Static<typeof FooterSchema>
 
 export interface FooterProps extends FooterSchemaType {
   site: IsomerSiteProps
-  isGovernment?: boolean
   siteName: string
   agencyName: string
   lastUpdated: string

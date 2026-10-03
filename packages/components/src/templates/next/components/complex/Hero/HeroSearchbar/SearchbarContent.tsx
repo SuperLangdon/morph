@@ -3,7 +3,6 @@ import { getHeadingTag } from "~/utils/getHeadingTag"
 
 import { ComponentContent } from "../../../internal/customCssClass"
 import { LocalSearchInputBox } from "../../../internal/LocalSearchInputBox"
-import { HomepageSearchSGInputBox } from "../../../internal/SearchSGInputBox"
 
 interface SearchInputBoxProps {
   search: NonNullable<HeroSearchbarProps["site"]["search"]>
@@ -12,24 +11,10 @@ const SearchInputBox = ({ search }: SearchInputBoxProps) => {
   const commonProps = {
     className: "w-full mt-3",
   }
-  switch (search.type) {
-    case "searchSG":
-      if (!search.clientId) return null
-      return (
-        <HomepageSearchSGInputBox clientId={search.clientId} {...commonProps} />
-      )
-    case "localSearch":
-      if (!search.searchUrl) return null
-      return (
-        <LocalSearchInputBox searchUrl={search.searchUrl} {...commonProps} />
-      )
-    case "egazette-algolia":
-      // Egazette Algolia search runs on a dedicated search page, not from the Hero searchbar.
-      return null
-    default:
-      const _exhaustiveCheck: never = search
-      return null
+  if (search.type !== "localSearch" || !search.searchUrl) {
+    return null
   }
+  return <LocalSearchInputBox searchUrl={search.searchUrl} {...commonProps} />
 }
 
 export const SearchbarContent = ({

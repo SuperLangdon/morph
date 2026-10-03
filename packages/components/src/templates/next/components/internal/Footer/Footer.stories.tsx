@@ -24,7 +24,6 @@ type Story = StoryObj<typeof Footer>
 export const Default: Story = {
   args: {
     siteName: "Ministry of Trade and Industry",
-    isGovernment: true,
     lastUpdated: "11 Mar 2024",
     siteNavItems: [
       {
@@ -123,11 +122,10 @@ export const Default: Story = {
   },
 }
 
-export const NonGovernment: Story = {
+export const CustomAgency: Story = {
   args: {
     siteName: "IsoCon 2024",
     agencyName: "IsoCorp",
-    isGovernment: false,
     lastUpdated: "11 Mar 2024",
     siteNavItems: [
       {
@@ -221,7 +219,6 @@ export const NonGovernment: Story = {
 export const NoSocmed: Story = {
   args: {
     siteName: "Ministry of Trade and Industry",
-    isGovernment: true,
     lastUpdated: "11 Mar 2024",
     siteNavItems: [
       {
@@ -277,7 +274,6 @@ export const NoSocmed: Story = {
 export const NoCustomItems: Story = {
   args: {
     siteName: "Ministry of Trade and Industry",
-    isGovernment: true,
     lastUpdated: "11 Mar 2024",
     siteNavItems: [
       {

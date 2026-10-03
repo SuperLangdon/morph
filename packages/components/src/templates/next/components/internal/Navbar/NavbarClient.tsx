@@ -16,7 +16,6 @@ import { focusVisibleHighlight } from "~/utils/tailwind"
 
 import { LinkButton } from "../../internal/LinkButton"
 import { LocalSearchInputBox } from "../../internal/LocalSearchInputBox"
-import { NavbarSearchSGInputBox } from "../../internal/SearchSGInputBox"
 import { IconButton } from "../IconButton"
 import { ImageClient } from "../ImageClient"
 import { Link } from "../Link"
@@ -121,8 +120,8 @@ export const NavbarClient = ({
   })
 
   // When the hamburger menu is open, also watch the full <header> for height
-  // changes caused by siblings like masthead/notification toggling, since those
-  // don't resize the navbar container but do shift its position.
+  // changes caused by siblings like the notification banner toggling, since
+  // those don't resize the navbar container but do shift its position.
   useEffect(() => {
     if (!isHamburgerOpen) return
 
@@ -289,13 +288,6 @@ export const NavbarClient = ({
         <div className={navbarStyles.searchBar({ isSearchOpen })}>
           {search.type === "localSearch" && (
             <LocalSearchInputBox searchUrl={search.searchUrl} />
-          )}
-
-          {search.type === "searchSG" && (
-            <NavbarSearchSGInputBox
-              clientId={search.clientId}
-              isOpen={isSearchOpen}
-            />
           )}
         </div>
       )}

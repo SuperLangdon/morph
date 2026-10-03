@@ -45,7 +45,7 @@ export const TwoButtons: Story = {
     buttonLabel: "Apply now",
     buttonUrl: "/permits/apply",
     secondaryButtonLabel: "Learn more",
-    secondaryButtonUrl: "https://www.isomer.gov.sg",
+    secondaryButtonUrl: "https://www.example.com",
   },
 }
 
@@ -64,7 +64,7 @@ export const LongLabels: Story = {
     buttonLabel: "Apply for the Enhanced CPF Housing Grant",
     buttonUrl: "/permits/apply",
     secondaryButtonLabel: "Check your eligibility before applying",
-    secondaryButtonUrl: "https://www.isomer.gov.sg",
+    secondaryButtonUrl: "https://www.example.com",
   },
 }
 
@@ -73,7 +73,7 @@ export const ExternalLink: Story = {
   args: {
     alignment: "left",
     buttonLabel: "Go to the national portal",
-    buttonUrl: "https://www.isomer.gov.sg",
+    buttonUrl: "https://www.example.com",
   },
 }
 

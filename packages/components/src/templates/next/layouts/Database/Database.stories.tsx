@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import type { DatabasePageSchemaType } from "~/types"
 import { expect, userEvent, waitFor, within } from "storybook/test"
-import {
-  DGS_SMALL_DATASET_RESOURCE_ID,
-  generateSiteConfig,
-} from "~/stories/helpers"
+import { generateSiteConfig } from "~/stories/helpers"
 
 import { withChromaticModes } from "@isomer/storybook-config"
 
@@ -149,7 +146,7 @@ export const Default: Story = {
       items: [
         [
           "Cell copy 1",
-          '<a href="https://www.isomer.gov.sg">Cell copy</a>',
+          '<a href="https://www.example.com">Cell copy</a>',
           "Cell copy",
           "Cell copy",
           "Cell copy",
@@ -707,7 +704,7 @@ export const NoSearchResults: Story = {
       items: [
         [
           "Cell copy 1",
-          '<a href="https://www.isomer.gov.sg">Cell copy</a>',
+          '<a href="https://www.example.com">Cell copy</a>',
           "Cell copy",
           "Cell copy",
           "Cell copy",
@@ -920,63 +917,4 @@ export const NoSearchResults: Story = {
       )
     })
   },
-}
-
-export const DGSSearchableTable: Story = {
-  name: "DGS Searchable Table",
-  args: generateArgs({
-    database: {
-      title: "Sample DGS Table",
-      dataSource: {
-        type: "dgs",
-        resourceId: DGS_SMALL_DATASET_RESOURCE_ID,
-      },
-    },
-  }),
-}
-
-export const DGSSearchableTableWithDefaultTitle: Story = {
-  name: "DGS Searchable Table (with default title)",
-  args: generateArgs({
-    database: {
-      dataSource: {
-        type: "dgs",
-        resourceId: DGS_SMALL_DATASET_RESOURCE_ID,
-      },
-    },
-  }),
-}
-
-export const DGSSearchableTableWithHeaders: Story = {
-  name: "DGS Searchable Table (with headers)",
-  args: generateArgs({
-    database: {
-      title: "Sample DGS Table",
-      dataSource: {
-        type: "dgs",
-        resourceId: DGS_SMALL_DATASET_RESOURCE_ID,
-      },
-      headers: [
-        { label: "Year", key: "year" },
-        { label: "University", key: "university" },
-        { label: "School", key: "school" },
-        { label: "Degree", key: "degree" },
-        { label: "Monthly Median", key: "gross_monthly_median" },
-      ],
-    },
-  }),
-}
-
-export const DGSSearchableTableWithFilters: Story = {
-  name: "DGS Searchable Table (with column filters)",
-  args: generateArgs({
-    database: {
-      title: "Graduate Employment by Year",
-      dataSource: {
-        type: "dgs",
-        resourceId: DGS_SMALL_DATASET_RESOURCE_ID,
-        filters: [{ fieldKey: "year", fieldValue: "2022" }],
-      },
-    },
-  }),
 }

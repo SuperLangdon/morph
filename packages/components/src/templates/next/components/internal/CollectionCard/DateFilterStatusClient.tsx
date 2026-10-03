@@ -17,7 +17,7 @@ export const DateFilterStatusClient = ({
     () =>
       entries?.length ? getDateFilterCardsFromEntries(entries) : undefined,
     // NOTE: status is only recomputed when `entries` changes. It can stay stale
-    // if the page stays mounted across Singapore midnight — accepted.
+    // if the page stays mounted across local midnight — accepted.
     [entries],
   )
 

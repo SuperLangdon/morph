@@ -6,8 +6,8 @@ import type { Filter } from "../../../types/Filter"
 import { getDateFilters } from "./getDateFilters"
 
 // Tag and year filters are precomputed with the page. Date-bucket counts are
-// not: they depend on Singapore "today", which moves after publish. Replace
-// only those counts from the items already on the client.
+// not: they depend on the visitor's local "today", which moves after publish.
+// Replace only those counts from the items already on the client.
 export const refreshDateFilterCounts = ({
   filters,
   items,

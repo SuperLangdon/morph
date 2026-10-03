@@ -89,11 +89,3 @@ export const InverseOutlineVariant: Story = {
     colorScheme: "inverse",
   },
 }
-
-export const DgsLink: Story = {
-  name: "Download DGS Button",
-  args: {
-    ...Default.args,
-    url: "[dgs:d_688b934f82c1059ed0a6993d2a829089]",
-  },
-}

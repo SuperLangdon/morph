@@ -6,7 +6,6 @@ import { generateSiteConfig } from "~/stories/helpers"
 import { getViewportByMode, withChromaticModes } from "@isomer/storybook-config"
 
 import { Button } from "../Button"
-import { Masthead } from "../Masthead"
 import { Notification } from "../Notification"
 import { Navbar } from "./Navbar"
 
@@ -14,7 +13,6 @@ const Renderer = (props: NavbarProps) => {
   return (
     <div className="flex min-h-dvh flex-col">
       <header>
-        <Masthead />
         <Navbar {...props} />
       </header>
       <div className="h-[calc(100vh+300px)] bg-red-500">
@@ -31,7 +29,6 @@ const RendererWithNotification = (props: NavbarProps) => {
   return (
     <div className="flex min-h-dvh flex-col">
       <header>
-        <Masthead />
         <Notification
           title="This is an important site notification"
           site={generateSiteConfig()}
@@ -84,12 +81,12 @@ const generateNavbarArgs = (
             name: "Join us",
             url: "/item-one/pa-network-one",
             description:
-              "Join us on our journey to improve community engagement in Singapore",
+              "Join us on our journey to improve community engagement in your area",
           },
           {
             name: "External Link",
-            url: "https://open.gov.sg",
-            description: "OGP Website",
+            url: "https://open.example.com",
+            description: "An external website",
           },
           {
             name: "Our team",
@@ -539,8 +536,8 @@ export const PinnedCTATruncatedLabel: Story = {
 }
 
 // Regression tests for https://github.com/opengovsg/isomer/issues/2120:
-// the mobile menu's `top` should update when masthead/notification height changes
-// while the menu is open.
+// the mobile menu's `top` should update when sibling header sections
+// (nav menus/notification) change height while the menu is open.
 
 const mobileRegressionBase: Story = {
   args: generateNavbarArgs(),
@@ -560,7 +557,7 @@ const mobileRegressionWithNotificationBase: Story = {
   },
 }
 
-export const MobileNavbarAfterMastheadCollapsed: Story = {
+export const MobileNavbarAfterNavItemToggled: Story = {
   ...mobileRegressionBase,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
@@ -585,7 +582,7 @@ export const MobileNavbarAfterNotificationDismissed: Story = {
   },
 }
 
-export const MobileNavbarAfterMastheadAndNotificationClosed: Story = {
+export const MobileNavbarAfterNavItemToggledAndNotificationDismissed: Story = {
   ...mobileRegressionWithNotificationBase,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)

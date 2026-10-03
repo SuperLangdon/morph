@@ -40,7 +40,7 @@ export const Default: Story = {
         title:
           "Launch of the Manpower for Strategic Economic Priorities (M-SEP) scheme to support firms’ expansion plans",
         description:
-          "Supporting businesses that contribute to Singapore's strategic economic priorities.",
+          "Supporting businesses that contribute to the country's strategic economic priorities.",
         buttonLabel: "Learn about scheme",
         buttonUrl: "https://google.com",
         icon: "line-chart",

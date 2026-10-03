@@ -1,11 +1,10 @@
 import type { Static } from "@sinclair/typebox"
-import type { Except, SimplifyDeep } from "type-fest"
-import type { DgsApiDatasetSearchResponseSuccess } from "~/hooks/useDgsData/types"
+import type { SimplifyDeep } from "type-fest"
 import type { IsomerPageLayoutType, IsomerSiteProps } from "~/types"
 import { Type } from "@sinclair/typebox"
 import { LINK_HREF_PATTERN } from "~/utils/validation"
 
-import { createDgsSchema, NativeDataSourceSchema } from "../../integration"
+import { NativeDataSourceSchema } from "../../integration"
 import { CONTACT_INFORMATION_SUPPORT_METHODS } from "./constants"
 
 const BaseContactInformationSchema = Type.Object({
@@ -28,8 +27,8 @@ const BaseContactInformationSchema = Type.Object({
       pattern: LINK_HREF_PATTERN,
     }),
   ),
-  // Needed for MFA case where we want to
-  // selectively display contact methods retrieved from DGS
+  // Allows selectively displaying only a subset of the configured
+  // contact methods
   whitelistedMethods: Type.Optional(
     Type.Array(
       Type.Union(
@@ -47,8 +46,6 @@ const BaseContactInformationSchema = Type.Object({
 })
 
 // arbitrary limit for now to prevent abuse
-// currently, in DGS case, having [dgs:XXX] means XXX (the column name)
-// is max length 24 (30-6)
 const CHARACTER_LIMIT = 30
 
 const InjectableContactInformationSchema = Type.Object(
@@ -126,14 +123,9 @@ const NativeContactInformationSchema = Type.Intersect([
   InjectableContactInformationSchema,
 ])
 
-export const DgsContactInformationSchema = createDgsSchema({
-  componentName: "Contact Information",
-  nativeSchema: InjectableContactInformationSchema,
-})
-
 export const ContactInformationSchema = Type.Intersect([
   BaseContactInformationSchema,
-  Type.Union([NativeContactInformationSchema, DgsContactInformationSchema]),
+  NativeContactInformationSchema,
 ])
 
 interface AdditionalContactInformationTypeProps {
@@ -160,19 +152,7 @@ export type NativeContactInformationProps = SimplifyDeep<
   BaseContactInformationType & Static<typeof NativeContactInformationSchema>
 >
 
-export type DgsContactInformationProps = SimplifyDeep<
-  BaseContactInformationType & Static<typeof DgsContactInformationSchema>
->
-
 export type ContactInformationProps = Static<typeof ContactInformationSchema> &
   AdditionalContactInformationTypeProps & {
     site: IsomerSiteProps
   }
-
-export interface DgsTransformedContactInformationProps extends Except<
-  DgsContactInformationProps,
-  "dataSource"
-> {
-  record: DgsApiDatasetSearchResponseSuccess["result"]["records"][number]
-  isLoading?: ContactInformationUIProps["isLoading"]
-}

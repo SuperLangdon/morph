@@ -1,8 +1,7 @@
 import type { Static } from "@sinclair/typebox"
 import { Type } from "@sinclair/typebox"
 
-import { ARRAY_RADIO_FORMAT } from "../format"
-import { DgsDataSourceSchema, NativeDataSourceSchema } from "../integration"
+import { NativeDataSourceSchema } from "../integration"
 
 const BaseSearchableTableSchema = Type.Object({
   title: Type.Optional(
@@ -27,44 +26,8 @@ const NativeSearchableTableSchema = Type.Intersect(
   },
 )
 
-const DGSSearchableTableSchema = Type.Intersect(
-  [
-    DgsDataSourceSchema,
-    Type.Object({
-      headers: Type.Optional(
-        Type.Array(
-          Type.Object({
-            key: Type.String({
-              title: "Key",
-              description: "Column name in DGS table",
-            }),
-            label: Type.Optional(
-              Type.String({
-                title: "Label",
-                description: "Rename the column's header",
-              }),
-            ),
-          }),
-          {
-            format: "hidden", // don't want to expose this to Studio users yet
-          },
-        ),
-      ),
-    }),
-  ],
-  {
-    title: "DGS (data.gov.sg)",
-  },
-)
-
 export const SearchableTableSchema = Type.Intersect(
-  [
-    BaseSearchableTableSchema,
-    Type.Union([NativeSearchableTableSchema, DGSSearchableTableSchema], {
-      title: "Data source",
-      format: ARRAY_RADIO_FORMAT,
-    }),
-  ],
+  [BaseSearchableTableSchema, NativeSearchableTableSchema],
   {
     title: "Database",
     description: "Displays a table with search and pagination functionality.",
@@ -89,8 +52,5 @@ export type SearchableTableClientProps = BaseSearchableTableClientProps &
 
 export type NativeSearchableTableProps = BaseSearchableTableClientProps &
   Static<typeof NativeSearchableTableSchema>
-
-export type DGSSearchableTableProps = BaseSearchableTableClientProps &
-  Static<typeof DGSSearchableTableSchema>
 
 export type SearchableTableProps = Static<typeof SearchableTableSchema>

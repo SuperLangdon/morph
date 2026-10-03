@@ -2,13 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import type { HeroProps } from "~/interfaces/complex/Hero"
 import type { HomePageSchemaType } from "~/types"
 import { http, HttpResponse } from "msw"
-import {
-  SEARCHSG_TEST_CLIENT_ID,
-  withSearchSgSetup,
-} from "~/stories/decorators"
 import { generateSiteConfig } from "~/stories/helpers"
 import { TAG_CATEGORY_DISPLAY_OPTIONS } from "~/types/constants"
-import { getSingaporeDateYYYYMMDD } from "~/utils/getSingaporeDate"
+import { getSiteDateYYYYMMDD } from "~/utils/getSiteDate"
 
 import { withChromaticModes } from "@isomer/storybook-config"
 
@@ -17,7 +13,6 @@ import { HomepageLayout } from "./Homepage"
 const meta: Meta<typeof HomepageLayout> = {
   title: "Next/Layouts/Homepage",
   component: HomepageLayout,
-  decorators: [withSearchSgSetup()],
   argTypes: {},
   tags: ["!autodocs"],
   parameters: {
@@ -35,7 +30,7 @@ const meta: Meta<typeof HomepageLayout> = {
       handlers: [
         http.get("https://jsonplaceholder.com/muis_prayers_time", () => {
           return HttpResponse.json({
-            [getSingaporeDateYYYYMMDD()]: {
+            [getSiteDateYYYYMMDD()]: {
               hijriDate: "17 Jamadilawal 1442H",
               subuh: "5:44am",
               syuruk: "7:08am",
@@ -88,7 +83,7 @@ const generateArgs = ({
             permalink: "/collection",
             layout: "collection",
             summary:
-              "Clarifying widespread or common misperceptions of Government policy, or inaccurate assertions on matters of public concern that can harm Singapore's social fabric.",
+              "Clarifying widespread or common misperceptions of official policy, or inaccurate assertions on matters of public concern.",
             lastModified: "2021-01-01",
             collectionPagePageProps: {
               tagCategories: [
@@ -282,8 +277,8 @@ const generateArgs = ({
         ],
       },
       search: {
-        type: "searchSG",
-        clientId: SEARCHSG_TEST_CLIENT_ID,
+        type: "localSearch",
+        searchUrl: "/search",
       },
     }),
     meta: {
@@ -520,7 +515,7 @@ const generateArgs = ({
           {
             title: "Check if you are eligible",
             description:
-              "You must be a Singapore Citizen or Permanent Resident aged 21 and above.",
+              "You must be a citizen or permanent resident aged 21 and above.",
           },
           {
             title: "Prepare your documents",
@@ -534,7 +529,7 @@ const generateArgs = ({
             description:
               "Applications are submitted online and take about 15 minutes to complete.",
             buttonLabel: "Start your application",
-            buttonUrl: "https://form.gov.sg",
+            buttonUrl: "https://forms.example.com",
           },
           {
             title: "Wait for the outcome",
@@ -586,7 +581,7 @@ const generateArgs = ({
             values: [
               "c/o Ministry of Foreign Affairs",
               "Tanglin",
-              "Singapore 248163",
+              "Rivertown 248163",
             ],
           },
           {
@@ -604,16 +599,16 @@ const generateArgs = ({
             method: "email",
             label: "Email",
             values: [
-              "do-not-reply@isomer.gov.sg",
-              "do-not-reply-pelase@isomer.gov.sg",
+              "do-not-reply@example.com",
+              "do-not-reply-pelase@example.com",
             ],
           },
           {
             method: "website",
             label: "Website",
             values: [
-              "https://www.isomer.gov.sg",
-              "https://sample.isomer.gov.sg",
+              "https://www.example.com",
+              "https://sample.example.com",
             ],
           },
           {
@@ -629,7 +624,7 @@ const generateArgs = ({
           },
           {
             label: "Telegram",
-            values: ["https://t.me/isomer_gov_sg"],
+            values: ["https://t.me/example_team"],
           },
           {
             label: "WhatsApp",
@@ -779,7 +774,7 @@ export const HeroSearchbar: Story = {
       variant: "searchbar",
       title: "Temasek Polytechnic",
       subtitle:
-        "APEX connects agencies and the public through a single, secure hub for Singapore’s government APIs.",
+        "Rivertown connects agencies and the public through a single, secure hub for public APIs.",
     },
   }),
 }
@@ -791,7 +786,7 @@ export const HeroSearchbarWithImage: Story = {
       variant: "searchbar",
       title: "Temasek Polytechnic",
       subtitle:
-        "APEX connects agencies and the public through a single, secure hub for Singapore’s government APIs.",
+        "Rivertown connects agencies and the public through a single, secure hub for public APIs.",
       backgroundUrl: "/hero-banner.png",
     },
   }),

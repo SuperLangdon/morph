@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { http, HttpResponse } from "msw"
 import { generateSiteConfig } from "~/stories/helpers"
-import { getSingaporeDateYYYYMMDD } from "~/utils/getSingaporeDate"
+import { getSiteDateYYYYMMDD } from "~/utils/getSiteDate"
 
 import { withChromaticModes } from "@isomer/storybook-config"
 
@@ -69,7 +69,7 @@ export const Default: Story = {
       handlers: [
         http.get("https://jsonplaceholder.com/muis_prayers_time", () => {
           return HttpResponse.json({
-            [getSingaporeDateYYYYMMDD()]: {
+            [getSiteDateYYYYMMDD()]: {
               hijriDate: "17 Jamadilawal 1442H",
               subuh: "5:44am",
               syuruk: "7:08am",

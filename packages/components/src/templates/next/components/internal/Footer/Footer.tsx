@@ -20,11 +20,8 @@ import {
   FaXTwitter,
 } from "react-icons/fa6"
 import { IoLogoGithub } from "react-icons/io"
-import { IsomerLogo } from "~/assets/IsomerLogo"
-import { OgpLogo } from "~/assets/OgpLogo"
 import { tv } from "~/lib/tv"
 import { twMerge } from "~/lib/twMerge"
-import { getFormattedDate } from "~/utils/getFormattedDate"
 import { getReferenceLinkHref } from "~/utils/getReferenceLinkHref"
 import { isExternalUrl } from "~/utils/isExternalUrl"
 import { focusVisibleHighlight } from "~/utils/tailwind"
@@ -219,36 +216,20 @@ const ReachUsSection = ({
 const LegalSection = ({
   site,
   agencyName,
-  isGovernment,
-  lastUpdated,
+  siteName,
   privacyStatementLink,
   termsOfUseLink,
 }: Pick<
   FooterProps,
-  | "site"
-  | "agencyName"
-  | "isGovernment"
-  | "lastUpdated"
-  | "privacyStatementLink"
-  | "termsOfUseLink"
+  "site" | "agencyName" | "siteName" | "privacyStatementLink" | "termsOfUseLink"
 >) => {
   return (
     <div className="flex h-full">
       <div className="flex flex-col justify-end gap-4 lg:gap-2">
         <p className="prose-label-md-regular text-base-content-inverse-subtle">
-          <ClientCopyright
-            isGovernment={isGovernment}
-            agencyName={agencyName}
-            formattedLastUpdated={getFormattedDate(lastUpdated)}
-          />
+          <ClientCopyright agencyName={agencyName} siteName={siteName} />
         </p>
         <div className="prose-body-sm flex flex-col gap-3 lg:flex-row lg:gap-8">
-          {isGovernment && (
-            <FooterItem
-              title="Report Vulnerability"
-              url="https://go.gov.sg/report-vulnerability"
-            />
-          )}
           {privacyStatementLink && (
             <FooterItem
               title="Privacy Statement"
@@ -273,9 +254,6 @@ const LegalSection = ({
               }
             />
           )}
-          {isGovernment && (
-            <FooterItem title="REACH" url={"https://www.reach.gov.sg"} />
-          )}
         </div>
       </div>
     </div>
@@ -285,40 +263,14 @@ const LegalSection = ({
 const CreditsSection = () => {
   return (
     <div className="prose-label-md-regular flex flex-col gap-6 lg:flex-row lg:gap-8 xl:gap-20">
-      <Link
-        href="https://www.isomer.gov.sg"
-        isExternal
-        className={twMerge(
-          footerItemLinkStyle(),
-          "group flex flex-col items-start gap-4",
-        )}
-        isWithFocusVisibleHighlight
+      <a
+        href="https://github.com/morph-cms/morph"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={twMerge(footerItemLinkStyle(), "self-start")}
       >
-        <p>
-          Made with <span className="sr-only">Isomer</span>
-        </p>
-        <IsomerLogo
-          aria-hidden
-          className="group-focus-visible:fill-base-content-strong"
-        />
-      </Link>
-      <Link
-        href="https://www.open.gov.sg"
-        isExternal
-        className={twMerge(
-          footerItemLinkStyle(),
-          "group flex flex-col items-start gap-4",
-        )}
-        isWithFocusVisibleHighlight
-      >
-        <p>
-          Built by <span className="sr-only">Open Government Products</span>
-        </p>
-        <OgpLogo
-          aria-hidden
-          className="group-focus-visible:fill-base-content-strong"
-        />
-      </Link>
+        Powered by Morph
+      </a>
     </div>
   )
 }
@@ -328,8 +280,6 @@ const FooterMobile = ({
   site,
   siteName,
   agencyName,
-  isGovernment,
-  lastUpdated,
   siteNavItems: navItems,
   customNavItems: customItems,
   socialMediaLinks,
@@ -355,8 +305,7 @@ const FooterMobile = ({
       <div className="flex flex-col gap-9">
         <LegalSection
           agencyName={agencyName}
-          isGovernment={isGovernment}
-          lastUpdated={lastUpdated}
+          siteName={siteName}
           privacyStatementLink={privacyStatementLink}
           termsOfUseLink={termsOfUseLink}
           site={site}
@@ -372,8 +321,6 @@ const FooterDesktop = ({
   site,
   siteName,
   agencyName,
-  isGovernment,
-  lastUpdated,
   siteNavItems: navItems,
   customNavItems: customItems,
   socialMediaLinks,
@@ -405,8 +352,7 @@ const FooterDesktop = ({
           <div>
             <LegalSection
               agencyName={agencyName}
-              isGovernment={isGovernment}
-              lastUpdated={lastUpdated}
+              siteName={siteName}
               privacyStatementLink={privacyStatementLink}
               termsOfUseLink={termsOfUseLink}
               site={site}

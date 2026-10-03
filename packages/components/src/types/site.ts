@@ -3,12 +3,8 @@ import type { FooterSchemaType, NavbarSchemaType } from "~/interfaces"
 import { Type } from "@sinclair/typebox"
 import { FAVICON_ACCEPTED_MIME_TYPE_MAPPING } from "~/constants/image"
 import {
-  AskgovSchema,
-  EgazetteAlgoliaSearchSchema,
   generateImageSrcSchema,
   LocalSearchSchema,
-  SearchSGSearchSchema,
-  VicaSchema,
   ZendeskSchema,
 } from "~/interfaces"
 import { NotificationSettingsSchema } from "~/interfaces/internal/Notification"
@@ -18,7 +14,6 @@ import type { IsomerSitemap } from "./sitemap"
 
 export const SITE_ENTITY_TYPES = [
   "Organization",
-  "GovernmentOrganization",
   "EducationalOrganization",
   "NGO",
 ] as const
@@ -30,7 +25,7 @@ const SiteEntityTypeSchema = Type.Unsafe<SiteEntityType>(
   Type.String({
     title: "Organisation type",
     description:
-      "Choose the Schema.org type that best describes the organisation that owns this site. Leave this blank to derive the type from whether this is a government site.",
+      "Choose the Schema.org type that best describes the organisation that owns this site. Leave this blank to use the generic Organization type.",
     enum: SITE_ENTITY_TYPES,
   }),
 )
@@ -68,11 +63,11 @@ export const SiteEntitySettingsSchema = Type.Object(
           addressCountry: Type.Optional(
             Type.String({
               title: "Country code",
-              description: "Use a two-letter country code, such as SG.",
+              description: "Use a two-letter country code, such as US.",
               maxLength: 2,
               pattern: "^[A-Za-z]{2}$",
               errorMessage: {
-                pattern: "must be two letters, such as SG",
+                pattern: "must be two letters, such as US",
               },
             }),
           ),
@@ -95,7 +90,7 @@ export const SiteEntitySettingsSchema = Type.Object(
           telephone: Type.Optional(
             Type.String({
               title: "Telephone",
-              description: "Include the country code, such as +65 6123 4567.",
+              description: "Include the country code, such as +1 555 123 4567.",
             }),
           ),
           email: Type.Optional(
@@ -133,9 +128,9 @@ export const AgencySettingsSchema = Type.Object({
   agencyName: Type.Optional(
     Type.String({
       title: "Website is owned by",
-      description: "This isn't displayed anywhere on your site.",
+      description:
+        "The organisation name shown in the footer copyright and structured data.",
       readOnly: true,
-      tooltip: "To change the agency name, contact Isomer Support",
     }),
   ),
   siteEntity: Type.Optional(SiteEntitySettingsSchema),
@@ -151,22 +146,14 @@ export const SimpleIntegrationsSettingsSchema = Type.Object({
     }),
   ),
   search: Type.Optional(
-    Type.Union(
-      [LocalSearchSchema, SearchSGSearchSchema, EgazetteAlgoliaSearchSchema],
-      {
-        title: "Search configuration",
-        description: "Configuration for the search functionality of the site.",
-        // NOTE: Overriding the default `Union` with this because we should
-        // not be showing the `localSearch` option to our agency users
-        format: "searchsg",
-      },
-    ),
+    Type.Union([LocalSearchSchema], {
+      title: "Search configuration",
+      description: "Configuration for the search functionality of the site.",
+    }),
   ),
 })
 
 export const ComplexIntegrationsSettingsSchema = Type.Object({
-  askgov: Type.Optional(AskgovSchema),
-  vica: Type.Optional(VicaSchema),
   zendesk: Type.Optional(ZendeskSchema),
 })
 
@@ -206,21 +193,6 @@ export const SiteConfigSchema = Type.Intersect([
       default: "isomer-next",
       format: "hidden",
     }),
-    isGovernment: Type.Optional(
-      Type.Boolean({
-        title: "Is this a Government site?",
-        description:
-          "Whether the site is a Government site, affects the display of the masthead and the copyright footer.",
-        format: "hidden",
-      }),
-    ),
-    enablePolyglot: Type.Optional(
-      Type.Boolean({
-        title: "Enable Polyglot",
-        description: "Whether to enable Polyglot on the site.",
-        format: "hidden",
-      }),
-    ),
   }),
   NotificationSettingsSchema,
 ])

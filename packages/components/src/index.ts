@@ -2,8 +2,6 @@ export * from "./engine"
 export * from "./hooks"
 export * from "./presets"
 export {
-  FORMSG_EMBED_URL_REGEXES,
-  MAPS_EMBED_URL_REGEXES,
   VIDEO_EMBED_URL_REGEXES,
   getResourceIdFromReferenceLink,
   REFERENCE_LINK_REGEX,
@@ -12,8 +10,6 @@ export {
   TRIMMED_STRING_OR_EMPTY_REGEX,
   createChildrenPagesComparator,
   formatBytes,
-  DGS_REQUEST_MAX_BYTES,
-  getAskgovIdFromString,
   resolveCollectionSortOrder,
 } from "./utils"
 export * from "./schemas"

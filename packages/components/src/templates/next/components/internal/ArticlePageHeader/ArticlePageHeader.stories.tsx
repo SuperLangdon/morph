@@ -62,7 +62,7 @@ const ARTICLE = {
     "Man sentenced to 24 months' imprisonment for smuggling 34.7 kg of rhinoceros horns",
   date: "1 May 2024",
   summary:
-    "20 pieces of rhinoceros horns were found in two pieces of transit baggage bound for Laos. The 34.7 kg seizure is the largest seizure of rhinoceros horns in Singapore to date.",
+    "20 pieces of rhinoceros horns were found in two pieces of transit baggage bound for Laos. The 34.7 kg seizure is the largest seizure of rhinoceros horns in the country to date.",
 }
 
 export const SingleSummaryItem: Story = {
@@ -105,7 +105,7 @@ export const WithButton: Story = {
   args: {
     ...ARTICLE,
     buttonLabel: "Report wildlife crime",
-    buttonUrl: "https://www.nparks.gov.sg/report-wildlife-crime",
+    buttonUrl: "https://www.example.gov/report-wildlife-crime",
   },
 }
 

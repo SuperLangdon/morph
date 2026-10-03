@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { http, HttpResponse } from "msw"
-import { generateDgsUrl } from "~/hooks/useDgsData/generateDgsUrl"
 import { generateSiteConfig } from "~/stories/helpers"
 
 import { withChromaticModes } from "@isomer/storybook-config"
@@ -1389,7 +1387,7 @@ export const Default: Story = {
                 {
                   type: "text",
                   marks: [],
-                  text: "<a href='https://www.traffic.org/news/singapore-rhino-horn-smuggler-24/'>Singapore court gets tough on rhino horn smuggler</a>",
+                  text: "<a href='https://www.traffic.org/news/rhino-horn-smuggler-24/'>Court gets tough on rhino horn smuggler</a>",
                 },
               ],
             },
@@ -1503,7 +1501,7 @@ export const Default: Story = {
           {
             title: "Check if you are eligible",
             description:
-              "You must be a Singapore Citizen or Permanent Resident aged 21 and above.",
+              "You must be a citizen or permanent resident aged 21 and above.",
           },
           {
             title: "Prepare your documents",
@@ -1517,7 +1515,7 @@ export const Default: Story = {
             description:
               "Applications are submitted online and take about 15 minutes to complete.",
             buttonLabel: "Start your application",
-            buttonUrl: "https://form.gov.sg",
+            buttonUrl: "https://forms.example.com",
           },
           {
             title: "Wait for the outcome",
@@ -1617,7 +1615,7 @@ export const Default: Story = {
             values: [
               "c/o Ministry of Isomer",
               "Lazada One",
-              "Singapore 123456",
+              "Somewhere 123456",
             ],
           },
           {
@@ -1634,14 +1632,14 @@ export const Default: Story = {
           {
             method: "email",
             label: "Email",
-            values: ["hello@isomer.gov.sg", "hello-too@isomer.gov.sg"],
+            values: ["hello@example.com", "hello-too@example.com"],
           },
           {
             method: "website",
             label: "Website",
             values: [
-              "https://www.isomer.gov.sg",
-              "https://sample.isomer.gov.sg",
+              "https://www.example.com",
+              "https://sample.example.com",
             ],
           },
           {
@@ -1659,7 +1657,7 @@ export const Default: Story = {
         otherInformation: {
           label: "Other Information",
           value:
-            "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@isomer.gov.sg. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.isomer.gov.sg'>cats and dogs matters</a>.",
+            "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@example.com. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.example.com'>cats and dogs matters</a>.",
         },
         url: "/",
         label: "I can't even help myself",
@@ -2936,7 +2934,7 @@ export const Image: Story = {
                 {
                   type: "text",
                   marks: [],
-                  text: "<a href='https://www.traffic.org/news/singapore-rhino-horn-smuggler-24/'>Singapore court gets tough on rhino horn smuggler</a>",
+                  text: "<a href='https://www.traffic.org/news/rhino-horn-smuggler-24/'>Court gets tough on rhino horn smuggler</a>",
                 },
               ],
             },
@@ -2951,11 +2949,6 @@ export const Image: Story = {
         buttonUrl: "/",
         secondaryButtonLabel: "Secondary CTA",
         secondaryButtonUrl: "/",
-      },
-      {
-        type: "formsg",
-        url: "https://form.gov.sg/6041e9f8bd47260012395250",
-        title: "Post ICT Survey",
       },
       {
         type: "infocards",
@@ -3055,7 +3048,7 @@ export const Image: Story = {
           {
             title: "Check if you are eligible",
             description:
-              "You must be a Singapore Citizen or Permanent Resident aged 21 and above.",
+              "You must be a citizen or permanent resident aged 21 and above.",
           },
           {
             title: "Prepare your documents",
@@ -3069,7 +3062,7 @@ export const Image: Story = {
             description:
               "Applications are submitted online and take about 15 minutes to complete.",
             buttonLabel: "Start your application",
-            buttonUrl: "https://form.gov.sg",
+            buttonUrl: "https://forms.example.com",
           },
           {
             title: "Wait for the outcome",
@@ -3222,11 +3215,6 @@ export const NoTable: Story = {
         },
       },
 
-      {
-        type: "map",
-        title: "Public AED locations",
-        url: "https://maps.gov.sg/scdf-aed",
-      },
       {
         type: "prose",
         content: [
@@ -3485,11 +3473,6 @@ export const NoTable: Story = {
             ],
           },
         ],
-      },
-      {
-        type: "map",
-        title: "Error map",
-        url: "https://maps.gov.sg/this-map-should-not-exist!",
       },
       {
         type: "image",
@@ -4738,236 +4721,6 @@ export const MultipleInfobars: Story = {
         type: "infobar",
         title: "Should have a gap above",
         description: "About a sentence worth of description here",
-      },
-    ],
-  },
-}
-
-const DgsUrl = generateDgsUrl({
-  resourceId: "PLACEHOLDER_RESOURCE_ID",
-  filters: {
-    headerKey1: "value1",
-    headerKey2: "value2",
-  },
-})
-
-export const DynamicComponentList: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        http.get(DgsUrl, () => {
-          return HttpResponse.json({
-            success: true,
-            result: {
-              records: [
-                {
-                  entity_name: "Sentosa",
-                  description: "Embassy of the Republic of Singapore - Algeria",
-                  methods: JSON.stringify([
-                    {
-                      method: "person",
-                      label: "Ambassador (Non-Resident)",
-                      values: ["Mr MOHAMMAD Alami Musa"],
-                    },
-                    {
-                      method: "address",
-                      label: "Chancery",
-                      values: ["c/o Ministry of Foreign Affairs"],
-                    },
-                    {
-                      method: "telephone",
-                      label: "Telephone",
-                      values: ["+65-63798000 (MFA)"],
-                    },
-                    {
-                      method: "fax",
-                      label: "Fax",
-                      values: ["+65-64747885 (MFA)"],
-                    },
-                    {
-                      method: "email",
-                      label: "Email",
-                      values: ["do-not-reply@isomer.gov.sg"],
-                    },
-                    {
-                      method: "website",
-                      label: "Website",
-                      values: ["https://www.isomer.gov.sg"],
-                    },
-                    {
-                      method: "operating_hours",
-                      label: "Operating Hours",
-                      values: ["8.30 am to 5.00 pm"],
-                    },
-                    {
-                      label: "Not Telegram",
-                      values: [
-                        "https://this-should-still-be-hyperlinked.isomer.gov.sg",
-                      ],
-                    },
-                  ]),
-                  other_information: JSON.stringify({
-                    label: "Other Information",
-                    value:
-                      "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@isomer.gov.sg. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.isomer.gov.sg'>cats and dogs matters</a>.",
-                  }),
-                },
-                {
-                  entity_name: "Sentosa 2",
-                  description:
-                    "Embassy of the Republic of Singapore - Algeria 2",
-                  methods: JSON.stringify([
-                    {
-                      method: "person",
-                      label: "Ambassador (Non-Resident) 2",
-                      values: ["Mr MOHAMMAD Alami Musa 2"],
-                    },
-                    {
-                      method: "address",
-                      label: "Chancery 2",
-                      values: ["c/o Ministry of Foreign Affairs 2"],
-                    },
-                    {
-                      method: "telephone",
-                      label: "Telephone",
-                      values: ["+65-63798000 (MFA)"],
-                    },
-                    {
-                      method: "fax",
-                      label: "Fax 2",
-                      values: ["+65-64747885 (MFA) 2"],
-                    },
-                    {
-                      method: "email",
-                      label: "Email 2",
-                      values: ["do-not-reply-2@isomer.gov.sg"],
-                    },
-                    {
-                      method: "website",
-                      label: "Website 2",
-                      values: ["https://www.isomer-2.gov.sg"],
-                    },
-                    {
-                      method: "operating_hours",
-                      label: "Operating Hours 2",
-                      values: ["8.30 am to 5.00 pm 2"],
-                    },
-                    {
-                      label: "Not Telegram 2",
-                      values: [
-                        "https://this-should-still-be-hyperlinked-2.isomer.gov.sg",
-                      ],
-                    },
-                  ]),
-                  other_information: JSON.stringify({
-                    label: "Other Information 2",
-                    value:
-                      "2 For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@isomer.gov.sg. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.isomer.gov.sg'>cats and dogs matters</a>.",
-                  }),
-                },
-              ],
-            },
-          })
-        }),
-      ],
-    },
-  },
-  args: {
-    layout: "content",
-    site: generateSiteConfig({}),
-    page: {
-      permalink: "/content",
-      title: "Content page",
-      lastModified: "2024-05-02T14:12:57.160Z",
-      contentPageHeader: {
-        showThumbnail: false,
-        summary:
-          "Steven Pinker's exploration of rationality delves into the intricacies of human cognition, shedding light on the mechanisms behind our decision-making processes. Through empirical research and insightful analysis, Pinker illuminates the rationality that underpins human behavior, challenging conventional wisdom and offering new perspectives on the rational mind.",
-        buttonLabel: "Submit a proposal",
-        buttonUrl: "/submit-proposal",
-      },
-    },
-    content: [
-      {
-        type: "dynamiccomponentlist",
-        dataSource: {
-          type: "dgs",
-          resourceId: "PLACEHOLDER_RESOURCE_ID",
-          filters: [
-            {
-              fieldKey: "headerKey1",
-              fieldValue: "value1",
-            },
-            {
-              fieldKey: "headerKey2",
-              fieldValue: "value2",
-            },
-          ],
-        },
-        component: {
-          type: "contactinformation",
-          title: "[dgs:entity_name]",
-          description: "[dgs:description]",
-          methods: "[dgs:methods]",
-          otherInformation: "[dgs:other_information]",
-        },
-      },
-    ],
-  },
-}
-
-export const DynamicComponentListLoading: Story = {
-  name: "DynamicComponentList (Loading)",
-  parameters: {
-    msw: {
-      handlers: [
-        http.get(DgsUrl, () => {
-          return new Promise(() => {
-            // Never resolve the promise
-          })
-        }),
-      ],
-    },
-  },
-  args: {
-    layout: "content",
-    site: generateSiteConfig({}),
-    page: {
-      permalink: "/content",
-      title: "Content page",
-      lastModified: "2024-05-02T14:12:57.160Z",
-      contentPageHeader: {
-        showThumbnail: false,
-        summary:
-          "Steven Pinker's exploration of rationality delves into the intricacies of human cognition, shedding light on the mechanisms behind our decision-making processes. Through empirical research and insightful analysis, Pinker illuminates the rationality that underpins human behavior, challenging conventional wisdom and offering new perspectives on the rational mind.",
-        buttonLabel: "Submit a proposal",
-        buttonUrl: "/submit-proposal",
-      },
-    },
-    content: [
-      {
-        type: "dynamiccomponentlist",
-        dataSource: {
-          type: "dgs",
-          resourceId: "PLACEHOLDER_RESOURCE_ID",
-          filters: [
-            {
-              fieldKey: "headerKey1",
-              fieldValue: "value1",
-            },
-            {
-              fieldKey: "headerKey2",
-              fieldValue: "value2",
-            },
-          ],
-        },
-        component: {
-          type: "contactinformation",
-          title: "[dgs:entity_name]",
-          description: "[dgs:description]",
-          methods: "[dgs:methods]",
-          otherInformation: "[dgs:other_information]",
-        },
       },
     ],
   },

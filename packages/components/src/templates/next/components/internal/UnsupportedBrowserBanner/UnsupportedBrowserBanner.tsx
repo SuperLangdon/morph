@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { BiInfoCircle } from "react-icons/bi"
 import { isSupportedBrowser } from "~/utils/isSupportedBrowser"
 
-// TODO: move this to a official isomer.gov.sg once we migrate that to Isomer Next
 const supportedBrowserDocumentLink =
   "https://github.com/opengovsg/isomer/blob/main/packages/components/browser-support.md"
 

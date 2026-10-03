@@ -21,17 +21,17 @@ describe("SiteEntitySettingsSchema", () => {
   it("accepts structured address and contact-point metadata", () => {
     expect(
       Value.Check(SiteEntitySettingsSchema, {
-        type: "GovernmentOrganization",
+        type: "NGO",
         address: {
           streetAddress: "1 Example Street",
-          addressLocality: "Singapore",
+          addressLocality: "Rivertown",
           postalCode: "123456",
-          addressCountry: "SG",
+          addressCountry: "US",
         },
         contactPoint: {
           contactType: "Customer service",
-          telephone: "+65 6123 4567",
-          email: "hello@example.gov.sg",
+          telephone: "+1 555 123 4567",
+          email: "hello@example.com",
         },
       }),
     ).toBe(true)

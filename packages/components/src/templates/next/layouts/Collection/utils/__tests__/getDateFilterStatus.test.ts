@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { DATE_FILTER_STATUS } from "~/types/constants"
-import { getSingaporeDateYYYYMMDD } from "~/utils/getSingaporeDate"
+import { getSiteDateYYYYMMDD } from "~/utils/getSiteDate"
 
 import { getDateFilterStatus } from "../getDateFilterStatus"
 
@@ -9,8 +9,8 @@ describe("getDateFilterStatus", () => {
 
   beforeEach(() => {
     vi.useFakeTimers()
-    // Noon Singapore time on the fixed "today" used by the cases below.
-    vi.setSystemTime(new Date(`${TODAY}T12:00:00+08:00`))
+    // Noon local time on the fixed "today" used by the cases below.
+    vi.setSystemTime(new Date(`${TODAY}T12:00:00`))
   })
 
   afterEach(() => {
@@ -65,11 +65,11 @@ describe("getDateFilterStatus", () => {
     ).toEqual(DATE_FILTER_STATUS.Ended.id)
   })
 
-  it("uses the current date in Asia/Singapore", () => {
+  it("uses the current date in the local timezone", () => {
     vi.useRealTimers()
-    const todayInSg = getSingaporeDateYYYYMMDD()
+    const todayLocal = getSiteDateYYYYMMDD()
 
-    expect(getDateFilterStatus({ date: todayInSg })).toEqual(
+    expect(getDateFilterStatus({ date: todayLocal })).toEqual(
       DATE_FILTER_STATUS.Ongoing.id,
     )
   })

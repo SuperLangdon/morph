@@ -28,7 +28,7 @@ export const Default: Story = {
     type: "contactinformation",
     title: "Sentosa",
     description:
-      "Embassy of the Republic of Singapore - Algeria<br>should NOT accept line break HTML tag",
+      "Embassy of a faraway land - Algeria<br>should NOT accept line break HTML tag",
     methods: [
       {
         method: "person",
@@ -39,7 +39,7 @@ export const Default: Story = {
         method: "address",
         label: "Address",
         values: [
-          "Permanent Mission of the Republic of Singapore",
+          "Permanent Mission of a faraway land",
           "Avenue du Pailly 10",
           "1219 Châtelaine, Geneva",
         ],
@@ -62,12 +62,12 @@ export const Default: Story = {
       {
         method: "email",
         label: "Email",
-        values: ["MFA_GVA_UN@mfa.gov.sg"],
+        values: ["MFA_GVA_UN@example.gov"],
       },
       {
         method: "website",
         label: "Website",
-        values: ["https://www.mfa.gov.sg/Geneva-UN"],
+        values: ["https://www.example.gov/Geneva-UN"],
       },
       {
         method: "operating_hours",
@@ -97,7 +97,7 @@ export const Default: Story = {
     otherInformation: {
       label: "This is a customized header of a Other Information field",
       value:
-        "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@isomer.gov.sg. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.isomer.gov.sg'>cats and dogs matters</a>.",
+        "For cats and dogs enquiries, please write to this-should-not-by-hyperlinked@example.com. Please note that the Isomer is the <b>bold authority</b> responsible for <a href='https://this-should-not-be-showup.example.com'>cats and dogs matters</a>.",
     },
     url: "/",
     label: "I can't even help myself",

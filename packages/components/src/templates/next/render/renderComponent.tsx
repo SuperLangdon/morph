@@ -5,7 +5,6 @@ import type {
 } from "~/types"
 
 import { Accordion } from "../components/complex/Accordion"
-import { AntiScamDisclaimerBanner } from "../components/complex/AntiScamDisclaimerBanner"
 import { Audio } from "../components/complex/Audio"
 import { Blockquote } from "../components/complex/Blockquote"
 import { Button } from "../components/complex/Button"
@@ -14,9 +13,7 @@ import { ChildrenPages } from "../components/complex/ChildrenPages"
 import { CollectionBlock } from "../components/complex/CollectionBlock"
 import { ContactInformation } from "../components/complex/ContactInformation"
 import { Contentpic } from "../components/complex/Contentpic"
-import { DynamicComponentList } from "../components/complex/DynamicComponentList"
 import { DynamicDataBanner } from "../components/complex/DynamicDataBanner"
-import { FormSG } from "../components/complex/FormSG"
 import { Hero } from "../components/complex/Hero"
 import { Iframe } from "../components/complex/Iframe"
 import { Image } from "../components/complex/Image"
@@ -27,7 +24,6 @@ import { InfoCols } from "../components/complex/InfoCols"
 import { Infopic } from "../components/complex/Infopic"
 import { KeyStatistics } from "../components/complex/KeyStatistics"
 import { LogoCloud } from "../components/complex/LogoCloud"
-import { Map } from "../components/complex/Map"
 import { Steps } from "../components/complex/Steps"
 import { Video } from "../components/complex/Video"
 import { Prose } from "../components/native/Prose"
@@ -52,10 +48,6 @@ export const renderComponent = ({
       return <LogoCloud key={elementKey} {...component} {...rest} />
     case "accordion":
       return <Accordion key={elementKey} {...component} {...rest} />
-    case "antiscambanner":
-      return (
-        <AntiScamDisclaimerBanner key={elementKey} {...component} {...rest} />
-      )
     case "blockquote":
       return <Blockquote key={elementKey} {...component} {...rest} />
     case "button":
@@ -64,8 +56,6 @@ export const renderComponent = ({
       return <Callout key={elementKey} {...component} {...rest} />
     case "contentpic":
       return <Contentpic key={elementKey} {...component} {...rest} />
-    case "formsg":
-      return <FormSG key={elementKey} {...component} {...rest} />
     case "hero":
       return <Hero key={elementKey} {...component} {...rest} />
     case "iframe":
@@ -84,8 +74,6 @@ export const renderComponent = ({
       return <KeyStatistics key={elementKey} {...component} {...rest} />
     case "steps":
       return <Steps key={elementKey} {...component} {...rest} />
-    case "map":
-      return <Map key={elementKey} {...component} {...rest} />
     case "childrenpages":
       return <ChildrenPages key={elementKey} {...component} {...rest} />
     case "prose":
@@ -110,8 +98,6 @@ export const renderComponent = ({
       return <ImageGallery key={elementKey} {...component} {...rest} />
     case "contactinformation":
       return <ContactInformation key={elementKey} {...component} {...rest} />
-    case "dynamiccomponentlist":
-      return <DynamicComponentList key={elementKey} {...component} {...rest} />
     default:
       const _: never = component
       return <></>

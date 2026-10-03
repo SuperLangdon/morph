@@ -48,14 +48,14 @@ describe("Link", () => {
   it("hides the decorative external icon from the accessible name", () => {
     // Arrange
     const { getByRole } = render(
-      <Link href="https://www.scamshield.gov.sg" isExternal showExternalIcon>
-        ScamShield
+      <Link href="https://www.example.com" isExternal showExternalIcon>
+        An external site
       </Link>,
     )
 
     // Act
     const link = getByRole("link", {
-      name: "ScamShield (opens in new tab)",
+      name: "An external site (opens in new tab)",
     })
     const externalIcon = link.querySelector('[aria-hidden="true"]')
 

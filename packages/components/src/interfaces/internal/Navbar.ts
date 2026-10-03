@@ -6,7 +6,6 @@ import { LINK_HREF_PATTERN } from "~/utils/validation"
 
 import type { ImageClientProps } from "./Image"
 import type { LocalSearchProps } from "./LocalSearchInputBox"
-import type { NavbarSearchSGInputBoxProps } from "./SearchSGInputBox"
 
 const NavbarItemSchema = Type.Object({
   name: Type.String({
@@ -147,7 +146,7 @@ export type NavbarSchemaType = Static<typeof NavbarSchema>
 
 type BaseNavbarProps = NavbarSchemaType & {
   layout: IsomerPageLayoutType
-  search?: LocalSearchProps | NavbarSearchSGInputBoxProps
+  search?: LocalSearchProps
 }
 
 export type NavbarProps = BaseNavbarProps & {

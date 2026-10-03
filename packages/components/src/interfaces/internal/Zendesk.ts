@@ -1,7 +1,7 @@
 import type { Static } from "@sinclair/typebox"
 import { Type } from "@sinclair/typebox"
 
-// Unlike askgov and vica, zendesk is a custom integration for a single site
+// zendesk is a custom integration for a single site
 // and should NOT be exposed as an editable option in apps/studio.
 // format: "hidden" ensures the JSON Forms widget tester in studio does not pick this up.
 export const ZendeskSchema = Type.Object(

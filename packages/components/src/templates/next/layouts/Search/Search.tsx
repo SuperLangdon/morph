@@ -1,23 +1,11 @@
 import { type SearchPageSchemaType } from "~/types"
 
 import { Skeleton } from "../Skeleton"
-import { EgazetteAlgoliaSearch } from "./EgazetteAlgoliaSearch"
-import { SearchSG } from "./SearchSG"
 
 export const SearchLayout = ({ site, page, layout }: SearchPageSchemaType) => {
-  const clientId =
-    (site.search?.type === "searchSG" && site.search.clientId) || ""
-
   return (
     <Skeleton site={site} page={page} layout={layout}>
-      {/* SearchSG-powered search */}
-      {site.search?.type === "searchSG" && clientId && (
-        <SearchSG clientId={clientId} />
-      )}
-      {/* Algolia-powered egazette search */}
-      {site.search?.type === "egazette-algolia" && (
-        <EgazetteAlgoliaSearch config={site.search} />
-      )}
+      {/* Search results are rendered by the configured search provider. */}
     </Skeleton>
   )
 }

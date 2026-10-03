@@ -20,11 +20,6 @@ export type { HeaderProps } from "./Header"
 export type { LinkProps } from "./Link"
 export { LocalSearchSchema, type LocalSearchProps } from "./LocalSearchInputBox"
 export {
-  EgazetteAlgoliaSearchSchema,
-  type EgazetteAlgoliaSearchProps,
-} from "./EgazetteAlgoliaSearchInputBox"
-export type { MastheadProps } from "./Masthead"
-export {
   NavbarSchema,
   NavbarAddonsSchema,
   NavbarItemsSchema,
@@ -39,23 +34,9 @@ export {
   type NotificationClientProps,
 } from "./Notification"
 export type { SearchProps } from "./Search"
-export {
-  SearchSGSearchSchema,
-  type SearchSGInputBoxProps,
-  type NavbarSearchSGInputBoxProps,
-  type HomepageSearchSGInputBoxProps,
-} from "./SearchSGInputBox"
 export type { SidePaneProps } from "./SidePane"
 export type { SiderailProps } from "./Siderail"
 export type { TableOfContentsProps } from "./TableOfContents"
-export type { WogaaProps } from "./Wogaa"
-export {
-  VicaSchema,
-  type VicaWidgetClientProps,
-  type VicaWidgetProps,
-  type VicaProps,
-  type VicaStylesheetProps,
-} from "./Vica"
 export type {
   GoogleTagManagerHeaderProps,
   GoogleTagManagerBodyProps,
@@ -63,21 +44,14 @@ export type {
 export type { MicrosoftClarityProps } from "./MicrosoftClarity"
 export type { AttrsDirProps } from "./AttrsDir"
 export {
-  AskgovSchema,
-  type AskgovWidgetProps,
-  type AskgovProps,
-} from "./Askgov"
-export {
   ZendeskSchema,
   type ZendeskWidgetProps,
   type ZendeskProps,
 } from "./Zendesk"
 export type { ImageClientProps } from "./Image"
-export type { PolyglotProps } from "./Polyglot"
 export {
   SearchableTableSchema,
   type SearchableTableProps,
   type SearchableTableClientProps,
   type NativeSearchableTableProps,
-  type DGSSearchableTableProps,
 } from "./SearchableTable"

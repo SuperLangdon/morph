@@ -53,7 +53,7 @@ export const TitleAndDescription: Story = {
                 {
                   type: "link",
                   attrs: {
-                    href: "https://open.gov.sg/",
+                    href: "https://open.example.com/",
                     target: "_blank",
                   },
                 },
@@ -114,7 +114,7 @@ export const LongContent: Story = {
                 {
                   type: "link",
                   attrs: {
-                    href: "https://open.gov.sg/",
+                    href: "https://open.example.com/",
                     target: "_blank",
                   },
                 },

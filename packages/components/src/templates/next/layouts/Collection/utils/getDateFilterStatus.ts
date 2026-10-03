@@ -1,18 +1,18 @@
 import { DATE_FILTER_STATUS, type DateFilterStatusId } from "~/types/constants"
-import { getSingaporeDateYYYYMMDD } from "~/utils/getSingaporeDate"
+import { getSiteDateYYYYMMDD } from "~/utils/getSiteDate"
 
 interface DateFilterValue {
   date: string
   endDate?: string
 }
 
-// Compares "yyyy-MM-dd" strings against today in Asia/Singapore.
+// Compares "yyyy-MM-dd" strings against today in the local timezone.
 // Inclusive range: upcoming | ongoing | ended (no `endDate` = single-day range).
 export const getDateFilterStatus = ({
   date,
   endDate,
 }: DateFilterValue): DateFilterStatusId => {
-  const today = getSingaporeDateYYYYMMDD()
+  const today = getSiteDateYYYYMMDD()
   const end = endDate ?? date
 
   if (today < date) {

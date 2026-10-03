@@ -13,7 +13,6 @@ import { focusVisibleHighlight } from "~/utils/tailwind"
 import { Link } from "../../Link"
 import { LinkButton } from "../../LinkButton/LinkButton"
 import { LocalSearchInputBox } from "../../LocalSearchInputBox"
-import { NavbarSearchSGInputBox } from "../../SearchSGInputBox"
 import { MobileNavItemAccordion } from "./MobileNavItemAccordion"
 
 type MobileNavMenuProps = Omit<
@@ -62,9 +61,6 @@ export const MobileNavMenu = forwardRef<HTMLDivElement, MobileNavMenuProps>(
               <div className="border-y border-b-base-divider-subtle bg-base-canvas-alt px-6 py-3">
                 {search.type === "localSearch" && (
                   <LocalSearchInputBox searchUrl={search.searchUrl} />
-                )}
-                {search.type === "searchSG" && (
-                  <NavbarSearchSGInputBox clientId={search.clientId} isOpen />
                 )}
               </div>
             )}

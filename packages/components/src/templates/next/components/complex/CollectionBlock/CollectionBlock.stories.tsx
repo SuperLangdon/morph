@@ -134,7 +134,7 @@ const generateArgs = ({
             permalink: "/collection-1",
             layout: "collection",
             summary:
-              "Clarifying widespread or common misperceptions of Government policy, or inaccurate assertions on matters of public concern that can harm Singapore's social fabric.",
+              "Clarifying widespread or common misperceptions of official policy, or inaccurate assertions on matters of public concern.",
             lastModified: "2021-01-01",
             children: cards.slice(0, numberOfCards),
             collectionPagePageProps: {
