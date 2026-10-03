@@ -7,8 +7,6 @@ import {
 import { setupUser, setUpWhitelist } from "tests/integration/helpers/seed"
 import { describe, expect, it, vi } from "vitest"
 import { env } from "~/env.mjs"
-import * as mailService from "~/features/mail/service"
-import * as growthbookLib from "~/lib/growthbook"
 import * as mailLib from "~/lib/mail"
 import { AuditLogEvent, db } from "~/server/modules/database"
 import { prisma } from "~/server/prisma"
@@ -103,340 +101,142 @@ describe("auth.email", () => {
     const INVALID_OTP = "987643"
     const TEST_OTP_FINGERPRINT = getIpFingerprint(TEST_VALID_EMAIL, LOCALHOST)
 
-    describe("when singpass is not enabled", () => {
-      beforeEach(() => {
-        vi.spyOn(growthbookLib, "getIsSingpassEnabled").mockReturnValue(false)
-        vi.spyOn(
-          growthbookLib,
-          "getIsSingpassDisabledInNonPreview",
-        ).mockReturnValue(true)
-        caller = createCaller(createMockRequest(session))
+    it("should successfully set session on first valid OTP", async () => {
+      // Arrange
+      await setupUser({ email: TEST_VALID_EMAIL })
+      await prisma.verificationToken.create({
+        data: {
+          expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
+          identifier: TEST_OTP_FINGERPRINT,
+          token: VALID_TOKEN_HASH,
+        },
       })
 
-      afterEach(() => {
-        vi.restoreAllMocks()
+      // Act
+      const result = caller.verifyOtp({
+        email: TEST_VALID_EMAIL,
+        token: VALID_OTP,
       })
 
-      it("should successfully set session on first valid OTP", async () => {
-        // Arrange
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
+      // Assert
+      const expectedUser = {
+        id: expect.any(String),
+        email: TEST_VALID_EMAIL,
+      }
+      // Should return logged in user.
+      await expect(result).resolves.toMatchObject(expectedUser)
 
-        // Act
-        const result = caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
+      // Session should have been set with logged in user.
+      expect(session.userId).toEqual(expectedUser.id)
 
-        // Assert
-        const expectedUser = {
-          id: expect.any(String),
-          email: TEST_VALID_EMAIL,
-        }
-        // Should return logged in user.
-        await expect(result).resolves.toMatchObject(expectedUser)
-
-        // Session should have been set with logged in user.
-        expect(session.userId).toEqual(expectedUser.id)
-
-        // Audit log should have been created.
-        const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
-        expect(auditLogs).toHaveLength(1)
-        expect(auditLogs[0]?.eventType).toBe(AuditLogEvent.Login)
-        expect(auditLogs[0]?.delta.before!.attempts).toBe(1)
-      })
-
-      it("should successfully set session on a subsequent valid OTP", async () => {
-        // Arrange
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        await expect(
-          caller.verifyOtp({
-            email: TEST_VALID_EMAIL,
-            token: INVALID_OTP,
-          }),
-        ).rejects.toThrow()
-
-        const result = caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const expectedUser = {
-          id: expect.any(String),
-          email: TEST_VALID_EMAIL,
-        }
-        // Should return logged in user.
-        await expect(result).resolves.toMatchObject(expectedUser)
-        // Session should have been set with logged in user.
-        expect(session.userId).toEqual(expectedUser.id)
-        // Audit log should have been created.
-        const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
-        expect(auditLogs).toHaveLength(1)
-        expect(auditLogs[0]?.eventType).toBe(AuditLogEvent.Login)
-        expect(auditLogs[0]?.delta.before!.attempts).toBe(2)
-      })
-
-      it("should set lastLoginAt when creating a new user", async () => {
-        // Arrange
-        const beforeLogin = new Date()
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const user = await prisma.user.findFirst({
-          where: { email: TEST_VALID_EMAIL },
-        })
-        expect(user?.lastLoginAt).toBeInstanceOf(Date)
-        expect(user?.lastLoginAt!.getTime()).toBeGreaterThan(
-          beforeLogin.getTime(),
-        )
-      })
-
-      it("should update lastLoginAt when user logs in", async () => {
-        // Arrange
-        const beforeLogin = new Date()
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-        // Create user first
-        await prisma.user.create({
-          data: {
-            email: TEST_VALID_EMAIL,
-            name: "Test User",
-            phone: "",
-            lastLoginAt: null,
-          },
-        })
-
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const user = await prisma.user.findFirst({
-          where: { email: TEST_VALID_EMAIL },
-        })
-        expect(user?.lastLoginAt).toBeInstanceOf(Date)
-        expect(user?.lastLoginAt!.getTime()).toBeGreaterThan(
-          beforeLogin.getTime(),
-        )
-      })
-
-      it("should send login alert email", async () => {
-        // Arrange
-        const alertSpy = vi
-          .spyOn(mailService, "sendLoginAlertEmail")
-          .mockResolvedValue()
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        expect(alertSpy).toHaveBeenCalledWith({
-          recipientEmail: TEST_VALID_EMAIL,
-        })
-      })
+      // Audit log should have been created.
+      const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
+      expect(auditLogs).toHaveLength(1)
+      expect(auditLogs[0]?.eventType).toBe(AuditLogEvent.Login)
+      expect(auditLogs[0]?.delta.before!.attempts).toBe(1)
     })
 
-    describe("when singpass is enabled", () => {
-      it("should successfully set session on first valid OTP", async () => {
-        // Arrange
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        const result = caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const expectedUser = {
-          id: expect.any(String),
-          email: TEST_VALID_EMAIL,
-        }
-        // Should return logged in user.
-        await expect(result).resolves.toMatchObject(expectedUser)
-
-        // Session (singpass) should have been set with logged in user.
-        expect(session.singpass?.sessionState?.userId).toEqual(expectedUser.id)
-
-        // Audit log should not have been created yet
-        const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
-        expect(auditLogs).toHaveLength(0)
+    it("should successfully set session on a subsequent valid OTP", async () => {
+      // Arrange
+      await setupUser({ email: TEST_VALID_EMAIL })
+      await prisma.verificationToken.create({
+        data: {
+          expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
+          identifier: TEST_OTP_FINGERPRINT,
+          token: VALID_TOKEN_HASH,
+        },
       })
 
-      it("should successfully set session on a subsequent valid OTP", async () => {
-        // Arrange
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        await expect(
-          caller.verifyOtp({
-            email: TEST_VALID_EMAIL,
-            token: INVALID_OTP,
-          }),
-        ).rejects.toThrow()
-
-        const result = caller.verifyOtp({
+      // Act
+      await expect(
+        caller.verifyOtp({
           email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
+          token: INVALID_OTP,
+        }),
+      ).rejects.toThrow()
 
-        // Assert
-        const expectedUser = {
-          id: expect.any(String),
-          email: TEST_VALID_EMAIL,
-        }
-        // Should return logged in user.
-        await expect(result).resolves.toMatchObject(expectedUser)
-
-        // Session (singpass) should have been set with logged in user.
-        expect(session.singpass?.sessionState?.userId).toEqual(expectedUser.id)
-
-        // Audit log should not have been created yet
-        const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
-        expect(auditLogs).toHaveLength(0)
+      const result = caller.verifyOtp({
+        email: TEST_VALID_EMAIL,
+        token: VALID_OTP,
       })
 
-      // Note: It's updated in Singpass's callback.
-      it("should not set lastLoginAt when creating a new user", async () => {
-        // Arrange
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
+      // Assert
+      const expectedUser = {
+        id: expect.any(String),
+        email: TEST_VALID_EMAIL,
+      }
+      // Should return logged in user.
+      await expect(result).resolves.toMatchObject(expectedUser)
+      // Session should have been set with logged in user.
+      expect(session.userId).toEqual(expectedUser.id)
+      // Audit log should have been created.
+      const auditLogs = await db.selectFrom("AuditLog").selectAll().execute()
+      expect(auditLogs).toHaveLength(1)
+      expect(auditLogs[0]?.eventType).toBe(AuditLogEvent.Login)
+      expect(auditLogs[0]?.delta.before!.attempts).toBe(2)
+    })
 
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const user = await prisma.user.findFirst({
-          where: { email: TEST_VALID_EMAIL },
-        })
-        expect(user?.lastLoginAt).toBeNull()
+    it("should set lastLoginAt when creating a new user", async () => {
+      // Arrange
+      const beforeLogin = new Date()
+      await prisma.verificationToken.create({
+        data: {
+          expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
+          identifier: TEST_OTP_FINGERPRINT,
+          token: VALID_TOKEN_HASH,
+        },
       })
 
-      // Note: It's updated in Singpass's callback.
-      it("should not update lastLoginAt when user logs in", async () => {
-        // Arrange
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-        // Create user first
-        await prisma.user.create({
-          data: {
-            email: TEST_VALID_EMAIL,
-            name: "Test User",
-            phone: "",
-            lastLoginAt: null,
-          },
-        })
-
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        const user = await prisma.user.findFirst({
-          where: { email: TEST_VALID_EMAIL },
-        })
-        expect(user?.lastLoginAt).toBeNull()
+      // Act
+      await caller.verifyOtp({
+        email: TEST_VALID_EMAIL,
+        token: VALID_OTP,
       })
 
-      // Note: it's only sent in singpass downtime
-      it("should not send login alert email", async () => {
-        // Arrange
-        const alertSpy = vi
-          .spyOn(mailService, "sendLoginAlertEmail")
-          .mockResolvedValue()
-        await setupUser({ email: TEST_VALID_EMAIL })
-        await prisma.verificationToken.create({
-          data: {
-            expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
-            identifier: TEST_OTP_FINGERPRINT,
-            token: VALID_TOKEN_HASH,
-          },
-        })
-
-        // Act
-        await caller.verifyOtp({
-          email: TEST_VALID_EMAIL,
-          token: VALID_OTP,
-        })
-
-        // Assert
-        expect(alertSpy).not.toHaveBeenCalled()
+      // Assert
+      const user = await prisma.user.findFirst({
+        where: { email: TEST_VALID_EMAIL },
       })
+      expect(user?.lastLoginAt).toBeInstanceOf(Date)
+      expect(user?.lastLoginAt!.getTime()).toBeGreaterThan(
+        beforeLogin.getTime(),
+      )
+    })
+
+    it("should update lastLoginAt when user logs in", async () => {
+      // Arrange
+      const beforeLogin = new Date()
+      await prisma.verificationToken.create({
+        data: {
+          expires: new Date(Date.now() + env.OTP_EXPIRY * 1000),
+          identifier: TEST_OTP_FINGERPRINT,
+          token: VALID_TOKEN_HASH,
+        },
+      })
+      // Create user first
+      await prisma.user.create({
+        data: {
+          email: TEST_VALID_EMAIL,
+          name: "Test User",
+          phone: "",
+          lastLoginAt: null,
+        },
+      })
+
+      // Act
+      await caller.verifyOtp({
+        email: TEST_VALID_EMAIL,
+        token: VALID_OTP,
+      })
+
+      // Assert
+      const user = await prisma.user.findFirst({
+        where: { email: TEST_VALID_EMAIL },
+      })
+      expect(user?.lastLoginAt).toBeInstanceOf(Date)
+      expect(user?.lastLoginAt!.getTime()).toBeGreaterThan(
+        beforeLogin.getTime(),
+      )
     })
 
     it("should throw 400 if OTP is not found", async () => {

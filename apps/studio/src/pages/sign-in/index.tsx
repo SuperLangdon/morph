@@ -1,5 +1,4 @@
 import { Flex } from "@chakra-ui/react"
-import { RestrictedGovtMasthead } from "@opengovsg/design-system-react"
 import { PublicPageWrapper } from "~/components/AuthWrappers"
 import { LandingLinks } from "~/components/LandingLinks"
 import { RestrictedMiniFooter } from "~/components/RestrictedMiniFooter"
@@ -19,7 +18,6 @@ const SignIn: NextPageWithLayout = () => {
   return (
     <PublicPageWrapper strict>
       <Flex w="100%" flexDir="column" h="inherit" minH="$100vh">
-        <RestrictedGovtMasthead />
         <BaseGridLayout flex={1}>
           <NonMobileSidebarGridArea>
             <LoginImageSvgr aria-hidden />

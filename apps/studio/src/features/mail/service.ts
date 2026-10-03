@@ -16,9 +16,6 @@ import type {
   FailedUnpublishTemplateData,
   GazetteDeletionEmailTemplateData,
   InvitationEmailTemplateData,
-  LoginAlertEmailTemplateData,
-  PublishAlertContentPublisherEmailTemplateData,
-  PublishAlertSiteAdminEmailTemplateData,
   SchedulePageTemplateData,
   ScheduleUnpublishTemplateData,
   SiteUpdateFailedTemplateData,
@@ -81,16 +78,6 @@ export async function sendInvitation(
     data,
     template: templates.invitation(data),
     emailType: "invitation",
-  })
-}
-
-export async function sendLoginAlertEmail(
-  data: LoginAlertEmailTemplateData,
-): Promise<void> {
-  await sendEmailWithTemplate({
-    data,
-    template: templates.loginAlert(data),
-    emailType: "login alert",
   })
 }
 
@@ -181,26 +168,6 @@ export async function sendSiteUpdateFailedEmail(
     data,
     template: templates.siteUpdateFailed(data),
     emailType: "site update failed",
-  })
-}
-
-export async function sendPublishAlertContentPublisherEmail(
-  data: PublishAlertContentPublisherEmailTemplateData,
-): Promise<void> {
-  await sendEmailWithTemplate({
-    data,
-    template: templates.publishAlertContentPublisher(data),
-    emailType: "publish alert content publisher",
-  })
-}
-
-export async function sendPublishAlertSiteAdminEmail(
-  data: PublishAlertSiteAdminEmailTemplateData,
-): Promise<void> {
-  await sendEmailWithTemplate({
-    data,
-    template: templates.publishAlertSiteAdmin(data),
-    emailType: "publish alert site admin",
   })
 }
 

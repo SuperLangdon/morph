@@ -53,7 +53,7 @@ Never write your own auth middleware in a router. If you need a new auth shape, 
 ### Rate limiting via meta
 
 - Attach rate limits with `.meta({ rateLimitOptions: ... })` on the procedure. The `rateLimitMiddleware` in `trpc.ts` reads this.
-- Anything user-input-triggered that hits an external service (email, S3, Singpass) must have a rate limit.
+- Anything user-input-triggered that hits an external service (email, S3) must have a rate limit.
 
 ### Errors
 

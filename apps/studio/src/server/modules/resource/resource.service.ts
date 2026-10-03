@@ -2061,7 +2061,6 @@ interface PublishPageResourceArgs {
     enableCodebuildJobs: boolean
     isScheduled: boolean
   }
-  isSingpassEnabled?: boolean
 }
 
 export const publishPageResource = async ({

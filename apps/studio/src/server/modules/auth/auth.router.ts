@@ -6,11 +6,9 @@ import { AuditLogEvent } from "~prisma/generated/generatedEnums"
 import { logAuthEvent } from "../audit/audit.service"
 import { db } from "../database"
 import { emailSessionRouter } from "./email/email.router"
-import { singpassRouter } from "./singpass/singpass.router"
 
 export const authRouter = router({
   email: emailSessionRouter,
-  singpass: singpassRouter,
   logout: publicProcedure.mutation(async ({ ctx }) => {
     const { userId } = ctx.session
     ctx.session.destroy()

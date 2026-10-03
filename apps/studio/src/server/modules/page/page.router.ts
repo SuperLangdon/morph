@@ -23,7 +23,6 @@ import {
 } from "~/features/mail/service"
 import {
   ENABLE_CODEBUILD_JOBS,
-  getIsSingpassDisabledInNonPreview,
   IS_UNPUBLISH_ENABLED_FEATURE_KEY,
 } from "~/lib/growthbook"
 import {
@@ -55,7 +54,6 @@ import {
 } from "~prisma/generated/generatedEnums"
 
 import { logResourceEvent } from "../audit/audit.service"
-import { alertPublishWhenSingpassDisabled } from "../auth/email/email.service"
 import { db, jsonb, sql } from "../database"
 import { PG_ERROR_CODES } from "../database/constants"
 import { bulkValidateUserPermissionsForResources } from "../permissions/permissions.service"
@@ -671,15 +669,6 @@ export const pageRouter = router({
             enableCodebuildJobs: gb.isOn(ENABLE_CODEBUILD_JOBS),
           },
         })
-        // Send publish alert emails to all site admins minus the current user if Singpass has been disabled
-        if (getIsSingpassDisabledInNonPreview({ gb })) {
-          await alertPublishWhenSingpassDisabled({
-            siteId,
-            resourceId: String(pageId),
-            publisherId: user.id,
-            publisherEmail: user.email,
-          })
-        }
       },
     ),
 

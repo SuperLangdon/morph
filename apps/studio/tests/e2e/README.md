@@ -16,7 +16,7 @@
 
 ## Why storage-state, not per-test login
 
-OTP + Mockpass adds ~4s per login. Without storage state, a 10-test suite spends 40s on auth alone. Global-setup signs in each role once at startup; tests reuse cookies via `test.use({ storageState: storageStateFor("admin") })`.
+OTP login adds a few seconds per login. Without storage state, a 10-test suite spends 40s on auth alone. Global-setup signs in each role once at startup; tests reuse cookies via `test.use({ storageState: storageStateFor("admin") })`.
 
 ## Why we still keep integration tests
 
@@ -24,7 +24,7 @@ E2E covers user-visible behavior. Integration tests cover server-side correctnes
 
 ## Known footguns
 
-- **`singpass.test.ts`'s `beforeEach` blanks every user's `name`/`phone`/`singpassUuid`** in the shared test DB. Because tests share a database, a suite that runs after it sees blanked profiles. Tests that need a non-empty profile (to skip the welcome modal) must re-populate it in their own `beforeEach`. See `site/settings-agency.test.ts` for the pattern.
+- **Tests share one database.** A suite that blanks user profiles (e.g. `name`/`phone`) affects suites that run after it. Tests that need a non-empty profile (to skip the welcome modal) must re-populate it in their own `beforeEach`. See `site/settings-agency.test.ts` for the pattern.
 - **`storage-state/` is gitignored but persists across local runs**. If you switch your local DB target away from the test DB, delete the cookie jars before running again: `rm apps/studio/tests/e2e/storage-state/*.json` (the `.gitignore` is preserved).
 
 ## Open follow-ups

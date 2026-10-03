@@ -7,7 +7,7 @@ This folder is the single source of truth for **input schemas shared between the
 - One file per domain area (`page.ts`, `resource.ts`, `site.ts`, `user.ts`, …).
 - Shared primitives in `common.ts` (e.g. permalink generators, common string constraints).
 - Pagination and webhook schemas (`pagination.ts`, `webhook.ts`).
-- The `auth/` subfolder for login and Singpass flows.
+- The `auth/` subfolder for login flows.
 - Tests under `__tests__/`.
 
 ## What does _not_ belong here

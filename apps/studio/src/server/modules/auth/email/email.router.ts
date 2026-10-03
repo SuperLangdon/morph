@@ -1,13 +1,8 @@
 import type { SessionData } from "~/lib/types/session"
 import type { GrowthbookAttributes } from "~/types/growthbook"
 import { TRPCError } from "@trpc/server"
-import { pick, set } from "lodash-es"
+import { pick } from "lodash-es"
 import { env } from "~/env.mjs"
-import { sendLoginAlertEmail } from "~/features/mail/service"
-import {
-  getIsSingpassDisabledInNonPreview,
-  getIsSingpassEnabled,
-} from "~/lib/growthbook"
 import { sendMail } from "~/lib/mail"
 import {
   emailSignInSchema,
@@ -167,46 +162,21 @@ export const emailSessionRouter = router({
 
       await ctx.gb.setAttributes(newAttributes)
 
-      const isSingpassEnabled = getIsSingpassEnabled({ gb: ctx.gb })
-
-      if (!isSingpassEnabled) {
-        const user = await db.transaction().execute(async (tx) => {
-          const user = await upsertUser({
-            tx,
-            email,
-          })
-
-          const userId = user.id as NonNullable<SessionData["userId"]>
-
-          await recordUserLogin({
-            tx,
-            userId,
-            verificationToken: oldVerificationToken,
-          })
-
-          ctx.session.userId = userId
-          await ctx.session.save()
-          return pick(user, defaultUserSelect)
-        })
-
-        if (getIsSingpassDisabledInNonPreview({ gb: ctx.gb })) {
-          await sendLoginAlertEmail({ recipientEmail: email })
-        }
-
-        return user
-      }
-
       return db.transaction().execute(async (tx) => {
         const user = await upsertUser({
           tx,
           email,
         })
 
-        ctx.session.destroy()
-        set(ctx.session, "singpass.sessionState", {
-          userId: user.id,
+        const userId = user.id as NonNullable<SessionData["userId"]>
+
+        await recordUserLogin({
+          tx,
+          userId,
           verificationToken: oldVerificationToken,
         })
+
+        ctx.session.userId = userId
         await ctx.session.save()
         return pick(user, defaultUserSelect)
       })

@@ -18,10 +18,8 @@ import { Controller } from "react-hook-form"
 import { useInterval } from "usehooks-ts"
 import { CALLBACK_URL_KEY } from "~/constants/params"
 import { useLoginState } from "~/features/auth"
-import { useIsSingpassEnabled } from "~/hooks/useIsSingpassEnabled"
 import { OTP_LENGTH } from "~/lib/auth"
 import { useZodForm } from "~/lib/form"
-import { SIGN_IN_SINGPASS } from "~/lib/routes"
 import { emailVerifyOtpSchema } from "~/schemas/auth/email/sign-in"
 import { callbackUrlSchema } from "~/schemas/url"
 import { trpc } from "~/utils/trpc"
@@ -36,8 +34,6 @@ export const VerificationInput = (): JSX.Element | null => {
   const utils = trpc.useUtils()
 
   const { vfnStepData, timer, setVfnStepData, resetTimer } = useSignInContext()
-
-  const { isSingpassEnabled } = useIsSingpassEnabled()
 
   useInterval(
     () => setShowOtpDelayMessage(true),
@@ -62,18 +58,12 @@ export const VerificationInput = (): JSX.Element | null => {
 
   const verifyOtpMutation = trpc.auth.email.verifyOtp.useMutation({
     onSuccess: async () => {
-      if (isSingpassEnabled) {
-        await router.push(SIGN_IN_SINGPASS)
-      } else {
-        posthog.capture("user_logged_in", { method: "email" })
-        setHasLoginStateFlag()
-        await utils.me.get.invalidate()
-        // accessing router.query values returns decoded URI params automatically,
-        // so there's no need to call decodeURIComponent manually when accessing the callback url.
-        await router.push(
-          callbackUrlSchema.parse(router.query[CALLBACK_URL_KEY]),
-        )
-      }
+      posthog.capture("user_logged_in", { method: "email" })
+      setHasLoginStateFlag()
+      await utils.me.get.invalidate()
+      // accessing router.query values returns decoded URI params automatically,
+      // so there's no need to call decodeURIComponent manually when accessing the callback url.
+      await router.push(callbackUrlSchema.parse(router.query[CALLBACK_URL_KEY]))
     },
     onError: (error) => {
       switch (error.message) {
@@ -173,8 +163,7 @@ export const VerificationInput = (): JSX.Element | null => {
           </Button>
           {showOtpDelayMessage && (
             <Infobox size="sm">
-              OTP might be delayed due to government email traffic. Try again
-              later.
+              OTP delivery might be delayed. Try again later.
             </Infobox>
           )}
           <ResendOtpButton

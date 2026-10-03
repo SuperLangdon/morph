@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const SYSTEM_USER_EMAIL = "system@isomer.gov.sg"
+const SYSTEM_USER_EMAIL = "system@example.com"
 
 const s3Schema = z.object({
   NEXT_PUBLIC_S3_REGION: z.string().default("us-east-1"),
@@ -37,12 +37,6 @@ const client = z
       "uat",
       "preview",
     ]),
-    // WARNING: Setting this bypasses SingPass login entirely. For preview
-    // environments only — never set in staging or production.
-    NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS: z
-      .stringbool()
-      .optional()
-      .default(false),
     NEXT_PUBLIC_APP_URL: z.string().url().optional(),
     NEXT_PUBLIC_APP_NAME: z.string().default("Isomer Studio"),
     NEXT_PUBLIC_APP_VERSION: z.string().default("0.0.0"),
@@ -54,16 +48,6 @@ const client = z
   })
   .extend(s3Schema.shape)
   .extend(cronHeartbeatSchema.shape)
-
-const singpassSchema = z.object({
-  SINGPASS_CLIENT_ID: z.string().min(1),
-  SINGPASS_ISSUER_ENDPOINT: z.string().url().min(1),
-  SINGPASS_REDIRECT_URI: z.string().url().optional(),
-  SINGPASS_ENCRYPTION_PRIVATE_KEY: z.string().min(1),
-  SINGPASS_ENCRYPTION_KEY_ALG: z.string().min(1).default("ECDH-ES+A256KW"),
-  SINGPASS_SIGNING_PRIVATE_KEY: z.string().min(1),
-  SINGPASS_SIGNING_KEY_ALG: z.string().min(1).default("ES512"),
-})
 
 /**
  * Specify your server-side environment variables schema here. This way you can ensure the app isn't
@@ -96,7 +80,6 @@ const server = z
   })
   .extend(s3Schema.shape)
   .extend(r2Schema.shape)
-  .extend(singpassSchema.shape)
   .extend(client.shape)
   .superRefine((data, ctx) => {
     // Which storage backend to use is decided by whether R2 credentials are
@@ -115,30 +98,17 @@ const server = z
       })
     }
     // Static OTP bypasses OTP security entirely, so structurally forbid it
-    // outside preview — a boot-time failure, not an operational assumption.
+    // outside preview/test environments — a boot-time failure, not an
+    // operational assumption. (test is allowed for E2E suites.)
     if (
-      data.NEXT_PUBLIC_APP_ENV !== "preview" &&
+      !["preview", "test"].includes(data.NEXT_PUBLIC_APP_ENV) &&
       data.DANGEROUSLY_SET_STATIC_OTP
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message:
-          "DANGEROUSLY_SET_STATIC_OTP may only be set in preview environments",
+          "DANGEROUSLY_SET_STATIC_OTP may only be set in preview or test environments",
         path: ["DANGEROUSLY_SET_STATIC_OTP"],
-      })
-    }
-    // Skipping SingPass bypasses the primary authentication mechanism, so
-    // structurally forbid it outside preview — a boot-time failure, not an
-    // operational assumption.
-    if (
-      data.NEXT_PUBLIC_APP_ENV !== "preview" &&
-      data.NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message:
-          "NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS may only be set in preview environments",
-        path: ["NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS"],
       })
     }
   })
@@ -179,21 +149,12 @@ const processEnv = {
   S3_STUDIO_ASSETS_BUCKET_NAME: process.env.S3_STUDIO_ASSETS_BUCKET_NAME,
   CLOUDFRONT_ASSETS_DISTRIBUTION_ID:
     process.env.CLOUDFRONT_ASSETS_DISTRIBUTION_ID,
-  SINGPASS_CLIENT_ID: process.env.SINGPASS_CLIENT_ID,
-  SINGPASS_ISSUER_ENDPOINT: process.env.SINGPASS_ISSUER_ENDPOINT,
-  SINGPASS_REDIRECT_URI: process.env.SINGPASS_REDIRECT_URI,
-  SINGPASS_ENCRYPTION_PRIVATE_KEY: process.env.SINGPASS_ENCRYPTION_PRIVATE_KEY,
-  SINGPASS_ENCRYPTION_KEY_ALG: process.env.SINGPASS_ENCRYPTION_KEY_ALG,
-  SINGPASS_SIGNING_PRIVATE_KEY: process.env.SINGPASS_SIGNING_PRIVATE_KEY,
-  SINGPASS_SIGNING_KEY_ALG: process.env.SINGPASS_SIGNING_KEY_ALG,
   STUDIO_SSM_WEBHOOK_API_KEY: process.env.STUDIO_SSM_WEBHOOK_API_KEY,
   DANGEROUSLY_SET_STATIC_OTP: process.env.DANGEROUSLY_SET_STATIC_OTP,
   // Client-side env vars
   NEXT_PUBLIC_APP_ENV:
     process.env.NEXT_PUBLIC_APP_ENV ??
     (process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ? "preview" : undefined),
-  NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS:
-    process.env.NEXT_PUBLIC_DANGEROUSLY_SKIP_SINGPASS,
   NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   NEXT_PUBLIC_APP_VERSION:
     process.env.NEXT_PUBLIC_APP_VERSION ??

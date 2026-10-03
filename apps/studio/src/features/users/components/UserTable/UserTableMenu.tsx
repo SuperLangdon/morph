@@ -16,10 +16,8 @@ import {
   BiTrash,
 } from "react-icons/bi"
 import { MenuItem } from "~/components/Menu"
-import { SINGPASS_DISABLED_ERROR_MESSAGE } from "~/constants/customErrorMessage"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
 import { UserManagementContext } from "~/features/users"
-import { useIsSingpassEnabled } from "~/hooks/useIsSingpassEnabled"
 import { trpc } from "~/utils/trpc"
 
 import type { UserTableData } from "./types"
@@ -50,8 +48,6 @@ export const UserTableMenu = ({
 
   const setUpdateUserModalState = useSetAtom(updateUserModalAtom)
   const setRemoveUserModalState = useSetAtom(removeUserModalAtom)
-
-  const { isSingpassEnabled } = useIsSingpassEnabled()
 
   const { mutate: resendInvite, isPending: isResendingInvite } =
     trpc.user.resendInvite.useMutation({
@@ -90,25 +86,14 @@ export const UserTableMenu = ({
                 }
                 icon={<BiPencil fontSize="1rem" />}
                 aria-label={`Edit user ${userName}`}
-                isDisabled={!isSingpassEnabled}
-                tooltip={
-                  isSingpassEnabled
-                    ? undefined
-                    : SINGPASS_DISABLED_ERROR_MESSAGE
-                }
               >
                 Edit user
               </MenuItem>
               {canResendInviteToUser({ createdAt, lastLoginAt }) && (
                 <MenuItem
                   onClick={() => resendInvite({ siteId, userId })}
-                  isDisabled={isResendingInvite || !isSingpassEnabled}
+                  isDisabled={isResendingInvite}
                   icon={<BiMailSend fontSize="1rem" />}
-                  tooltip={
-                    isSingpassEnabled
-                      ? undefined
-                      : SINGPASS_DISABLED_ERROR_MESSAGE
-                  }
                 >
                   Resend invite
                 </MenuItem>
@@ -118,12 +103,6 @@ export const UserTableMenu = ({
                 colorScheme="critical"
                 icon={<BiTrash fontSize="1rem" />}
                 aria-label={`Remove user access for ${userName}`}
-                isDisabled={!isSingpassEnabled}
-                tooltip={
-                  isSingpassEnabled
-                    ? undefined
-                    : SINGPASS_DISABLED_ERROR_MESSAGE
-                }
               >
                 Remove user access
               </MenuItem>

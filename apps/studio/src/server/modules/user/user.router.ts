@@ -1,9 +1,7 @@
 import { TRPCError } from "@trpc/server"
 import { pick } from "lodash-es"
-import { SINGPASS_DISABLED_ERROR_MESSAGE } from "~/constants/customErrorMessage"
 import { sendInvitation } from "~/features/mail/service"
 import { canResendInviteToUser } from "~/features/users/utils"
-import { getIsSingpassEnabled } from "~/lib/growthbook"
 import {
   countUsersInputSchema,
   countUsersOutputSchema,
@@ -42,13 +40,6 @@ import {
   updateUserDetails,
 } from "./user.service"
 
-const throwSingpassDisabledError = () => {
-  throw new TRPCError({
-    code: "FORBIDDEN",
-    message: SINGPASS_DISABLED_ERROR_MESSAGE,
-  })
-}
-
 export const userRouter = router({
   create: protectedProcedure
     .input(createUserInputSchema)
@@ -61,13 +52,6 @@ export const userRouter = router({
         userId: ctx.user.id,
         action: "manage",
       })
-
-      const isSingpassEnabled = getIsSingpassEnabled({
-        gb: ctx.gb,
-      })
-      if (!isSingpassEnabled) {
-        throwSingpassDisabledError()
-      }
 
       const possibleActor = await db
         .selectFrom("User")
@@ -107,7 +91,6 @@ export const userRouter = router({
       await Promise.all(
         createdUsers.map((createdUser) =>
           sendInvitation({
-            isSingpassEnabled,
             inviterName: actorName,
             recipientEmail: createdUser.email,
             siteName,
@@ -128,13 +111,6 @@ export const userRouter = router({
         userId: ctx.user.id,
         action: "manage",
       })
-
-      const isSingpassEnabled = getIsSingpassEnabled({
-        gb: ctx.gb,
-      })
-      if (!isSingpassEnabled) {
-        throwSingpassDisabledError()
-      }
 
       if (userId === ctx.user.id) {
         throw new TRPCError({
@@ -284,13 +260,6 @@ export const userRouter = router({
         action: "manage",
       })
 
-      const isSingpassEnabled = getIsSingpassEnabled({
-        gb: ctx.gb,
-      })
-      if (!isSingpassEnabled) {
-        throwSingpassDisabledError()
-      }
-
       if (userId === ctx.user.id) {
         throw new TRPCError({
           code: "FORBIDDEN",
@@ -357,13 +326,6 @@ export const userRouter = router({
         action: "manage",
       })
 
-      const isSingpassEnabled = getIsSingpassEnabled({
-        gb: ctx.gb,
-      })
-      if (!isSingpassEnabled) {
-        throwSingpassDisabledError()
-      }
-
       const possibleActor = await db
         .selectFrom("User")
         .where("id", "=", ctx.user.id)
@@ -417,7 +379,6 @@ export const userRouter = router({
       // Send invite
       const { name: siteName } = await getSiteNameAndCodeBuildId(siteId)
       await sendInvitation({
-        isSingpassEnabled,
         inviterName: actorName,
         recipientEmail: user.email,
         siteName,

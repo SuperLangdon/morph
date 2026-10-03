@@ -9,9 +9,6 @@ import {
   addUserModalAtom,
   DEFAULT_ADD_USER_MODAL_STATE,
 } from "~/features/users/atoms"
-import { useIsSingpassEnabled } from "~/hooks/useIsSingpassEnabled"
-
-import { SingpassConditionalTooltip } from "./SingpassConditionalTooltip"
 
 interface AddNewUserButtonProps extends Omit<ButtonProps, "onClick"> {
   siteId: number
@@ -24,11 +21,7 @@ export const AddNewUserButton = ({
   const ability = useContext(UserManagementContext)
   const canManageUsers = ability.can("manage", "UserManagement")
 
-  const { isSingpassEnabled } = useIsSingpassEnabled()
-
   const setAddUserModalState = useSetAtom(addUserModalAtom)
-
-  const isButtonDisabled = !canManageUsers || !isSingpassEnabled
 
   const button = (
     <Button
@@ -38,7 +31,7 @@ export const AddNewUserButton = ({
         posthog.capture("add_user_modal_opened", { site_id: siteId })
         setAddUserModalState({ ...DEFAULT_ADD_USER_MODAL_STATE, siteId })
       }}
-      isDisabled={isButtonDisabled}
+      isDisabled={!canManageUsers}
       {...buttonProps}
     >
       Add new user
@@ -53,9 +46,5 @@ export const AddNewUserButton = ({
     )
   }
 
-  return (
-    <SingpassConditionalTooltip placement="bottom">
-      {button}
-    </SingpassConditionalTooltip>
-  )
+  return button
 }

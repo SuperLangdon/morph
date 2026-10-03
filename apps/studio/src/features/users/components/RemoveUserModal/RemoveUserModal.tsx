@@ -13,14 +13,12 @@ import { Button, useToast } from "@opengovsg/design-system-react"
 import { useAtomValue, useSetAtom } from "jotai"
 import posthog from "posthog-js"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
-import { useIsSingpassEnabled } from "~/hooks/useIsSingpassEnabled"
 import { trpc } from "~/utils/trpc"
 
 import {
   DEFAULT_REMOVE_USER_MODAL_STATE,
   removeUserModalAtom,
 } from "../../atoms"
-import { SingpassConditionalTooltip } from "../SingpassConditionalTooltip"
 import { UserInfoContent } from "./UserInfoContent"
 
 export const RemoveUserModal = () => {
@@ -30,8 +28,6 @@ export const RemoveUserModal = () => {
   const { siteId, userId } = useAtomValue(removeUserModalAtom)
   const setRemoveUserModalState = useSetAtom(removeUserModalAtom)
   const onClose = () => setRemoveUserModalState(DEFAULT_REMOVE_USER_MODAL_STATE)
-
-  const { isSingpassEnabled } = useIsSingpassEnabled()
 
   const { mutate, isPending } = trpc.user.delete.useMutation({
     onSettled: onClose,
@@ -83,17 +79,14 @@ export const RemoveUserModal = () => {
             >
               No, cancel
             </Button>
-            <SingpassConditionalTooltip>
-              <Button
-                colorScheme="critical"
-                variant="solid"
-                onClick={onRemoveUser}
-                isLoading={isPending}
-                isDisabled={!isSingpassEnabled}
-              >
-                Remove user
-              </Button>
-            </SingpassConditionalTooltip>
+            <Button
+              colorScheme="critical"
+              variant="solid"
+              onClick={onRemoveUser}
+              isLoading={isPending}
+            >
+              Remove user
+            </Button>
           </ModalFooter>
         </ModalContent>
       </ModalOverlay>

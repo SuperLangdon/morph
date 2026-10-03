@@ -24,7 +24,6 @@ import { useAtomValue, useSetAtom } from "jotai"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo } from "react"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
-import { useIsSingpassEnabled } from "~/hooks/useIsSingpassEnabled"
 import { useZodForm } from "~/lib/form"
 import { createUserInputSchema } from "~/schemas/user"
 import { isGovEmail } from "~/utils/email"
@@ -32,7 +31,6 @@ import { trpc } from "~/utils/trpc"
 import { RoleType } from "~prisma/generated/generatedEnums"
 
 import { addUserModalAtom, DEFAULT_ADD_USER_MODAL_STATE } from "../../atoms"
-import { SingpassConditionalTooltip } from "../SingpassConditionalTooltip"
 import { AddAdminWarning } from "./Banners"
 import { ISOMER_GUIDE_URL, ROLE_CONFIGS } from "./constants"
 import { RoleBox } from "./RoleBox"
@@ -44,8 +42,6 @@ export const AddUserModal = () => {
   const addUserModalState = useAtomValue(addUserModalAtom)
   const { siteId, hasWhitelistError } = addUserModalState
   const setAddUserModalState = useSetAtom(addUserModalAtom)
-
-  const { isSingpassEnabled } = useIsSingpassEnabled()
 
   const {
     watch,
@@ -252,22 +248,19 @@ export const AddUserModal = () => {
           >
             Cancel
           </Button>
-          <SingpassConditionalTooltip>
-            <Button
-              variant="solid"
-              onClick={onSendInvite}
-              isLoading={isPending}
-              isDisabled={
-                Object.keys(errors).length > 0 ||
-                email === "" ||
-                additionalEmailError ||
-                email !== debouncedEmail || // check if email has changed
-                !isSingpassEnabled
-              }
-            >
-              Send invite
-            </Button>
-          </SingpassConditionalTooltip>
+          <Button
+            variant="solid"
+            onClick={onSendInvite}
+            isLoading={isPending}
+            isDisabled={
+              Object.keys(errors).length > 0 ||
+              email === "" ||
+              additionalEmailError ||
+              email !== debouncedEmail // check if email has changed
+            }
+          >
+            Send invite
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

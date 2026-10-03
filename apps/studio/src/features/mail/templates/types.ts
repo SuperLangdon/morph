@@ -11,14 +11,6 @@ export interface InvitationEmailTemplateData extends BaseEmailTemplateData {
   inviterName: string
   siteName: string
   role: RoleType
-  isSingpassEnabled?: boolean
-}
-
-export type LoginAlertEmailTemplateData = BaseEmailTemplateData
-
-export interface PublishAlertContentPublisherEmailTemplateData extends BaseEmailTemplateData {
-  siteName: string
-  resource: Resource
 }
 
 export interface SchedulePageTemplateData extends BaseEmailTemplateData {
@@ -70,12 +62,6 @@ export interface ScheduleUnpublishTemplateData extends BaseEmailTemplateData {
 }
 
 export interface CancelScheduleUnpublishTemplateData extends BaseEmailTemplateData {
-  resource: Resource
-}
-
-export interface PublishAlertSiteAdminEmailTemplateData extends BaseEmailTemplateData {
-  publisherEmail: string
-  siteName: string
   resource: Resource
 }
 

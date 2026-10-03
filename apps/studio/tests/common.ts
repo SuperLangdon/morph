@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url"
 import { GenericContainer, Wait } from "testcontainers"
 import { z } from "zod"
 
-type ContainerType = "database" | "mockpass"
+type ContainerType = "database"
 export const CONTAINER_CONFIGURATIONS: Record<
   ContainerType,
   ContainerConfiguration
@@ -17,22 +17,6 @@ export const CONTAINER_CONFIGURATIONS: Record<
       POSTGRES_USER: "root",
       POSTGRES_PASSWORD: "root",
       POSTGRES_DB: "test",
-    },
-    wait: { type: "PORT" },
-    type: "image",
-  },
-  mockpass: {
-    name: "mockpass",
-    image: "opengovsg/mockpass:4.5.1",
-    ports: [5156],
-    extraHosts: [{ host: "host.docker.internal", ipAddress: "host-gateway" }],
-    environment: {
-      MOCKPASS_NRIC: "S6005038D",
-      MOCKPASS_UEN: "123456789A",
-      SHOW_LOGIN_PAGE: "true",
-      SP_RP_JWKS_ENDPOINT:
-        "http://host.docker.internal:3000/api/sign-in/singpass/jwks",
-      SINGPASS_CLIENT_PROFILE: "direct",
     },
     wait: { type: "PORT" },
     type: "image",

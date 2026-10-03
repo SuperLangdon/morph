@@ -10,9 +10,9 @@ test.use({ storageState: storageStateFor("admin") })
 
 test.beforeEach(async () => {
   // Ensure the admin user has name + phone set so the "Welcome" onboarding
-  // dialog does not appear and obstruct the form. Other suites (e.g.
-  // singpass.test.ts) blank out user profiles in the shared test DB, so
-  // re-populate it here to keep this test independent of run order.
+  // dialog does not appear and obstruct the form. Other suites may blank out
+  // user profiles in the shared test DB, so re-populate it here to keep this
+  // test independent of run order.
   await db
     .updateTable("User")
     .set({ name: "test-e2e", phone: "82345678" })

@@ -5,7 +5,6 @@ import {
   MOCK_STORY_DATE,
   MOCK_TEST_PHONE,
   MOCK_TEST_USER_NAME,
-  MOCK_TEST_UUID,
 } from "../constants"
 import { trpcMsw } from "../mockTrpc"
 
@@ -14,7 +13,6 @@ export const defaultUser: User = {
   email: "test@example.com",
   name: MOCK_TEST_USER_NAME,
   phone: MOCK_TEST_PHONE,
-  singpassUuid: MOCK_TEST_UUID,
   createdAt: MOCK_STORY_DATE,
   updatedAt: MOCK_STORY_DATE,
   deletedAt: null,

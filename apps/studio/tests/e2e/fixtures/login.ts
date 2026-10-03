@@ -1,5 +1,4 @@
 import type { Locator, Page } from "@playwright/test"
-import type { UUID } from "crypto"
 
 import { overwriteToken } from "../utils"
 
@@ -8,10 +7,6 @@ export class LoginPage {
   readonly emailInput: Locator
   readonly otpButton: Locator
   readonly tokenInput: Locator
-  readonly singpassButton: Locator
-  readonly singpassLoginButton: Locator
-  readonly secondaryLoginButton: Locator
-  readonly uuidInput: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -20,10 +15,6 @@ export class LoginPage {
       name: "send one-time password",
     })
     this.tokenInput = page.getByRole("textbox")
-    this.singpassButton = page.getByLabel("Authenticate with Singpass")
-    this.singpassLoginButton = page.getByRole("button", { name: "Login" })
-    this.secondaryLoginButton = page.locator("#sectionA").getByText("Login")
-    this.uuidInput = page.getByRole("textbox", { name: "uuid" })
   }
 
   async fillEmail(email: string) {
@@ -39,30 +30,5 @@ export class LoginPage {
       identifier: email,
     })
     await this.tokenInput.fill(token)
-  }
-
-  // NOTE: Handles login at the mockpass page and redirects to studio
-  async defaultMockpassLogin() {
-    await this.singpassButton.click()
-    await this.singpassLoginButton.click()
-    // NOTE: There are 2 login buttons on mockpass -
-    // the first button, once clicked, brings you to a second profile selection component
-    // that also has a login button.
-    // Both of the buttons have the same `name` for `getByRole`, so we have to use a new locator
-    // that doesn't conflict with the original button's locator.
-    await this.secondaryLoginButton.click()
-  }
-
-  async mockpassLoginWith(uuid?: UUID) {
-    await this.singpassButton.click()
-    await this.singpassLoginButton.click()
-    // NOTE: There are 2 login buttons on mockpass -
-    // the first button, once clicked, brings you to a second profile selection component
-    // that also has a login button.
-    // Both of the buttons have the same `name` for `getByRole`, so we have to use a new locator
-    // that doesn't conflict with the original button's locator.
-    const filledUuid = uuid || crypto.randomUUID()
-    await this.uuidInput.fill(filledUuid)
-    await this.secondaryLoginButton.click()
   }
 }

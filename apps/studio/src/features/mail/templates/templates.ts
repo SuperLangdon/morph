@@ -23,9 +23,6 @@ import type {
   FailedUnpublishTemplateData,
   GazetteDeletionEmailTemplateData,
   InvitationEmailTemplateData,
-  LoginAlertEmailTemplateData,
-  PublishAlertContentPublisherEmailTemplateData,
-  PublishAlertSiteAdminEmailTemplateData,
   SchedulePageTemplateData,
   ScheduleUnpublishTemplateData,
   SiteUpdateFailedTemplateData,
@@ -89,19 +86,13 @@ const invitationTemplate = (
       throw new Error(`Unknown role. Please check the role type.`)
   }
 
-  const { inviterName, recipientEmail, siteName, role, isSingpassEnabled } =
-    data
+  const { inviterName, recipientEmail, siteName, role } = data
 
   const emailBodyParts = [
     `<p>Hi ${recipientEmail},</p>
 <p>${inviterName} has invited you to edit ${siteName} on Isomer Studio as ${role}. As a ${role}, you can ${roleAction}.</p>
 <p></p>
 <p>To start editing, log in to Isomer Studio and activate your account: ${constructStudioRedirect()}</p>`,
-    ...(isSingpassEnabled
-      ? [
-          `<p>You will need to set up Two-Factor Authentication (2FA) using Singpass. Please have your Singpass ready to complete activation.</p>`,
-        ]
-      : []),
     `<p>Best,</p>
 <p>Isomer team</p>`,
   ]
@@ -109,22 +100,6 @@ const invitationTemplate = (
   return {
     subject: "[Isomer Studio] Activate your account to edit Isomer sites",
     body: emailBodyParts.join("<p></p>").trim(),
-  }
-}
-
-// FYI: Currently, we only send this email to users when Singpass has been disabled.
-const loginAlertTemplate = (
-  data: LoginAlertEmailTemplateData,
-): EmailTemplate => {
-  const { recipientEmail } = data
-  return {
-    subject: `[Isomer Studio] Successful Login to Your Account`,
-    body: `<p>Hi ${recipientEmail},</p>
-<p>We wanted to let you know that your account was accessed successfully.</p>
-<p>If this was you, no action is needed.</p>
-<p><strong>Note:</strong> You're receiving this notification because your account was logged into during a Singpass authentication outage. If you are not the one who logged in, please contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> immediately.</p>
-<p>Best,</p>
-<p>Isomer team</p>`,
   }
 }
 
@@ -321,38 +296,6 @@ const siteUpdateFailedTemplate = (
   }
 }
 
-const publishAlertContentPublisherTemplate = (
-  data: PublishAlertContentPublisherEmailTemplateData,
-): EmailTemplate => {
-  const { recipientEmail, siteName, resource } = data
-  const studioResourceUrl = getStudioResourceUrl(resource)
-
-  return {
-    subject: `[Isomer Studio] ${unescapeHtml(resource.title)} has been published`,
-    body: `<p>Hi ${recipientEmail},</p>
-    <p>You have successfully published "${resource.title}" on ${siteName}. You can access your published content on Isomer Studio at <a href="${studioResourceUrl}">${studioResourceUrl}</a>.</p>
-    <p><strong>Note:</strong> You're receiving this notification because content was published during a Singpass authentication outage. If you didn't authorize this publication, please contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> immediately.</p>
-    <p>Best,</p>
-    <p>Isomer team</p>`,
-  }
-}
-
-const publishAlertSiteAdminTemplate = (
-  data: PublishAlertSiteAdminEmailTemplateData,
-): EmailTemplate => {
-  const { recipientEmail, publisherEmail, siteName, resource } = data
-  const studioResourceUrl = getStudioResourceUrl(resource)
-
-  return {
-    subject: `[Isomer Studio] ${unescapeHtml(resource.title)} has been published`,
-    body: `<p>Hi ${recipientEmail},</p>
-    <p>${publisherEmail} has published "${resource.title}" on ${siteName}. You can view the published content on Isomer Studio at <a href="${studioResourceUrl}">${studioResourceUrl}</a>.</p>
-    <p><strong>Note:</strong> You're receiving this notification because content was published during a Singpass authentication outage. As a site admin, we want to keep you informed of all publishing activities. If you have any concerns, please contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> immediately.</p>
-    <p>Best,</p>
-    <p>Isomer team</p>`,
-  }
-}
-
 const accountDeactivationWarningTemplate = (
   data: AccountDeactivationWarningEmailTemplateData,
 ): EmailTemplate => {
@@ -501,10 +444,6 @@ ${failedSection}
 const _templates = {
   invitation:
     invitationTemplate satisfies EmailTemplateFunction<InvitationEmailTemplateData>,
-  loginAlert:
-    loginAlertTemplate satisfies EmailTemplateFunction<LoginAlertEmailTemplateData>,
-  publishAlertContentPublisher:
-    publishAlertContentPublisherTemplate satisfies EmailTemplateFunction<PublishAlertContentPublisherEmailTemplateData>,
   cancelSchedulePage:
     cancelSchedulePageTemplate satisfies EmailTemplateFunction<CancelSchedulePageTemplateData>,
   scheduleUnpublish:
@@ -523,8 +462,6 @@ const _templates = {
     siteUpdateFailedTemplate satisfies EmailTemplateFunction<SiteUpdateFailedTemplateData>,
   schedulePage:
     schedulePageTemplate satisfies EmailTemplateFunction<SchedulePageTemplateData>,
-  publishAlertSiteAdmin:
-    publishAlertSiteAdminTemplate satisfies EmailTemplateFunction<PublishAlertSiteAdminEmailTemplateData>,
   accountDeactivationWarning:
     accountDeactivationWarningTemplate satisfies EmailTemplateFunction<AccountDeactivationWarningEmailTemplateData>,
   accountDeactivation:

@@ -177,7 +177,6 @@ export interface User {
   name: string
   email: string
   phone: string
-  singpassUuid: string | null
   createdAt: Generated<Timestamp>
   updatedAt: Generated<Timestamp>
   deletedAt: Timestamp | null
