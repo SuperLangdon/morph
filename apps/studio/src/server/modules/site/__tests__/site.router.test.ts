@@ -499,6 +499,88 @@ describe("site.router", async () => {
       )
     })
 
+  describe("updateSiteIntegrations", () => {
+    const MOCK_INTEGRATION_DATA = {
+      siteName: MOCK_SITE_NAME,
+      logoUrl: MOCK_LOGO_URL,
+      theme: "isomer-next",
+      url: "https://www.example.com",
+    } as const
+
+    it("should throw 401 if not logged in", async () => {
+      // Arrange
+      const unauthedSession = applySession()
+      const unauthedCaller = createCaller(createMockRequest(unauthedSession))
+
+      // Act
+      const result = unauthedCaller.updateSiteIntegrations({
+        siteId: 1,
+        data: MOCK_INTEGRATION_DATA,
+      })
+
+      // Assert
+      await expect(result).rejects.toThrow(
+        new TRPCError({ code: "UNAUTHORIZED" }),
+      )
+    })
+    it("should throw 403 if the user does not have write access to the site", async () => {
+      // Arrange
+      const { site } = await setupSite()
+
+      // Act
+      const result = caller.updateSiteIntegrations({
+        siteId: site.id,
+        data: MOCK_INTEGRATION_DATA,
+      })
+
+      // Assert
+      await expect(result).rejects.toThrow(
+        new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "You do not have sufficient permissions to perform this action",
+        }),
+      )
+    })
+    it("should throw 403 if the user has publisher access to the site", async () => {
+      // Arrange
+      const { site } = await setupSite()
+      await setupPublisherPermissions({
+        userId: session.userId,
+        siteId: site.id,
+      })
+      // Act
+      const result = caller.updateSiteIntegrations({
+        siteId: site.id,
+        data: MOCK_INTEGRATION_DATA,
+      })
+
+      // Assert
+      await expect(result).rejects.toThrow(
+        new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "You do not have sufficient permissions to perform this action",
+        }),
+      )
+    })
+    it("should update the site integrations if the user is a site admin", async () => {
+      // Arrange
+      const { site } = await setupSite()
+      await setupAdminPermissions({
+        userId: session.userId,
+        siteId: site.id,
+      })
+
+      // Act
+      const result = await caller.updateSiteIntegrations({
+        data: MOCK_INTEGRATION_DATA,
+        siteId: site.id,
+      })
+
+      // Assert
+      expect(result.config).toEqual(MOCK_INTEGRATION_DATA)
+    })
     it("should generate an audit log entry", async () => {
       // Arrange
       const { site } = await setupSite()
@@ -585,9 +667,7 @@ describe("site.router", async () => {
       // tRPC surfaces this as a Zod custom validation failure, not a plain TRPCError.
       await expect(result).rejects.toThrow("Invalid integration settings")
     })
-
-
-
+  })
   })
 
   describe("setTheme", () => {

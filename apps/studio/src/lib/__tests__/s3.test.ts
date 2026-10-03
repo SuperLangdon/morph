@@ -2,7 +2,6 @@ import {
   CopyObjectCommand,
   GetObjectTaggingCommand,
   HeadObjectCommand,
-  PutObjectRetentionCommand,
   PutObjectTaggingCommand,
 } from "@aws-sdk/client-s3"
 import { beforeEach, describe, expect, it, vi } from "vitest"

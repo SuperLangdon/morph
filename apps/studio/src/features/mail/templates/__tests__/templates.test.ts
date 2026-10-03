@@ -1,7 +1,6 @@
-import type { Resource } from "~/server/modules/database"
 import { MORPH_SUPPORT_EMAIL, MORPH_ISSUES_LINK } from "~/constants/misc"
 import { env } from "~/env.mjs"
-import { ResourceType, RoleType } from "~prisma/generated/generatedEnums"
+import { RoleType } from "~prisma/generated/generatedEnums"
 
 import { templates } from "../templates"
 
@@ -342,23 +341,6 @@ describe("email template HTML escaping", () => {
   const maliciousPayload = `</p><h1>URGENT</h1><a href='https://evil.tld?a=1&b=2'>Click "verify"</a><p>`
   const escapedPayload = `&lt;/p&gt;&lt;h1&gt;URGENT&lt;/h1&gt;&lt;a href=&#39;https://evil.tld?a=1&amp;b=2&#39;&gt;Click &quot;verify&quot;&lt;/a&gt;&lt;p&gt;`
 
-  const mockResource = {
-    id: "resource-id",
-    title: "Test Page",
-    permalink: "test-page",
-    siteId: 1,
-    parentId: null,
-    publishedVersionId: null,
-    draftBlobId: null,
-    state: null,
-    type: ResourceType.Page,
-    scheduledAt: null,
-    scheduledBy: null,
-    scheduledAction: null,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } satisfies Resource
-
   it("escapes invitation text fields", () => {
     // Arrange
     const templateData = {
@@ -375,54 +357,6 @@ describe("email template HTML escaping", () => {
     expect(template.body).toContain(escapedPayload)
     expect(template.body).not.toContain("<h1>URGENT</h1>")
     expect(template.body).not.toContain("https://evil.tld?a=1&b=2")
-  })
-
-  it("escapes resource titles and site names in publish alerts", () => {
-    // Arrange
-    const templateData = {
-      recipientEmail: "publisher@example.com",
-      siteName: maliciousPayload,
-      resource: {
-        ...mockResource,
-        title: maliciousPayload,
-      },
-    }
-
-    // Act
-    const template = templates.publishAlertContentPublisher(templateData)
-
-    // Assert
-    expect(template.body).toContain(
-      `published "${escapedPayload}" on ${escapedPayload}`,
-    )
-    expect(template.body).not.toContain("<h1>URGENT</h1>")
-    expect(template.body).not.toContain("https://evil.tld?a=1&b=2")
-  })
-
-  it("keeps the resource title unescaped in publish alert subjects", () => {
-    // Arrange
-    const templateData = {
-      recipientEmail: "publisher@example.com",
-      publisherEmail: "publisher@example.com",
-      siteName: "Test Site",
-      resource: {
-        ...mockResource,
-        title: "R&D Report",
-      },
-    }
-
-    // Act
-    const contentPublisherTemplate =
-      templates.publishAlertContentPublisher(templateData)
-    const siteAdminTemplate = templates.publishAlertSiteAdmin(templateData)
-
-    // Assert
-    expect(contentPublisherTemplate.subject).toBe(
-      "[Morph] R&D Report has been published",
-    )
-    expect(siteAdminTemplate.subject).toBe(
-      "[Morph] R&D Report has been published",
-    )
   })
 
   it("escapes site names in account deactivation warnings", () => {

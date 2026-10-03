@@ -652,9 +652,6 @@ const generateArgs = ({
           },
         ],
       },
-      {
-        type: "antiscambanner",
-      },
     ],
   }
 }

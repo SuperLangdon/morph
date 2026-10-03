@@ -1,4 +1,3 @@
-import type { IsomerSiteConfigProps } from "@opengovsg/isomer-components"
 import type { Notification } from "~/schemas/site"
 import { TRPCError } from "@trpc/server"
 import { SEARCH_PAGE_PERMALINK } from "~/constants/sitemap"

@@ -6,13 +6,8 @@
   },
   "scripts": {},
   "dependencies": {
-    "@aws-sdk/client-acm": "catalog:aws-sdk",
-    "@aws-sdk/client-cloudfront": "catalog:aws-sdk",
     "@inquirer/prompts": "catalog:",
-    "@isomer/seed-from-repo": "workspace:*",
-    "@octokit/rest": "catalog:",
     "@opengovsg/isomer-components": "workspace:*",
-    "axios": "catalog:",
     "lodash-es": "catalog:",
     "tsx": "catalog:"
   },

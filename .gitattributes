@@ -1,0 +1,5 @@
+# pnpm patch files must stay LF: the patch parser rejects CRLF ("invalid char in unquoted filename"),
+# and core.autocrlf=true on Windows converts them on checkout.
+*.patch text eol=lf
+# Shell scripts are executed by bash/CI runners that expect LF.
+*.sh text eol=lf

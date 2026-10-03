@@ -1,4 +1,5 @@
 import { partition } from "lodash-es"
+import type { Transporter } from "nodemailer"
 import { env } from "~/env.mjs"
 import { createBaseLogger } from "~/lib/logger"
 import { isEmailWhitelisted } from "~/server/modules/whitelist/whitelist.service"
@@ -15,30 +16,26 @@ const logger = createBaseLogger({ path: "lib/mail" })
 // Lazily-created nodemailer transport. SMTP is optional: when SMTP_HOST is
 // not configured, outgoing mail (including login OTPs) is logged to the
 // console instead — enough for local development without any mail server.
-let transportPromise: Promise<
-  import("nodemailer").Transporter | undefined
-> | null = null
+let transportPromise: Promise<Transporter | undefined> | null = null
 
 const getTransport = async () => {
-  if (!transportPromise) {
-    transportPromise = (async () => {
-      if (!env.SMTP_HOST) return undefined
-      const nodemailer = await import("nodemailer")
-      return nodemailer.createTransport({
-        host: env.SMTP_HOST,
-        port: env.SMTP_PORT,
-        secure: env.SMTP_SECURE ?? env.SMTP_PORT === 465,
-        ...(env.SMTP_USER && env.SMTP_PASS
-          ? {
-              auth: {
-                user: env.SMTP_USER,
-                pass: env.SMTP_PASS,
-              },
-            }
-          : {}),
-      })
-    })()
-  }
+  transportPromise ??= (async () => {
+    if (!env.SMTP_HOST) return undefined
+    const nodemailer = await import("nodemailer")
+    return nodemailer.createTransport({
+      host: env.SMTP_HOST,
+      port: env.SMTP_PORT,
+      secure: env.SMTP_SECURE ?? env.SMTP_PORT === 465,
+      ...(env.SMTP_USER && env.SMTP_PASS
+        ? {
+            auth: {
+              user: env.SMTP_USER,
+              pass: env.SMTP_PASS,
+            },
+          }
+        : {}),
+    })
+  })()
   return transportPromise
 }
 

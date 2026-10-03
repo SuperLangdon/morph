@@ -140,7 +140,6 @@ export const AddUserModal = () => {
     void checkWhitelist()
   }, [
     debouncedEmail,
-    isNonGovEmailInput,
     errors.email,
     checkWhitelist,
     setAddUserModalState,
