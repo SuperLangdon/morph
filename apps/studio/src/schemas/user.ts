@@ -78,7 +78,7 @@ export const listUsersOutputSchema = z.array(
     lastLoginAt: z.date().nullable(),
     createdAt: z.date().nullable(),
     role: z.nativeEnum(RoleType),
-    // Only returned to core Isomer admins
+    // Only returned to core Morph admins
     phone: z.string().optional(),
   }),
 )

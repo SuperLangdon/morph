@@ -26,13 +26,12 @@ import { useCallback, useEffect, useMemo } from "react"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
 import { useZodForm } from "~/lib/form"
 import { createUserInputSchema } from "~/schemas/user"
-import { isGovEmail } from "~/utils/email"
 import { trpc } from "~/utils/trpc"
 import { RoleType } from "~prisma/generated/generatedEnums"
 
 import { addUserModalAtom, DEFAULT_ADD_USER_MODAL_STATE } from "../../atoms"
 import { AddAdminWarning } from "./Banners"
-import { ISOMER_GUIDE_URL, ROLE_CONFIGS } from "./constants"
+import { MORPH_GUIDE_URL, ROLE_CONFIGS } from "./constants"
 import { RoleBox } from "./RoleBox"
 
 export const AddUserModal = () => {
@@ -66,16 +65,11 @@ export const AddUserModal = () => {
   const email = watch("email")
   const debouncedEmail = useDebounce(email, 300)
 
-  const isNonGovEmailInput = useMemo(
-    () => !!(!errors.email && email && !isGovEmail(email.trim())),
-    [errors.email, email],
-  )
-
   // Reason we are not using zodForm build-in schema is because the checking of whitelist
   // is an async operation requiring an API call, and combining them will be less readable
   const additionalEmailError = useMemo(
-    () => isNonGovEmailInput && hasWhitelistError,
-    [isNonGovEmailInput, hasWhitelistError],
+    () => !!(!errors.email && email && hasWhitelistError),
+    [errors.email, email, hasWhitelistError],
   )
 
   const { mutate: createUser, isPending } = trpc.user.create.useMutation({
@@ -193,7 +187,7 @@ export const AddUserModal = () => {
               <Input
                 {...register("email")}
                 noOfLines={1}
-                placeholder="example@agency.gov.sg"
+                placeholder="example@example.com"
               />
               {errors.email && (
                 <FormErrorMessage>
@@ -202,8 +196,8 @@ export const AddUserModal = () => {
               )}
               {!errors.email && additionalEmailError && (
                 <FormErrorMessage>
-                  There are non-gov.sg domains that need to be whitelisted. Chat
-                  with Isomer Support to whitelist domains.
+                  This email's domain is not whitelisted. Ask a Morph admin
+                  to whitelist the domain first.
                 </FormErrorMessage>
               )}
             </FormControl>
@@ -214,8 +208,8 @@ export const AddUserModal = () => {
                     <Text>
                       You can change this later. Read more about user roles on
                       the{" "}
-                      <Link href={ISOMER_GUIDE_URL} isExternal>
-                        Isomer Guide
+                      <Link href={MORPH_GUIDE_URL} isExternal>
+                        Morph Guide
                       </Link>
                       .
                     </Text>

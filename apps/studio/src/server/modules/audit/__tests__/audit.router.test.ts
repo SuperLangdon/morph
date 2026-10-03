@@ -159,7 +159,7 @@ describe("audit.router", async () => {
       })
     })
 
-    it("should allow an Isomer Admin without a site permission to request an export", async () => {
+    it("should allow an Morph Admin without a site permission to request an export", async () => {
       // Arrange
       const { site } = await setupSite()
       await setupIsomerAdmin({ userId: session.userId! })
@@ -394,7 +394,7 @@ describe("audit.router", async () => {
         expect(eventsB).toHaveLength(1)
       })
 
-      it("fans out across every site in the DB for an Isomer Admin", async () => {
+      it("fans out across every site in the DB for an Morph Admin", async () => {
         // Arrange: two sites exist; the caller has no explicit permission on
         // either, only their (implicit, Isomer-wide) Admin status.
         const { site: siteA } = await setupSite()
@@ -417,7 +417,7 @@ describe("audit.router", async () => {
 
       it("throws FORBIDDEN when the caller is not an Admin on any site", async () => {
         // Arrange: a site exists, but the caller has no permission on it and
-        // is not an Isomer Admin.
+        // is not an Morph Admin.
         await setupSite()
 
         // Act

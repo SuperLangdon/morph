@@ -59,7 +59,7 @@ export class SitePO {
 // Labels come from SIDENAV_ITEMS in:
 // apps/studio/src/features/settings/SettingsSidenav/SettingsSidenav.tsx
 const SETTINGS_SECTION_LABELS: Record<SettingsSection, string> = {
-  agency: "Name and agency",
+  agency: "Name and organisation",
   colours: "Colours",
   footer: "Footer",
   integrations: "Integrations",

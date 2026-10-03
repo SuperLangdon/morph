@@ -183,7 +183,7 @@ export const getResourcePermission = async ({
   const roles = await query.select("role").execute()
   const isUserIsomerAdmin = await isActiveIsomerAdmin(userId)
 
-  // Isomer admins have implicit Admin role on any site regardless of any
+  // Morph admins have implicit Admin role on any site regardless of any
   // explicit roles they have on the site
   if (isUserIsomerAdmin) {
     return [{ role: RoleType.Admin }]
@@ -342,7 +342,7 @@ export const validateUserIsSiteAdmin = async ({
   userId,
   siteId,
 }: ValidateUserIsSiteAdminProps) => {
-  // Use the shared permission lookup so platform-level Isomer Admins inherit
+  // Use the shared permission lookup so platform-level Morph Admins inherit
   // every capability guarded as Site Admin-only. This also keeps expiry and
   // soft-deletion handling consistent with the rest of the permission system.
   const roles = await getResourcePermission({ userId, siteId })

@@ -13,12 +13,12 @@ export const IsomerAdminAccessBanner = () => {
     >
       <VStack w="full" gap="0rem" align="start">
         <Text textStyle="subhead-2">
-          All Isomer Admins have access to your site and may make changes on
+          All Morph Admins have access to your site and may make changes on
           your behalf.
         </Text>
         <Text textStyle="body-2">
-          All activity is logged. If you have questions about Isomer Admins,
-          reach out to Isomer Support.
+          All activity is logged. If you have questions about Morph Admins,
+          reach out to Morph Support.
         </Text>
       </VStack>
     </Infobox>

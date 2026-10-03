@@ -28,7 +28,7 @@ export const LAYOUT_RENDER_DATA: LayoutRenderDataType = {
   },
   database: {
     title: "Database layout",
-    description: "Link your dataset from Data.gov.sg.",
+    description: "Present a searchable table of your dataset.",
     imageSrc: "/assets/layout-card/database_layout_card.png",
     altText: "Image preview of Database layout",
   },

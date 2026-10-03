@@ -11,11 +11,9 @@ import {
   BiListOl,
   BiListUl,
   BiLogoSpotify,
-  BiMap,
   BiMessageDots,
   BiMoviePlay,
   BiPhoneCall,
-  BiError,
   BiPointer,
   BiSolidQuoteAltLeft,
   BiText,
@@ -24,7 +22,6 @@ import { FaYoutube } from "react-icons/fa"
 import { TbApi } from "react-icons/tb"
 
 import { ContentpicIcon } from "./components/icons/Contentpic"
-import { FormSGIcon } from "./components/icons/FormSG"
 import { InfocardsIcon } from "./components/icons/Infocards"
 import { InfocolsIcon } from "./components/icons/Infocols"
 import { InfopicIcon } from "./components/icons/Infopic"
@@ -33,7 +30,6 @@ export const TYPE_TO_ICON: Record<
   IsomerSchema["content"][number]["type"],
   IconType
 > = {
-  antiscambanner: BiError,
   prose: BiText,
   image: BiImage,
   infopic: InfopicIcon,
@@ -46,10 +42,8 @@ export const TYPE_TO_ICON: Record<
   infobar: BiPointer,
   infocols: InfocolsIcon,
   accordion: BiChevronDown,
-  formsg: FormSGIcon,
   hero: BiCrown,
   iframe: FaYoutube,
-  map: BiMap,
   audio: BiLogoSpotify,
   video: BiMoviePlay,
   logocloud: BiCloud,

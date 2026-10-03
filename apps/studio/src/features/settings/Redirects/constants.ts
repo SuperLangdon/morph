@@ -1,5 +1,5 @@
 export const REDIRECTS_SUPPORT_LINK =
-  "https://support.isomer.gov.sg/en/articles/15897348-redirections"
+  "https://github.com/morph-cms/morph/wiki/Redirects"
 
 // Hint under the source field explaining the wildcard. Says "folder or
 // collection" rather than "section": "section" isn't a term the CMS uses

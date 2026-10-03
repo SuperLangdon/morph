@@ -9,11 +9,7 @@ import type {
   UploadAssetMutationOutput,
 } from "~/hooks/useUploadAssetMutation"
 import type { ModifiedAsset } from "~/types/assets"
-import {
-  FORMSG_EMBED_URL_REGEXES,
-  MAPS_EMBED_URL_REGEXES,
-  VIDEO_EMBED_URL_REGEXES,
-} from "@opengovsg/isomer-components"
+import { VIDEO_EMBED_URL_REGEXES } from "@opengovsg/isomer-components"
 import DOMPurify from "isomorphic-dompurify"
 import { set } from "lodash-es"
 import { transliterate } from "transliteration"
@@ -21,18 +17,12 @@ import { transliterate } from "transliteration"
 import { PLACEHOLDER_IMAGE_FILENAME } from "./constants"
 
 export const EMBED_NAME_MAPPING: Record<
-  | keyof typeof MAPS_EMBED_URL_REGEXES
-  | keyof typeof VIDEO_EMBED_URL_REGEXES
-  | keyof typeof FORMSG_EMBED_URL_REGEXES,
+  keyof typeof VIDEO_EMBED_URL_REGEXES,
   string
 > = {
-  googlemaps: "Google Map",
-  onemap: "OneMap",
-  ogpmaps: "Maps.gov.sg",
   fbvideo: "Facebook Video",
   youtube: "YouTube",
   vimeo: "Vimeo",
-  formsg: "FormSG",
 }
 
 export const generateResourceUrl = (value: string): string =>
@@ -120,20 +110,19 @@ export const getIframeSrc = (embedCode: string): string | undefined => {
 }
 
 export const getEmbedNameFromUrl = (url: string) =>
-  Object.entries({
-    ...MAPS_EMBED_URL_REGEXES,
-    ...VIDEO_EMBED_URL_REGEXES,
-    ...FORMSG_EMBED_URL_REGEXES,
-  }).reduce<string | undefined>((acc, curr) => {
-    if (acc) {
-      // Embed name already found, return it
-      return acc
-    }
+  Object.entries(VIDEO_EMBED_URL_REGEXES).reduce<string | undefined>(
+    (acc, curr) => {
+      if (acc) {
+        // Embed name already found, return it
+        return acc
+      }
 
-    const [embedName, regex] = curr
-    if (new RegExp(regex).test(url)) {
-      return EMBED_NAME_MAPPING[embedName as keyof typeof EMBED_NAME_MAPPING]
-    }
+      const [embedName, regex] = curr
+      if (new RegExp(regex).test(url)) {
+        return EMBED_NAME_MAPPING[embedName as keyof typeof EMBED_NAME_MAPPING]
+      }
 
-    return undefined
-  }, undefined)
+      return undefined
+    },
+    undefined,
+  )

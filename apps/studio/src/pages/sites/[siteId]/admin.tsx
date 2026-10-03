@@ -18,7 +18,7 @@ import { getIronSession } from "iron-session"
 import { useState } from "react"
 import { z } from "zod"
 import { PermissionsBoundary } from "~/components/AuthWrappers"
-import { ISOMER_SUPPORT_EMAIL } from "~/constants/misc"
+import { MORPH_SUPPORT_EMAIL } from "~/constants/misc"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
 import { UnsavedSettingModal } from "~/features/editing-experience/components/UnsavedSettingModal"
 import { useNavigationEffect } from "~/hooks/useNavigationEffect"
@@ -155,7 +155,7 @@ const SiteAdminPage: NextPageWithLayout<SiteAdminPageProps> = ({ siteId }) => {
     onError: () => {
       toast({
         title: "Error saving site config!",
-        description: `If this persists, please report this issue at ${ISOMER_SUPPORT_EMAIL}`,
+        description: `If this persists, please report this issue at ${MORPH_SUPPORT_EMAIL}`,
         status: "error",
         ...BRIEF_TOAST_SETTINGS,
       })

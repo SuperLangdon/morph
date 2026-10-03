@@ -4,14 +4,9 @@ export const ENABLE_EMAILS_FOR_SCHEDULED_PUBLISHES_FEATURE_KEY =
 export const ENABLE_EMAILS_FOR_REGULAR_PUBLISHES_FEATURE_KEY =
   "enable-emails-for-regular-publishes"
 export const BANNER_FEATURE_KEY = "isomer-next-banner"
-export const EGAZETTE_INFO_FEATURE_KEY = "egazette-info"
 // Gates the audit-log export surface (settings sidenav entry + page). OFF by
 // default so the feature can ship dark and be enabled per-environment.
 export const IS_AUDIT_LOG_ENABLED_FEATURE_KEY = "is-audit-log-enabled"
-// When OFF (default): gazette ingestion targets Algolia directly.
-// When ON: gazette ingestion is routed to SearchSG instead.
-export const ENABLE_SEARCHSG_GAZETTE_INGESTION =
-  "enable-searchsg-gazette-ingestion"
 // Gates the whole unpublish feature: manual (unpublishPage, which also
 // handles Folder/Collection ids) and scheduled (scheduleUnpublish/
 // cancelScheduleUnpublish) alike, since the latter presupposes the former

@@ -217,7 +217,7 @@ const decodePercentEncodedRuns = (input: string): string =>
   })
 
 // Parses a full asset URL (e.g.
-// https://isomer-user-content.by.gov.sg/36/uuid/picture.png) into its S3 key.
+// https://user-content.example.com/36/uuid/picture.png) into its S3 key.
 // Only URLs on the configured asset domain, with a pathname in the canonical
 // `${siteId}/${uuid}/${fileName}` shape, resolve to a key — anything else
 // (wrong host, extra path segments, a non-UUID folder) returns null so a

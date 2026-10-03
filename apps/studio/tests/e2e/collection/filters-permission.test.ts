@@ -59,7 +59,7 @@ test.describe("admin", () => {
 // (see ensureGodModeAdmin in fixtures/seed.ts). They still get implicit site
 // Admin via getResourcePermission, so Filters must remain available.
 for (const role of ["core", "migrator"] as const) {
-  test.describe(`isomer admin (${role}) without site permission`, () => {
+  test.describe(`morph admin (${role}) without site permission`, () => {
     test.use({ storageState: storageStateFor(role) })
 
     let collectionId: string

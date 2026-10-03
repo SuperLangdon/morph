@@ -104,7 +104,7 @@ describe("auditLogExportReady template", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer] Access logs for June 2026 for your site (Test Site) is ready",
+      "[Morph] Access logs for June 2026 for your site (Test Site) is ready",
     )
   })
 
@@ -117,7 +117,7 @@ describe("auditLogExportReady template", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer] Audit logs for June 2026 for your site (Test Site) is ready",
+      "[Morph] Audit logs for June 2026 for your site (Test Site) is ready",
     )
   })
 
@@ -359,7 +359,7 @@ describe("auditLogExportFailed template", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer Studio] Your audit log export for Test Site (June 2026) could not be generated",
+      "[Morph] Your audit log export for Test Site (June 2026) could not be generated",
     )
   })
 
@@ -370,7 +370,7 @@ describe("auditLogExportFailed template", () => {
     // Assert
     expect(template.body).toContain("Hi test@example.com")
     expect(template.body).toContain("couldn't generate")
-    expect(template.body).toContain("support@isomer.gov.sg")
+    expect(template.body).toContain("support@example.com")
   })
 
   it("keeps the site name unescaped in the subject but escapes it in the body", () => {

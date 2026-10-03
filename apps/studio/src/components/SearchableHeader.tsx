@@ -35,7 +35,7 @@ export const SearchableHeader = ({ siteId }: SearchableHeaderProps) => {
             aria-label="Back to sites"
             icon={
               <Image
-                src="/assets/isomer-logo-color.svg"
+                src="/assets/morph-logo.svg"
                 height={24}
                 width={22}
                 alt="Back to sites"

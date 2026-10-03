@@ -4,7 +4,7 @@
   "page": {
     "permalink": "/data/datasets/sample-dataset",
     "title": "New database layout",
-    "description": "This is a layout where you can link your dataset from Data.gov.sg. Users can search through the table.",
+    "description": "This is a layout where you can display your dataset in a searchable table.",
     "database": {
       "title": "Link your database here",
       "headers": ["Contribute type", "Amount"],
@@ -55,7 +55,7 @@
             {
               "type": "text",
               "marks": [],
-              "text": "Link a dataset you own from Data.gov.sg in the Data table block below. Users can search through large datasets without having to leave your website."
+              "text": "Link a dataset you own in the Data table block below. Users can search through large datasets without having to leave your website."
             }
           ]
         }

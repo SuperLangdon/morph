@@ -47,7 +47,7 @@ export const EditProfileModal = () => {
     trpc.user.updateDetails.useMutation({
       onSuccess: () => {
         void utils.me.get.invalidate()
-        // The collaborators table shows phone numbers to core Isomer admins
+        // The collaborators table shows phone numbers to core Morph admins
         void utils.user.list.invalidate()
         toast({
           status: "success",

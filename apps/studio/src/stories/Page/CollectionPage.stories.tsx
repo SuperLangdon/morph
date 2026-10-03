@@ -9,10 +9,7 @@ import { resourceHandlers } from "tests/msw/handlers/resource"
 import { sitesHandlers } from "tests/msw/handlers/sites"
 import CollectionPage from "~/pages/sites/[siteId]/collections/[collectionId]"
 
-import {
-  createBannerGbParameters,
-  createEgazetteInfoGbParameters,
-} from "../utils/growthbook"
+import { createBannerGbParameters } from "../utils/growthbook"
 
 const meta: Meta<typeof CollectionPage> = {
   title: "Pages/Collection Management/Collection Page",
@@ -83,17 +80,6 @@ export const WithBanner: Story = {
         variant: "info",
         message:
           "This is a test banner that is very long. This is a test banner that is very long. This is a test banner that is very long. This is a test banner that is very long. This is a test banner that is very long.",
-      }),
-    ],
-  },
-}
-
-export const GazetteCollection: Story = {
-  parameters: {
-    growthbook: [
-      createEgazetteInfoGbParameters({
-        siteId: "1",
-        gazettesCollectionId: "1",
       }),
     ],
   },

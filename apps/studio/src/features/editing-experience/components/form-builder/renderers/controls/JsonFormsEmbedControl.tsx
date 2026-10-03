@@ -26,11 +26,7 @@ import {
   ModalCloseButton,
   Textarea,
 } from "@opengovsg/design-system-react"
-import {
-  FORMSG_EMBED_URL_REGEXES,
-  MAPS_EMBED_URL_REGEXES,
-  VIDEO_EMBED_URL_REGEXES,
-} from "@opengovsg/isomer-components"
+import { VIDEO_EMBED_URL_REGEXES } from "@opengovsg/isomer-components"
 import { BiLink } from "react-icons/bi"
 import { z } from "zod"
 import { JSON_FORMS_RANKING } from "~/constants/formBuilder"
@@ -42,14 +38,6 @@ import {
   getIframeSrc,
 } from "../../../utils"
 import { getCustomErrorMessage } from "./utils"
-
-const SUPPORTED_FORMS = Object.keys(FORMSG_EMBED_URL_REGEXES).map(
-  (key) => EMBED_NAME_MAPPING[key as keyof typeof FORMSG_EMBED_URL_REGEXES],
-)
-
-const SUPPORTED_MAPS = Object.keys(MAPS_EMBED_URL_REGEXES).map(
-  (key) => EMBED_NAME_MAPPING[key as keyof typeof MAPS_EMBED_URL_REGEXES],
-)
 
 const SUPPORTED_VIDEOS = Object.keys(VIDEO_EMBED_URL_REGEXES).map(
   (key) => EMBED_NAME_MAPPING[key as keyof typeof VIDEO_EMBED_URL_REGEXES],
@@ -141,8 +129,6 @@ function EmbedCodeModal({
                 <Text>You can embed content from:</Text>
                 <UnorderedList ml="1.5rem" mt="0.25rem">
                   <ListItem>Video: {SUPPORTED_VIDEOS.join(", ")}</ListItem>
-                  <ListItem>Map: {SUPPORTED_MAPS.join(", ")}</ListItem>
-                  <ListItem>Form: {SUPPORTED_FORMS.join(", ")}</ListItem>
                 </UnorderedList>
               </Box>
             </Infobox>

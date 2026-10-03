@@ -18,7 +18,7 @@ import { IsomerAdminRole } from "~prisma/generated/generatedEnums"
 interface GodModeLink {
   href: string
   label: string
-  /** Isomer admin roles that may see this hub link */
+  /** Morph admin roles that may see this hub link */
   roles: readonly IsomerAdminRole[]
 }
 

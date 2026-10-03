@@ -55,7 +55,7 @@ const REFERENCE_DESTINATION_REGEX = new RegExp(
   `^${REFERENCE_LINK_REGEX.source}$`,
 )
 
-// A prefix check ("https://") is too lax: "https://https://www.isomer.gov.sg"
+// A prefix check ("https://") is too lax: "https://https://www.example.com"
 // passes it, yet parses with hostname "https". Require a parseable https URL
 // whose host looks like a public domain (has a dot) — this rejects the doubled
 // scheme and bare single-label hosts (localhost, intranet names) that are never

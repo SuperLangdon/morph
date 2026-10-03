@@ -99,7 +99,7 @@ export const ToastAfterEditingUser: Story = {
 
 // The update flow doesn't distinguish Admin from any other role, or check
 // whitelist status for any role at all -- "Editor User" (editor@example.com,
-// a non-gov.sg email) can be made Admin exactly like the gov.sg "Government
+// an external email) can be made Admin exactly like the "Sample
 // Editor" case in AdminWarningBanner above. There's no separate whitelist
 // query and no disabled state to wait on any more.
 export const AdminWarningBannerForNonGovUser: Story = {

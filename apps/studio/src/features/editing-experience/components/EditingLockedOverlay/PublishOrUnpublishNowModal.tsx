@@ -32,7 +32,7 @@ const COPY: Record<
       "Changes will be live on your site in approximately 5–10 minutes, and its status will change to Published.",
     confirmLabel: "Yes, publish now",
     successTitle: "Page published successfully",
-    errorTitle: "Failed to publish page. Please contact Isomer support.",
+    errorTitle: "Failed to publish page. Please contact Morph Support.",
   },
   unpublish: {
     title: "Are you sure you want to unpublish this page now?",
@@ -40,7 +40,7 @@ const COPY: Record<
       "It may still appear in search results until search engines next crawl your site. Any unsaved draft changes will be kept. This will also cancel the existing scheduled unpublish.",
     confirmLabel: "Yes, unpublish now",
     successTitle: "Page unpublished successfully",
-    errorTitle: "Failed to unpublish page. Please contact Isomer support.",
+    errorTitle: "Failed to unpublish page. Please contact Morph Support.",
   },
 }
 

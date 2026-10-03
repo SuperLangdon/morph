@@ -9,7 +9,7 @@ import {
 } from "@opengovsg/design-system-react"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_ISSUES_LINK } from "~/constants/misc"
 import { useZodForm } from "~/lib/form"
 import { emailSignInSchema } from "~/schemas/auth/email/sign-in"
 import { trpc } from "~/utils/trpc"
@@ -24,13 +24,13 @@ const EmailInputErrorMessage = ({ type, message }: Partial<FieldError>) => {
         <Text>
           We are having trouble sending an OTP to this email address.{" "}
           <Link
-            href={`${ISOMER_SUPPORT_LINK}?subject=I can't receive OTP on Isomer Studio`}
+            href={`${MORPH_ISSUES_LINK}?subject=I can't receive OTP on Morph`}
             color="utility.feedback.critical"
             _hover={{
               color: "unset",
             }}
           >
-            Contact Isomer Support
+            Contact Morph Support
           </Link>
           .
         </Text>
@@ -90,7 +90,7 @@ export const EmailInput: React.FC<EmailInputProps> = ({ onSuccess }) => {
         >
           <FormLabel mb="0.5rem">Email address</FormLabel>
           <Input
-            placeholder="e.g. jane@open.gov.sg"
+            placeholder="e.g. jane@example.com"
             autoFocus
             {...register("email")}
           />

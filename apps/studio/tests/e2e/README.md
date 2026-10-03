@@ -20,7 +20,7 @@ OTP login adds a few seconds per login. Without storage state, a 10-test suite s
 
 ## Why we still keep integration tests
 
-E2E covers user-visible behavior. Integration tests cover server-side correctness: audit log shape, GTM ID validation, role-boundary 401/403/404 codes, SearchSG side effects. We need both layers. Translating every integration scenario to e2e would triple CI time without adding meaningful signal.
+E2E covers user-visible behavior. Integration tests cover server-side correctness: audit log shape, GTM ID validation, role-boundary 401/403/404 codes, search side effects. We need both layers. Translating every integration scenario to e2e would triple CI time without adding meaningful signal.
 
 ## Known footguns
 

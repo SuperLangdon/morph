@@ -53,7 +53,7 @@ export const UserTableTabs = ({
           __css={styles.tablist}
         >
           <UserTableTab label="Your users" count={agencyUsersCount} />
-          <UserTableTab label="Isomer admins" count={isomerAdminsCount} />
+          <UserTableTab label="Morph admins" count={isomerAdminsCount} />
         </TabList>
         <TabPanels __css={styles.tabpanels}>
           <TabPanel>

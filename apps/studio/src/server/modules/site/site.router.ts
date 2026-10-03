@@ -36,21 +36,18 @@ import {
   getNavBar,
   publishSiteConfig,
 } from "../resource/resource.service"
-import { updateSearchSGConfig } from "../searchsg/searchsg.service"
 import {
   createSite,
   getNotification,
   getSiteConfig,
   getSiteTheme,
-  normalizeAskgovConfig,
-  resolveSearchConfig,
   setSiteNotification,
   validateUserPermissionsForSite,
 } from "./site.service"
 
 export const siteRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
-    // Isomer admins can see all sites, with an implicit Admin role
+    // Morph admins can see all sites, with an implicit Admin role
     // regardless of any explicit roles they have on the site
     const isIsomerAdmin = await isActiveIsomerAdmin(ctx.user.id)
     if (isIsomerAdmin) {
@@ -136,22 +133,12 @@ export const siteRouter = router({
         .selectAll()
         .executeTakeFirstOrThrow()
 
-      const { config } = site
-      const normalizedConfig = normalizeAskgovConfig({ ...rest, siteName })
-
       const updatedConfig = await db.transaction().execute(async (tx) => {
-        // searchSG and egazette-algolia are admin-managed; their credentials
-        // always come from the DB, never from site-admin input.
-        const searchConfig = resolveSearchConfig(
-          config.search,
-          normalizedConfig.search,
-        )
-
         const updatedSite = await tx
           .updateTable("Site")
           .set({
             name: siteName,
-            config: jsonb({ ...normalizedConfig, search: searchConfig }),
+            config: jsonb({ ...rest, siteName }),
           })
           .where("id", "=", siteId)
           .returningAll()
@@ -169,24 +156,6 @@ export const siteRouter = router({
 
       await publishSiteConfig(ctx.user.id, { site }, ctx.logger)
 
-      // NOTE: only update searchsg if either the agency name changed
-      // or if the search type changed.
-      // `void` here because this API call is slow
-      // and not super critical to update
-      if (
-        updatedConfig.search?.type === "searchSG" &&
-        (config.search?.type !== "searchSG" ||
-          config.siteName !== updatedConfig.siteName)
-      )
-        // IMPORTANT: clientId must always come from the DB, not user input (path traversal risk)
-        void updateSearchSGConfig(
-          { name: siteName, _kind: "name" },
-          updatedConfig.search.clientId,
-          updatedConfig.url,
-        ).catch((error) =>
-          ctx.logger.error({ error }, "[ERROR] updateSearchSGConfig failed"),
-        )
-
       return updatedConfig
     }),
   updateSiteIntegrations: protectedProcedure
@@ -202,8 +171,6 @@ export const siteRouter = router({
         .where("id", "=", ctx.user.id)
         .selectAll()
         .executeTakeFirstOrThrow()
-      const normalizedData = normalizeAskgovConfig(data)
-
       const result = await db.transaction().execute(async (tx) => {
         const site = await tx
           .selectFrom("Site")
@@ -211,30 +178,9 @@ export const siteRouter = router({
           .selectAll()
           .executeTakeFirstOrThrow()
 
-        // SearchSG is a vetted external search integration; localSearch exposes
-        // a searchUrl field that could be used for open redirect. Prevent
-        // a site admin from switching back to localSearch once SearchSG is set.
-        if (
-          site.config.search?.type === "searchSG" &&
-          normalizedData.search?.type === "localSearch"
-        ) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message:
-              "Cannot downgrade search integration from SearchSG to local search",
-          })
-        }
-
-        // searchSG and egazette-algolia are admin-managed; their credentials
-        // always come from the DB, never from site-admin input.
-        const search = resolveSearchConfig(
-          site.config.search,
-          normalizedData.search,
-        )
-
         const updatedSite = await tx
           .updateTable("Site")
-          .set({ config: jsonb({ ...normalizedData, search }) })
+          .set({ config: jsonb(data) })
           .where("id", "=", siteId)
           .returningAll()
           .executeTakeFirstOrThrow()
@@ -333,23 +279,6 @@ export const siteRouter = router({
       })
 
       await publishSiteConfig(ctx.user.id, { site }, ctx.logger)
-
-      // NOTE: if the users update their `canvas.inverse`
-      // we also need to update their searchsg theme settings
-      if (
-        site.config.search?.type === "searchSG" &&
-        oldTheme.colors.brand.canvas.inverse !==
-          theme.colors.brand.canvas.inverse
-      ) {
-        // IMPORTANT: clientId must always come from the DB, not user input (path traversal risk)
-        void updateSearchSGConfig(
-          { colour: theme.colors.brand.canvas.inverse, _kind: "colour" },
-          site.config.search.clientId,
-          site.config.url,
-        ).catch((error) =>
-          ctx.logger.error({ error }, "[ERROR] updateSearchSGConfig failed"),
-        )
-      }
 
       return updatedSite
     }),

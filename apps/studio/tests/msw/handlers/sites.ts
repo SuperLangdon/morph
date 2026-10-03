@@ -25,14 +25,13 @@ const siteListQuery = ({
     return [
       {
         id: 1,
-        name: "Ministry of Trade and Industry",
+        name: "Acme Corporation",
         config: {
           theme: "isomer-next",
           siteName: "MTI",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           search: undefined,
-          isGovernment: true,
         } as PrismaJson.SiteJsonConfig,
         role: RoleType.Admin,
       },
@@ -42,10 +41,9 @@ const siteListQuery = ({
         config: {
           theme: "isomer-next",
           siteName: "MTI",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           search: undefined,
-          isGovernment: true,
         } as PrismaJson.SiteJsonConfig,
         role: RoleType.Admin,
       },
@@ -55,10 +53,9 @@ const siteListQuery = ({
         config: {
           theme: "isomer-next",
           siteName: "MTI",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           search: undefined,
-          isGovernment: true,
         } as PrismaJson.SiteJsonConfig,
         role: RoleType.Admin,
       },
@@ -75,7 +72,7 @@ export const sitesHandlers = {
   getSiteName: {
     default: () => {
       return trpcMsw.site.getSiteName.query(() => {
-        return { name: "Isomer" }
+        return { name: "Sample Site" }
       })
     },
   },
@@ -107,12 +104,11 @@ export const sitesHandlers = {
       return trpcMsw.site.getConfig.query(() => {
         return {
           theme: "isomer-next",
-          siteName: "Ministry of Test and Industry",
+          siteName: "Test Corporation",
           search: undefined,
-          agencyName: "Ministry of Test and Industry",
-          isGovernment: true,
-          url: "https://www.isomer.gov.sg",
-          logoUrl: "https://www.isomer.gov.sg/images/isomer-logo.svg",
+          agencyName: "Test Corporation",
+          url: "https://www.example.com",
+          logoUrl: "/images/morph-logo.svg",
         } as PrismaJson.SiteJsonConfig
       })
     },
@@ -120,12 +116,11 @@ export const sitesHandlers = {
       return trpcMsw.site.getConfig.query(() => {
         return {
           theme: "isomer-next",
-          siteName: "Ministry of Test and Industry",
+          siteName: "Test Corporation",
           search: undefined,
-          agencyName: "Ministry of Test and Industry",
-          isGovernment: true,
-          url: "https://www.isomer.gov.sg",
-          logoUrl: "https://www.isomer.gov.sg/images/isomer-logo.svg",
+          agencyName: "Test Corporation",
+          url: "https://www.example.com",
+          logoUrl: "/images/morph-logo.svg",
           favicon: "avatars.githubusercontent.com/u/40887764",
         } as PrismaJson.SiteJsonConfig
       })
@@ -166,7 +161,6 @@ export const sitesHandlers = {
             ],
             contactUsLink: "/contact-us",
             termsOfUseLink: "/terms-of-use",
-            feedbackFormLink: "https://www.form.gov.sg",
             privacyStatementLink: "/privacy",
           } as PrismaJson.FooterJsonContent,
           createdAt: MOCK_STORY_DATE,
@@ -285,7 +279,7 @@ export const sitesHandlers = {
             ],
             callToAction: {
               label: "Apply now",
-              url: "https://www.isomer.gov.sg/apply",
+              url: "https://www.example.com/apply",
               isPinnedOnMobile: true,
             },
           } as PrismaJson.NavbarJsonContent,
@@ -586,7 +580,7 @@ export const sitesHandlers = {
                       ],
                     },
                     {
-                      text: "Isomer ",
+                      text: "Morph ",
                       type: "text",
                       marks: [
                         {

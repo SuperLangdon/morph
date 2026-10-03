@@ -75,7 +75,7 @@ export const CancelScheduleModal = ({
       title:
         error.data?.code === "PRECONDITION_FAILED"
           ? error.message
-          : "Failed to cancel schedule. Please contact Isomer support.",
+          : "Failed to cancel schedule. Please contact Morph Support.",
       ...BRIEF_TOAST_SETTINGS,
     })
   }

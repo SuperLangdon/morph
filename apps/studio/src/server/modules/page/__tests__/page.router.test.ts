@@ -1115,7 +1115,7 @@ describe("page.router", async () => {
         new TRPCError({
           code: "NOT_FOUND",
           message:
-            "Unable to load content for the requested page, please contact Isomer Support",
+            "Unable to load content for the requested page, please contact Morph Support",
         }),
       )
     })
@@ -3366,7 +3366,7 @@ describe("page.router", async () => {
         new TRPCError({
           code: "NOT_FOUND",
           message:
-            "Unable to load content for the requested page, please contact Isomer Support",
+            "Unable to load content for the requested page, please contact Morph Support",
         }),
       )
       await assertAuditLogRows()

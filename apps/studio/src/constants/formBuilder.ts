@@ -21,7 +21,6 @@ export const JSON_FORMS_RANKING = {
   IconPickerControl: 4,
   // NOTE: has to be higher than `TextControl`
   UuidControl: 2,
-  WidgetControl: 3,
   ObjectControl: 2,
   // NOTE: needs to have higher priority than ObjectControl
   BoxedGroupControl: 3,
@@ -43,8 +42,6 @@ export const JSON_FORMS_RANKING = {
   // NOTE: needs to have higher priority than array
   SocialMediaControl: 5,
   AllOfControl: 3,
-  // NOTE: Needs to be above `AnyOfControl`
-  SearchSGControl: 4,
   AnyOfControl: 3,
   OneOfControl: 3,
   CollectionDropdownControl: 3,
@@ -53,8 +50,6 @@ export const JSON_FORMS_RANKING = {
   RefControl: 3,
   GroupLayoutRenderer: 1,
   VerticalLayoutRenderer: 1,
-  // NOTE: needs to have higher priority than VerticalLayoutRenderer
-  AntiScamDisclaimerBannerLayoutRenderer: 2,
   UnionRootControl: 1,
   Catchall: -99999999999,
 }

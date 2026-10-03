@@ -7,11 +7,11 @@ import { storageStateFor, TEST_EMAILS } from "../fixtures/auth"
 import { getSeedSiteId } from "../fixtures/seed"
 
 const UNIQUE_INVITEE = () =>
-  `e2e-invitee-${crypto.randomUUID().slice(0, 8)}@open.gov.sg`
+  `e2e-invitee-${crypto.randomUUID().slice(0, 8)}@example.com`
 
-// Non-gov.sg domain — i.e. a "vendor" collaborator. Vendors can only be
-// added if their email is whitelisted (any whitelist entry, temporary or
-// permanent, is sufficient for any role including Admin).
+// Non-whitelisted domain — i.e. an external "vendor" collaborator. Vendors
+// can only be added if their email is whitelisted (any whitelist entry,
+// temporary or permanent, is sufficient for any role including Admin).
 const UNIQUE_VENDOR = () =>
   `e2e-vendor-${crypto.randomUUID().slice(0, 8)}@vendor.example.com`
 
@@ -101,7 +101,7 @@ const deleteUsersByEmail = async (emailPattern: string) => {
 }
 
 test.afterEach(async () => {
-  await deleteUsersByEmail("e2e-invitee-%@open.gov.sg")
+  await deleteUsersByEmail("e2e-invitee-%@example.com")
   // Cleanup for vendor users created by the positive vendor-invite test.
   await deleteUsersByEmail("e2e-vendor-%@vendor.example.com")
   // Remove any vendor whitelist entries created by these tests.
@@ -124,7 +124,7 @@ test("admin can invite a new collaborator as Publisher", async ({ page }) => {
 })
 
 test("admin can invite a new collaborator as Admin", async ({ page }) => {
-  // A gov.sg invitee is whitelisted by the `.gov.sg` suffix and eligible for
+  // The invitee's domain is whitelisted by the seed data and eligible for
   // the Admin role.
   const inviteeEmail = UNIQUE_INVITEE()
   await inviteCollaborator(page, { email: inviteeEmail, role: "Admin" })
@@ -152,7 +152,7 @@ test("admin cannot invite a non-whitelisted vendor collaborator", async ({
   // Default role is Editor, so the Admin restriction isn't in play — the sole
   // blocker is the missing whitelist entry.
   await expect(
-    page.getByText("There are non-gov.sg domains that need to be whitelisted"),
+    page.getByText(/domain is not whitelisted/i),
   ).toBeVisible({ timeout: 10_000 })
   await expect(page.getByRole("button", { name: "Send invite" })).toBeDisabled()
 })
@@ -172,7 +172,7 @@ test("admin cannot invite a non-whitelisted vendor collaborator, even as Admin",
 
   await expect(page.getByRole("button", { name: /^Admin/ })).toBeEnabled()
   await expect(
-    page.getByText("There are non-gov.sg domains that need to be whitelisted"),
+    page.getByText(/domain is not whitelisted/i),
   ).toBeVisible({ timeout: 10_000 })
   await expect(page.getByRole("button", { name: "Send invite" })).toBeDisabled()
 })

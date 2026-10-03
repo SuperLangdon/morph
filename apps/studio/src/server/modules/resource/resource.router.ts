@@ -855,7 +855,7 @@ export const resourceRouter = router({
         }
 
         // Prevent users from deleting the search page (permalink /search, no parent)
-        // This is a special page that is used to display the SearchSG results
+        // This is a special page that is used to display the search results
         if (
           before.permalink === SEARCH_PAGE_PERMALINK &&
           before.parentId === null

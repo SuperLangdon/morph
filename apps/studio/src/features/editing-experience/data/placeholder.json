@@ -9,13 +9,13 @@
       "type": "hero",
       "variant": "gradient",
       "backgroundColor": "black",
-      "title": "Ministry of Trade and Industry",
-      "subtitle": "A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity",
+      "title": "My Website",
+      "subtitle": "A short, friendly tagline that tells visitors what you do",
       "buttonLabel": "Main CTA",
       "buttonUrl": "/",
       "secondaryButtonLabel": "Sub CTA",
       "secondaryButtonUrl": "/",
-      "backgroundUrl": "https://ohno.isomer.gov.sg/images/hero-banner.png"
+      "backgroundUrl": "/images/hero-banner.svg"
     },
     {
       "type": "infobar",

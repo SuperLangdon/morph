@@ -14,12 +14,12 @@ import { Link } from "@opengovsg/design-system-react"
 import NextLink from "next/link"
 import posthog from "posthog-js"
 import { NoResultIcon } from "~/components/Svg/NoResultIcon"
-import { ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_ISSUES_LINK } from "~/constants/misc"
 import { withSuspense } from "~/hocs/withSuspense"
 import { generateAssetUrl } from "~/utils/generateAssetUrl"
 import { trpc } from "~/utils/trpc"
 
-const DEFAULT_ASSET_LOGO = "/assets/isomer-logo-color.svg"
+const DEFAULT_ASSET_LOGO = "/assets/morph-logo.svg"
 
 const Site = ({
   siteId,
@@ -50,7 +50,7 @@ const Site = ({
               objectFit="contain"
               aspectRatio="1/1"
               backgroundColor="white"
-              fallbackSrc="/isomer-sites-placeholder.png"
+              fallbackSrc="/morph-site-placeholder.svg"
               padding="1rem" // Leave some space so that logo won't be flush with the border
             />
             <Box
@@ -96,7 +96,7 @@ const SiteListSection = ({
     <Flex flexDirection="column" gap="1.5rem" marginTop="0.75rem">
       <Text textStyle="body-2">
         Don't see a site that you're supposed to have access to?{" "}
-        <Link variant="inline" href={ISOMER_SUPPORT_LINK}>
+        <Link variant="inline" href={MORPH_ISSUES_LINK}>
           Let us know
         </Link>
         .
@@ -127,7 +127,7 @@ const SuspendableSiteList = (): JSX.Element => {
           <Text textStyle="body-2" textAlign="center">
             Speak to your System Owner to get access.<br></br>
             If you think there is an error,{" "}
-            <Link variant="inline" href={ISOMER_SUPPORT_LINK}>
+            <Link variant="inline" href={MORPH_ISSUES_LINK}>
               let us know
             </Link>
             .

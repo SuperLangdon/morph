@@ -55,11 +55,6 @@ export const DEFAULT_BLOCKS = {
       ],
     },
   },
-  formsg: {
-    type: "formsg",
-    url: "https://form.gov.sg/686e73c1a1f7bf391ee2b3af",
-    title: "Fill in a sample feedback form for Isomer.",
-  },
   hero: undefined,
   iframe: {
     type: "iframe",
@@ -198,11 +193,6 @@ export const DEFAULT_BLOCKS = {
       },
     ],
   },
-  map: {
-    type: "map",
-    title: "Map of the Singapore region",
-    url: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127639.0647119137!2d103.79481771806647!3d1.343949056391766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssg!4v1731681854346!5m2!1sen!2ssg",
-  },
   audio: {
     type: "audio",
     title:
@@ -253,9 +243,6 @@ export const DEFAULT_BLOCKS = {
         text: "Oops! Having trouble loading the data. Try refreshing — that usually does the trick!",
       },
     ],
-  },
-  antiscambanner: {
-    type: "antiscambanner",
   },
   logocloud: {
     type: "logocloud",
@@ -412,12 +399,6 @@ export const BLOCK_TO_META: Record<
     label: "Embed",
     description: "Embed content from external websites.",
   },
-  map: {
-    label: "Map",
-    description: "Embed a map of a location or an area.",
-    usageText: "Direct people to your office or an event location.",
-    imageSrc: "/assets/block-images/Map.png",
-  },
   // TODO: Add image source (skipped because component not available on studio yet)
   audio: {
     label: "Audio",
@@ -435,13 +416,6 @@ export const BLOCK_TO_META: Record<
     label: "Dynamic Data Banner",
     description: "Display a dynamic data banner.",
     usageText: "This block supports fetching data from an API endpoint.",
-  },
-  antiscambanner: {
-    label: "Anti-scam disclaimer",
-    description: "Show a warning against scams.",
-    usageText:
-      "Comes with a pre-approved text that warns against Government Officials Impersonation Scams.",
-    imageSrc: "/assets/block-images/AntiScamDisclaimerBanner.png",
   },
   logocloud: {
     label: "Logo cloud",
@@ -489,13 +463,6 @@ export const BLOCK_TO_META: Record<
     usageText: "Showcase a list of dynamic components.",
     // TODO: Add imageSrc
   },
-  formsg: {
-    label: "FormSG",
-    description: "Embed a form to collect data.",
-    usageText:
-      "Get mailing list sign-ups or quick feedback directly on the page.",
-    imageSrc: "/assets/block-images/FormSG.png",
-  },
 } as const
 
 type AllowedBlockSections = {
@@ -516,7 +483,7 @@ export const ARTICLE_ALLOWED_BLOCKS: AllowedBlockSections = [
       "button",
     ],
   },
-  { label: "Embed external content", types: ["map", "video"] },
+  { label: "Embed external content", types: ["video"] },
 ]
 
 export const CONTENT_ALLOWED_BLOCKS: AllowedBlockSections = [
@@ -538,7 +505,7 @@ export const CONTENT_ALLOWED_BLOCKS: AllowedBlockSections = [
     label: "Add a new section",
     types: ["infocards", "infocols", "keystatistics", "steps"],
   },
-  { label: "Embed external content", types: ["map", "video", "formsg"] },
+  { label: "Embed external content", types: ["video"] },
 ]
 
 export const INDEX_ALLOWED_BLOCKS: AllowedBlockSections = [
@@ -563,7 +530,6 @@ export const HOMEPAGE_ALLOWED_BLOCKS: AllowedBlockSections = [
       "blockquote",
       "collectionblock",
       "logocloud",
-      "antiscambanner",
     ],
   },
 ]

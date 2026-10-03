@@ -1,5 +1,5 @@
 import { toZonedTime } from "date-fns-tz"
-import { ISOMER_SUPPORT_EMAIL, ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_ISSUES_LINK, MORPH_SUPPORT_EMAIL } from "~/constants/misc"
 import { env } from "~/env.mjs"
 import { formatScheduledAtDate } from "~/lib/dates"
 import { MAX_DAYS_FROM_LAST_LOGIN } from "~/server/modules/user/constants"
@@ -73,15 +73,15 @@ const invitationTemplate = (
 
   const emailBodyParts = [
     `<p>Hi ${recipientEmail},</p>
-<p>${inviterName} has invited you to edit ${siteName} on Isomer Studio as ${role}. As a ${role}, you can ${roleAction}.</p>
+<p>${inviterName} has invited you to edit ${siteName} on Morph as ${role}. As a ${role}, you can ${roleAction}.</p>
 <p></p>
-<p>To start editing, log in to Isomer Studio and activate your account: ${constructStudioRedirect()}</p>`,
+<p>To start editing, log in to Morph and activate your account: ${constructStudioRedirect()}</p>`,
     `<p>Best,</p>
-<p>Isomer team</p>`,
+<p>Morph team</p>`,
   ]
 
   return {
-    subject: "[Isomer Studio] Activate your account to edit Isomer sites",
+    subject: "[Morph] Activate your account to edit Morph sites",
     body: emailBodyParts.join("<p></p>").trim(),
   }
 }
@@ -92,12 +92,12 @@ const schedulePageTemplate = (
   const { recipientEmail, scheduledAt, resource } = data
   const studioResourceUrl = getStudioResourceUrl(resource)
   return {
-    subject: `[Isomer Studio] You scheduled a page to be published`,
+    subject: `[Morph] You scheduled a page to be published`,
     body: `<p>Hi ${recipientEmail},</p>
     <p>You’ve scheduled a page to be published at a later time. Your page will publish at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "UTC"), false)} (UTC)</strong>.</p>
-    <p>Log in to Isomer Studio at ${studioResourceUrl} to modify or cancel your schedule.</p>
+    <p>Log in to Morph at ${studioResourceUrl} to modify or cancel your schedule.</p>
     <p>Best,</p>
-    <p>Isomer team</p>`,
+    <p>Morph team</p>`,
   }
 }
 
@@ -107,12 +107,12 @@ const cancelSchedulePageTemplate = (
   const { recipientEmail, resource } = data
   const studioResourceUrl = getStudioResourceUrl(resource)
   return {
-    subject: `[Isomer Studio] Schedule to publish was cancelled`,
+    subject: `[Morph] Schedule to publish was cancelled`,
     body: `<p>Hi ${recipientEmail},</p>
     <p>Your schedule to publish "${resource.title}" has been cancelled. The page is now in draft mode.</p>
-    <p>Log in to Isomer Studio at ${studioResourceUrl} to manage changes to your page.</p>
+    <p>Log in to Morph at ${studioResourceUrl} to manage changes to your page.</p>
     <p>Best,</p>
-    <p>Isomer team</p>`,
+    <p>Morph team</p>`,
   }
 }
 
@@ -122,12 +122,12 @@ const scheduleUnpublishTemplate = (
   const { recipientEmail, scheduledAt, resource } = data
   const studioResourceUrl = getStudioResourceUrl(resource)
   return {
-    subject: `[Isomer Studio] You scheduled a page to be unpublished`,
+    subject: `[Morph] You scheduled a page to be unpublished`,
     body: `<p>Hi ${recipientEmail},</p>
     <p>You’ve scheduled a page to be unpublished at a later time. Your page will be unpublished at: <strong>${formatScheduledAtDate(toZonedTime(scheduledAt, "UTC"), false)} (UTC)</strong>.</p>
-    <p>Log in to Isomer Studio at ${studioResourceUrl} to modify or cancel your schedule.</p>
+    <p>Log in to Morph at ${studioResourceUrl} to modify or cancel your schedule.</p>
     <p>Best,</p>
-    <p>Isomer team</p>`,
+    <p>Morph team</p>`,
   }
 }
 
@@ -137,12 +137,12 @@ const cancelScheduleUnpublishTemplate = (
   const { recipientEmail, resource } = data
   const studioResourceUrl = getStudioResourceUrl(resource)
   return {
-    subject: `[Isomer Studio] Schedule to unpublish was cancelled`,
+    subject: `[Morph] Schedule to unpublish was cancelled`,
     body: `<p>Hi ${recipientEmail},</p>
     <p>Your schedule to unpublish "${resource.title}" has been cancelled. The page remains published.</p>
-    <p>Log in to Isomer Studio at ${studioResourceUrl} to manage changes to your page.</p>
+    <p>Log in to Morph at ${studioResourceUrl} to manage changes to your page.</p>
     <p>Best,</p>
-    <p>Isomer team</p>`,
+    <p>Morph team</p>`,
   }
 }
 
@@ -154,21 +154,21 @@ const failedPublishTemplate = (
   switch (isScheduled) {
     case true:
       return {
-        subject: `[Isomer Studio] We couldn’t publish your page that was scheduled`,
+        subject: `[Morph] We couldn’t publish your page that was scheduled`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn’t publish the page ${resource.title} that you scheduled.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try publishing the page again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try publishing the page again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
     case false:
       return {
-        subject: `[Isomer Studio] We couldn’t publish your page`,
+        subject: `[Morph] We couldn’t publish your page`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn’t publish the page ${resource.title} that you tried to publish.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try publishing the page again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try publishing the page again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
   }
 }
@@ -181,21 +181,21 @@ const failedUnpublishTemplate = (
   switch (isScheduled) {
     case true:
       return {
-        subject: `[Isomer Studio] We couldn’t unpublish your page that was scheduled`,
+        subject: `[Morph] We couldn’t unpublish your page that was scheduled`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn’t unpublish the page ${resource.title} that you scheduled.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try unpublishing the page again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try unpublishing the page again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
     case false:
       return {
-        subject: `[Isomer Studio] We couldn’t unpublish your page`,
+        subject: `[Morph] We couldn’t unpublish your page`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn’t unpublish the page ${resource.title} that you tried to unpublish.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try unpublishing the page again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try unpublishing the page again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
   }
 }
@@ -210,12 +210,12 @@ const failedSiteRebuildTemplate = (
   const { recipientEmail, resource, verb } = data
   const studioResourceUrl = getStudioResourceUrl(resource)
   return {
-    subject: `[Isomer Studio] Your site may not reflect recent changes`,
+    subject: `[Morph] Your site may not reflect recent changes`,
     body: `<p>Hi ${recipientEmail},</p>
     <p>Your page ${resource.title} was successfully ${verb}ed, but we ran into an issue updating your live site to reflect this change.</p>
-    <p>Please check your site directly at ${studioResourceUrl}, and contact ${ISOMER_SUPPORT_EMAIL} if it still hasn't updated after a while.</p>
+    <p>Please check your site directly at ${studioResourceUrl}, and contact ${MORPH_SUPPORT_EMAIL} if it still hasn't updated after a while.</p>
     <p>Best,</p>
-    <p>Isomer team</p>`,
+    <p>Morph team</p>`,
   }
 }
 
@@ -229,21 +229,21 @@ const siteUpdatedTemplate = (data: SiteUpdatedTemplateData): EmailTemplate => {
   switch (rest.isScheduled) {
     case true:
       return {
-        subject: `[Isomer Studio] Your scheduled page was successfully updated`,
+        subject: `[Morph] Your scheduled page was successfully updated`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>Your page ${resource.title} was successfully updated as scheduled.</p>
-        <p> You can view the current status of your page on Isomer Studio at ${studioResourceUrl}.</p>
+        <p> You can view the current status of your page on Morph at ${studioResourceUrl}.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
     case false:
       return {
-        subject: `[Isomer Studio] Your changes were successfully updated`,
+        subject: `[Morph] Your changes were successfully updated`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>Your changes to page ${resource.title} have been successfully updated.</p>
-        <p> You can view the current status of your page on Isomer Studio at ${studioResourceUrl}.</p>
+        <p> You can view the current status of your page on Morph at ${studioResourceUrl}.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
   }
 }
@@ -260,21 +260,21 @@ const siteUpdateFailedTemplate = (
   switch (isScheduled) {
     case true:
       return {
-        subject: `[Isomer Studio] We couldn't update your site as scheduled`,
+        subject: `[Morph] We couldn't update your site as scheduled`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn't update your site to reflect the scheduled change to ${resource.title}.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try the action again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try the action again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
     case false:
       return {
-        subject: `[Isomer Studio] We couldn't update your site`,
+        subject: `[Morph] We couldn't update your site`,
         body: `<p>Hi ${recipientEmail},</p>
         <p>We couldn't update your site to reflect your change to ${resource.title}.</p>
-        <p>Please log in to Isomer Studio at ${studioResourceUrl} and try the action again.</p>
+        <p>Please log in to Morph at ${studioResourceUrl} and try the action again.</p>
         <p>Best,</p>
-        <p>Isomer team</p>`,
+        <p>Morph team</p>`,
       }
   }
 }
@@ -284,7 +284,7 @@ const accountDeactivationWarningTemplate = (
 ): EmailTemplate => {
   const { recipientEmail, siteNames, inHowManyDays } = data
   return {
-    subject: `[Isomer Studio] Account deactivation warning - ${inHowManyDays} days remaining`,
+    subject: `[Morph] Account deactivation warning - ${inHowManyDays} days remaining`,
     body: `<p>Hi ${recipientEmail},</p>
 <p>We noticed you haven’t logged in for a while. To keep your account active, please log in within the next ${inHowManyDays} days at ${constructStudioRedirect()}.</p>
 <p>This is a standard security measure to protect your sites and data.</p>
@@ -292,7 +292,7 @@ const accountDeactivationWarningTemplate = (
 <ul>${siteNames.map((site) => `<li>${site}</li>`).join("")}</ul>
 <p>Your content will still be preserved, but you won’t be able to access or manage these sites unless your account is reactivated.</p>
 <p>Best,</p>
-<p>Isomer team</p>`,
+<p>Morph team</p>`,
   }
 }
 
@@ -312,23 +312,23 @@ const accountDeactivationTemplate = (
       }
       return `
         <p><b>${siteName}</b></p>
-        <p>There are no administrators for this site. To be added back, please send an email to <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
+        <p>There are no administrators for this site. To be added back, please send an email to <a href="${MORPH_ISSUES_LINK}">${MORPH_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
       `
     })
     .join("")
 
   const emailBody = [
     `<p>Hi ${recipientEmail},</p>`,
-    `<p>Your Isomer Studio account has been removed as you have not logged in for over ${MAX_DAYS_FROM_LAST_LOGIN} days. This is a standard security measure to protect your site data.</p>`,
+    `<p>Your Morph account has been removed as you have not logged in for over ${MAX_DAYS_FROM_LAST_LOGIN} days. This is a standard security measure to protect your site data.</p>`,
     `<p>Your content and previous contributions have been preserved. Your site(s) will continue to be accessible to visitors, and all your work remains intact.</p>`,
     `<p>To regain access to your site(s), please follow the instructions below:</p>`,
     siteSpecificInstructions,
     `<p>Best,</p>`,
-    `<p>Isomer team</p>`,
+    `<p>Morph team</p>`,
   ].join("")
 
   return {
-    subject: `[Isomer Studio] Your account has been deactivated due to inactivity`,
+    subject: `[Morph] Your account has been deactivated due to inactivity`,
     body: emailBody,
   }
 }
@@ -347,13 +347,13 @@ const auditLogExportReadyTemplate = (
   const downloadLink = `<a href="${link.url}">${getDownloadLinkLabel(link.label, month, sizeInBytes)}</a>`
 
   return {
-    subject: `[Isomer] ${logName} logs for ${month} for your site (${unescapeHtml(siteName)}) is ready`,
+    subject: `[Morph] ${logName} logs for ${month} for your site (${unescapeHtml(siteName)}) is ready`,
     body: `<p>Hi ${recipientEmail},</p>
 <p>You requested for audit logs for your site(s) for ${month}. This link will expire on ${expiresAt}.</p>
 <p>${downloadLink}</p>
 <br/>
 <p>Best,</p>
-<p>Isomer team</p>`,
+<p>Morph team</p>`,
   }
 }
 
@@ -365,13 +365,13 @@ const auditLogExportFailedTemplate = (
   const { recipientEmail, siteName, month } = data
 
   return {
-    subject: `[Isomer Studio] Your audit log export for ${unescapeHtml(siteName)} (${month}) could not be generated`,
+    subject: `[Morph] Your audit log export for ${unescapeHtml(siteName)} (${month}) could not be generated`,
     body: `<p>Hi ${recipientEmail},</p>
 <p>We're sorry — we couldn't generate your audit log export for ${siteName} (${month}).</p>
-<p>Please try again later. If the problem persists, contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a>.</p>
+<p>Please try again later. If the problem persists, contact <a href="${MORPH_ISSUES_LINK}">${MORPH_SUPPORT_EMAIL}</a>.</p>
 <br/>
 <p>Best,</p>
-<p>Isomer team</p>`,
+<p>Morph team</p>`,
   }
 }
 
@@ -408,19 +408,19 @@ const auditLogExportBatchReadyTemplate = (
 
   const failedSection =
     failedSiteNames.length > 0
-      ? `<p>We couldn't generate ${logName.toLowerCase()} logs for the following site(s). Please try requesting them again, and contact <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> if the problem persists:</p>
+      ? `<p>We couldn't generate ${logName.toLowerCase()} logs for the following site(s). Please try requesting them again, and contact <a href="${MORPH_ISSUES_LINK}">${MORPH_SUPPORT_EMAIL}</a> if the problem persists:</p>
 <ul>${failedSiteNames.map((siteName) => `<li>${siteName}</li>`).join("")}</ul>`
       : ""
 
   return {
-    subject: `[Isomer] ${logName} logs for ${month} for your sites`,
+    subject: `[Morph] ${logName} logs for ${month} for your sites`,
     body: `<p>Hi ${recipientEmail},</p>
 <p>You requested ${logName.toLowerCase()} logs for all your sites for ${month}. ${links.length} of ${totalCount} site(s) succeeded.${sharedExpiry ? ` Each link below will expire on ${sharedExpiry}.` : ""}</p>
 ${linkItems.length > 0 ? `<ol>${linkItems}</ol>` : ""}
 ${failedSection}
 <br/>
 <p>Best,</p>
-<p>Isomer team</p>`,
+<p>Morph team</p>`,
   }
 }
 

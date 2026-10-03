@@ -53,7 +53,7 @@ export const SettingsSidenav = ({ onSidenavClose }: SettingsSidenavProps) => {
     {
       header: { label: "General", icon: BiWrench },
       items: [
-        { label: "Name and agency", href: `/sites/${siteId}/settings/agency` },
+        { label: "Name and organisation", href: `/sites/${siteId}/settings/agency` },
         {
           label: "Notification banner",
           href: `/sites/${siteId}/settings/notification`,

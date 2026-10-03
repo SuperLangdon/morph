@@ -108,7 +108,7 @@ export const AlreadyExistsError: Story = {
 // Opens the bulk-upload modal, uploads a valid CSV, and clicks "Process
 // redirects" so the mocked validation drives the next screen.
 const VALID_CSV =
-  "When someone visits,Redirect them to\n/old-one,/new-one\n/old-two,https://www.example.gov.sg"
+  "When someone visits,Redirect them to\n/old-one,/new-one\n/old-two,https://example.org"
 
 // Distinct contents, so swapping it in genuinely changes what would be published.
 const SWAPPED_CSV =

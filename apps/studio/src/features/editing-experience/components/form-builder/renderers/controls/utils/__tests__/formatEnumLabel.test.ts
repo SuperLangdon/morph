@@ -3,7 +3,7 @@ import { formatEnumLabel } from "../formatEnumLabel"
 describe("formatEnumLabel", () => {
   it.each([
     ["Organization", "Organization"],
-    ["GovernmentOrganization", "Government Organization"],
+    ["LocalBusiness", "Local Business"],
     ["EducationalOrganization", "Educational Organization"],
     ["NGO", "NGO"],
     ["facebook", "Facebook"],

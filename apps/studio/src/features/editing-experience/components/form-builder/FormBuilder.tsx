@@ -37,8 +37,6 @@ import {
   jsonFormsDateFilterStatusLabelsControlTester,
   JsonFormsDateFilterValuesControl,
   jsonFormsDateFilterValuesControlTester,
-  JsonFormsDgsDatasetIdControl,
-  jsonFormsDgsDatasetIdControlTester,
   JsonFormsEmbedControl,
   jsonFormsEmbedControlTester,
   JsonFormsEnumControl,
@@ -77,8 +75,6 @@ import {
   jsonFormsProseControlTester,
   JsonFormsRefControl,
   jsonFormsRefControlTester,
-  JsonFormsSearchSGControl,
-  jsonFormsSearchSGControlTester,
   JsonFormsSocialMediaControl,
   jsonFormsSocialMediaControlTester,
   JsonFormsTagCategoriesControl,
@@ -95,26 +91,14 @@ import {
   jsonFormsUnionRootControlTester,
   JsonFormsUuidControl,
   jsonFormsUuidControlTester,
-  jsonFormsAntiScamDisclaimerBannerLayoutRenderer,
-  jsonFormsAntiScamDisclaimerBannerLayoutTester,
   jsonFormsVerticalLayoutRenderer,
   jsonFormsVerticalLayoutTester,
-  JsonFormsWidgetIntegrationControl,
-  jsonFormsWidgetIntegrationControlTester,
 } from "./renderers"
 
 export const renderers: JsonFormsRendererRegistryEntry[] = [
   {
     renderer: JsonFormsColourPickerControl,
     tester: jsonFormsColourPickerControlTester,
-  },
-  {
-    renderer: JsonFormsWidgetIntegrationControl,
-    tester: jsonFormsWidgetIntegrationControlTester,
-  },
-  {
-    renderer: JsonFormsSearchSGControl,
-    tester: jsonFormsSearchSGControlTester,
   },
   {
     tester: jsonFormsTagCategoriesControlTester,
@@ -164,10 +148,6 @@ export const renderers: JsonFormsRendererRegistryEntry[] = [
     renderer: JsonFormsUnionRootControl,
   },
   { tester: jsonFormsEmbedControlTester, renderer: JsonFormsEmbedControl },
-  {
-    tester: jsonFormsDgsDatasetIdControlTester,
-    renderer: JsonFormsDgsDatasetIdControl,
-  },
   { tester: jsonFormsHiddenControlTester, renderer: JsonFormsHiddenControl },
   { tester: jsonFormsIntegerControlTester, renderer: JsonFormsIntegerControl },
   {
@@ -193,10 +173,6 @@ export const renderers: JsonFormsRendererRegistryEntry[] = [
   {
     tester: jsonFormsGroupLayoutTester,
     renderer: jsonFormsGroupLayoutRenderer,
-  },
-  {
-    tester: jsonFormsAntiScamDisclaimerBannerLayoutTester,
-    renderer: jsonFormsAntiScamDisclaimerBannerLayoutRenderer,
   },
   {
     tester: jsonFormsVerticalLayoutTester,

@@ -1,7 +1,7 @@
 import { REFERENCE_LINK_REGEX } from "@opengovsg/isomer-components"
 
 // This function converts HTML with absolute reference links (something like
-// https://studio.isomer.gov.sg/sites/1/pages/[resource:siteId:resourceId]) into
+// https://studio.example.com/sites/1/pages/[resource:siteId:resourceId]) into
 // relative reference links ([resource:siteId:resourceId])
 export const getHtmlWithRelativeReferenceLinks = (html: string) =>
   html.replaceAll(

@@ -98,7 +98,7 @@ export const ExpandedMenu: Story = {
   },
 }
 
-// Core Isomer admins additionally see each collaborator's phone number
+// Core Morph admins additionally see each collaborator's phone number
 export const CoreIsomerAdmin: Story = {
   parameters: {
     msw: {
@@ -129,7 +129,7 @@ export const IsomerAdminsTab: Story = {
   },
   play: async ({ canvasElement }) => {
     const screen = within(canvasElement)
-    const isomerAdminsTab = await screen.findByText("Isomer admins")
+    const isomerAdminsTab = await screen.findByText("Morph admins")
     await userEvent.click(isomerAdminsTab)
   },
 }

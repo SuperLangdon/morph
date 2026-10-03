@@ -1230,12 +1230,12 @@ describe("permissions.service", () => {
       })
     })
 
-    describe("Isomer Admin", () => {
+    describe("Morph Admin", () => {
       beforeEach(async () => {
         await resetTables("IsomerAdmin")
       })
 
-      it("should allow an Isomer Admin to perform all actions including root-level create/delete", async () => {
+      it("should allow an Morph Admin to perform all actions including root-level create/delete", async () => {
         // Arrange
         await setupIsomerAdmin({ userId: user.id })
 
@@ -1257,7 +1257,7 @@ describe("permissions.service", () => {
         }
       })
 
-      it("should not allow an expired Isomer Admin to perform root-level actions", async () => {
+      it("should not allow an expired Morph Admin to perform root-level actions", async () => {
         // Arrange
         const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
         await setupIsomerAdmin({ userId: user.id, expiry: yesterday })
@@ -1471,8 +1471,8 @@ describe("getResourcePermission", () => {
     expect(permissions2[0]?.role).toBe(RoleType.Editor)
   })
 
-  describe("Isomer Admin", () => {
-    it("should return Admin role for an Isomer Admin without any explicit ResourcePermission", async () => {
+  describe("Morph Admin", () => {
+    it("should return Admin role for an Morph Admin without any explicit ResourcePermission", async () => {
       // Arrange
       const user = await setupUser({ email: "test@example.com" })
       const site = await setupSite()
@@ -1490,7 +1490,7 @@ describe("getResourcePermission", () => {
       expect(permissions[0]?.role).toBe(RoleType.Admin)
     })
 
-    it("should return Admin role for an Isomer Admin even if they have an explicit non-admin role", async () => {
+    it("should return Admin role for an Morph Admin even if they have an explicit non-admin role", async () => {
       // Arrange
       const user = await setupUser({ email: "test@example.com" })
       const site = await setupSite()
@@ -1504,12 +1504,12 @@ describe("getResourcePermission", () => {
         resourceId: null,
       })
 
-      // Assert — Isomer Admin overrides explicit Editor role
+      // Assert — Morph Admin overrides explicit Editor role
       expect(permissions).toHaveLength(1)
       expect(permissions[0]?.role).toBe(RoleType.Admin)
     })
 
-    it("should return the explicit role when Isomer Admin entry is expired", async () => {
+    it("should return the explicit role when Morph Admin entry is expired", async () => {
       // Arrange
       const user = await setupUser({ email: "test@example.com" })
       const site = await setupSite()
@@ -1524,12 +1524,12 @@ describe("getResourcePermission", () => {
         resourceId: null,
       })
 
-      // Assert — expired Isomer Admin falls back to explicit role
+      // Assert — expired Morph Admin falls back to explicit role
       expect(permissions).toHaveLength(1)
       expect(permissions[0]?.role).toBe(RoleType.Editor)
     })
 
-    it("should return the explicit role when Isomer Admin entry has expired", async () => {
+    it("should return the explicit role when Morph Admin entry has expired", async () => {
       // Arrange
       const user = await setupUser({ email: "test@example.com" })
       const site = await setupSite()
@@ -1544,7 +1544,7 @@ describe("getResourcePermission", () => {
         resourceId: null,
       })
 
-      // Assert — expired Isomer Admin falls back to explicit role
+      // Assert — expired Morph Admin falls back to explicit role
       expect(permissions).toHaveLength(1)
       expect(permissions[0]?.role).toBe(RoleType.Editor)
     })
@@ -1556,14 +1556,14 @@ describe("isActiveIsomerAdmin", () => {
     await resetTables("IsomerAdmin", "User")
   })
 
-  it("should return true for an active Isomer Admin with no expiry", async () => {
+  it("should return true for an active Morph Admin with no expiry", async () => {
     const user = await setupUser({ email: "test@example.com" })
     await setupIsomerAdmin({ userId: user.id, role: IsomerAdminRole.Core })
 
     expect(await isActiveIsomerAdmin(user.id)).toBe(true)
   })
 
-  it("should return true for an active Isomer Admin with a future expiry", async () => {
+  it("should return true for an active Morph Admin with a future expiry", async () => {
     const user = await setupUser({ email: "test@example.com" })
     const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000)
     await setupIsomerAdmin({ userId: user.id, expiry: tomorrow })
@@ -1571,7 +1571,7 @@ describe("isActiveIsomerAdmin", () => {
     expect(await isActiveIsomerAdmin(user.id)).toBe(true)
   })
 
-  it("should return false for an expired Isomer Admin", async () => {
+  it("should return false for an expired Morph Admin", async () => {
     const user = await setupUser({ email: "test@example.com" })
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
     await setupIsomerAdmin({ userId: user.id, expiry: yesterday })
@@ -1579,7 +1579,7 @@ describe("isActiveIsomerAdmin", () => {
     expect(await isActiveIsomerAdmin(user.id)).toBe(false)
   })
 
-  it("should return false for an Isomer Admin whose expiry is exactly now", async () => {
+  it("should return false for an Morph Admin whose expiry is exactly now", async () => {
     const user = await setupUser({ email: "test@example.com" })
     // Set expiry to a moment in the past to simulate just-expired
     const justExpired = new Date(Date.now() - 1000)
@@ -1638,7 +1638,7 @@ describe("validateUserIsIsomerAdmin", () => {
     await resetTables("IsomerAdmin", "User")
   })
 
-  it("should not throw for an active Isomer Admin with a matching role", async () => {
+  it("should not throw for an active Morph Admin with a matching role", async () => {
     const user = await setupUser({ email: "test@example.com" })
     await setupIsomerAdmin({ userId: user.id, role: IsomerAdminRole.Core })
 
@@ -1667,7 +1667,7 @@ describe("validateUserIsIsomerAdmin", () => {
     )
   })
 
-  it("should throw FORBIDDEN for an expired Isomer Admin", async () => {
+  it("should throw FORBIDDEN for an expired Morph Admin", async () => {
     const user = await setupUser({ email: "test@example.com" })
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000)
     await setupIsomerAdmin({ userId: user.id, expiry: yesterday })
@@ -1722,7 +1722,7 @@ describe("validateUserIsSiteAdmin", () => {
     ).resolves.toBe(true)
   })
 
-  it("should allow an active Isomer Admin without a site permission", async () => {
+  it("should allow an active Morph Admin without a site permission", async () => {
     // Arrange
     const user = await setupUser({ email: "isomer-admin@example.com" })
     const { site } = await setupSite()
@@ -1734,7 +1734,7 @@ describe("validateUserIsSiteAdmin", () => {
     ).resolves.toBe(true)
   })
 
-  it("should reject an expired Isomer Admin without a site permission", async () => {
+  it("should reject an expired Morph Admin without a site permission", async () => {
     // Arrange
     const user = await setupUser({ email: "expired-admin@example.com" })
     const { site } = await setupSite()
@@ -1759,7 +1759,7 @@ describe("definePermissionsForResource", () => {
     )
   })
 
-  it("should grant full resource permissions to an Isomer Admin without any ResourcePermission", async () => {
+  it("should grant full resource permissions to an Morph Admin without any ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()
@@ -1771,14 +1771,14 @@ describe("definePermissionsForResource", () => {
       siteId: site.id,
     })
 
-    // Assert — Isomer Admin can create/delete at root
+    // Assert — Morph Admin can create/delete at root
     expect(perms.can("create", { parentId: null })).toBe(true)
     expect(perms.can("delete", { parentId: null })).toBe(true)
     expect(perms.can("read", { parentId: null })).toBe(true)
     expect(perms.can("update", { parentId: null })).toBe(true)
   })
 
-  it("should not grant admin resource permissions to an expired Isomer Admin without ResourcePermission", async () => {
+  it("should not grant admin resource permissions to an expired Morph Admin without ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()
@@ -1791,7 +1791,7 @@ describe("definePermissionsForResource", () => {
       siteId: site.id,
     })
 
-    // Assert — expired Isomer Admin has no permissions
+    // Assert — expired Morph Admin has no permissions
     expect(perms.can("create", { parentId: null })).toBe(false)
     expect(perms.can("delete", { parentId: null })).toBe(false)
   })
@@ -1802,7 +1802,7 @@ describe("definePermissionsForSite", () => {
     await resetTables("IsomerAdmin", "ResourcePermission", "User", "Site")
   })
 
-  it("should grant full site permissions to an Isomer Admin without any ResourcePermission", async () => {
+  it("should grant full site permissions to an Morph Admin without any ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()
@@ -1821,7 +1821,7 @@ describe("definePermissionsForSite", () => {
     })
   })
 
-  it("should not grant site permissions to an expired Isomer Admin without ResourcePermission", async () => {
+  it("should not grant site permissions to an expired Morph Admin without ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()
@@ -1847,7 +1847,7 @@ describe("validatePermissionsForManagingUsers", () => {
     await resetTables("IsomerAdmin", "ResourcePermission", "User", "Site")
   })
 
-  it("should allow an Isomer Admin to manage users without any ResourcePermission", async () => {
+  it("should allow an Morph Admin to manage users without any ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()
@@ -1880,7 +1880,7 @@ describe("validatePermissionsForManagingUsers", () => {
     )
   })
 
-  it("should throw FORBIDDEN for an expired Isomer Admin without ResourcePermission", async () => {
+  it("should throw FORBIDDEN for an expired Morph Admin without ResourcePermission", async () => {
     // Arrange
     const user = await setupUser({ email: "test@example.com" })
     const { site } = await setupSite()

@@ -1,5 +1,4 @@
 import { Link, Text } from "@chakra-ui/react"
-import Image from "next/image"
 import NextLink from "next/link"
 
 export const RestrictedMiniFooter = (): JSX.Element => {
@@ -14,15 +13,13 @@ export const RestrictedMiniFooter = (): JSX.Element => {
       textTransform="uppercase"
       fontSize="0.625rem"
     >
-      Built by{" "}
-      <Link as={NextLink} title="To OGP homepage" href="https://open.gov.sg">
-        <Image
-          src="/assets/restricted-ogp-logo-full.svg"
-          width={233}
-          height={12}
-          alt="OGP Logo"
-          priority
-        />
+      Powered by{" "}
+      <Link
+        as={NextLink}
+        title="Morph on GitHub"
+        href="https://github.com/morph-cms/morph"
+      >
+        Morph
       </Link>
     </Text>
   )

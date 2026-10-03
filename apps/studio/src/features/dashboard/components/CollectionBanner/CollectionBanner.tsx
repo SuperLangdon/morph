@@ -52,9 +52,9 @@ export const CollectionBanner = (): JSX.Element | null => {
             externalLinkIcon={<></>}
             p={0}
             as={NextLink}
-            href="https://support.isomer.gov.sg/en/articles/11693839-introducing-collections"
+            href="https://github.com/morph-cms/morph/wiki/Collections"
           >
-            Learn about collections on the Isomer Guide{" "}
+            Learn about collections on the Morph Guide{" "}
             <Icon as={BiRightArrowAlt} fontSize="1rem" />
           </Link>
         </Stack>

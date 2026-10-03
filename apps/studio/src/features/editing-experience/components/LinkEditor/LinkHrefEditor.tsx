@@ -68,7 +68,7 @@ export const LinkHrefEditor = ({
                 }
                 setHref(generateHttpsLink(e.target.value))
               }}
-              placeholder="www.isomer.gov.sg"
+              placeholder="www.example.com"
             />
           </InputGroup>
         )}

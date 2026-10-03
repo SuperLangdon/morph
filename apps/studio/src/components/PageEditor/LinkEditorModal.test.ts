@@ -5,7 +5,7 @@ import { linkEditorSchema } from "./LinkEditorModal"
 describe("linkEditorSchema", () => {
   it("accepts a valid external link", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "https://isomer.gov.sg",
     })
     expect(result.success).toBe(true)
@@ -21,7 +21,7 @@ describe("linkEditorSchema", () => {
 
   it("rejects an empty linkHref", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "",
     })
     expect(result.success).toBe(false)
@@ -29,7 +29,7 @@ describe("linkEditorSchema", () => {
 
   it("trims stray leading/trailing whitespace from a valid linkHref", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "  https://isomer.gov.sg  ",
     })
     expect(result.success).toBe(true)
@@ -40,7 +40,7 @@ describe("linkEditorSchema", () => {
 
   it("rejects a linkHref that is only whitespace", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "   ",
     })
     expect(result.success).toBe(false)
@@ -48,7 +48,7 @@ describe("linkEditorSchema", () => {
 
   it("does not reject a valid link containing internal whitespace-like characters", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "https://example.com/foo\tbar\nbaz",
     })
     expect(result.success).toBe(true)
@@ -56,7 +56,7 @@ describe("linkEditorSchema", () => {
 
   it("rejects a bare https:// scheme with no domain", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "https://",
     })
     expect(result.success).toBe(false)
@@ -64,7 +64,7 @@ describe("linkEditorSchema", () => {
 
   it("rejects a bare mailto: scheme with no address", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "mailto:",
     })
     expect(result.success).toBe(false)
@@ -72,7 +72,7 @@ describe("linkEditorSchema", () => {
 
   it("rejects an external link with a malformed host", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "https://exa mple.com",
     })
     expect(result.success).toBe(false)
@@ -80,7 +80,7 @@ describe("linkEditorSchema", () => {
 
   it("accepts a well-formed mailto: link", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "mailto:foo@example.com",
     })
     expect(result.success).toBe(true)
@@ -88,7 +88,7 @@ describe("linkEditorSchema", () => {
 
   it("accepts a Page-type reference link, unaffected by the URL check", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "[resource:1:2]",
     })
     expect(result.success).toBe(true)
@@ -96,7 +96,7 @@ describe("linkEditorSchema", () => {
 
   it("accepts a File-type link, unaffected by the URL check", () => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref: "/123/550e8400-e29b-41d4-a716-446655440000/file.pdf",
     })
     expect(result.success).toBe(true)
@@ -110,7 +110,7 @@ describe("linkEditorSchema", () => {
     "rejects an unprefixed external-looking href: %s (known limitation)",
     (linkHref) => {
       const result = linkEditorSchema.safeParse({
-        linkText: "Isomer",
+        linkText: "Morph",
         linkHref,
       })
       expect(result.success).toBe(false)
@@ -131,7 +131,7 @@ describe("linkEditorSchema", () => {
     "\tjavascript:alert(1)",
   ])("rejects a disallowed href scheme: %s", (linkHref) => {
     const result = linkEditorSchema.safeParse({
-      linkText: "Isomer",
+      linkText: "Morph",
       linkHref,
     })
     expect(result.success).toBe(false)

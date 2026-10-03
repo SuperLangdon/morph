@@ -5,7 +5,7 @@
     "contentPageHeader": {
       "summary": "Our organisation's vision, mission, structure and values"
     },
-    "title": "About MTI",
+    "title": "About Us",
     "description": "Our organisation's vision, mission, structure and values",
     "permalink": "/resources/newsroom/relevant-news/todays-news"
   },
@@ -32,7 +32,7 @@
             {
               "type": "text",
               "marks": [],
-              "text": "Our vision is for Singapore to be a leading global city with a dynamic economy, world-class and innovative enterprises, a conducive environment for entrepreneurs and enterprises to tap its diverse opportunities and good jobs for all Singaporeans."
+              "text": "Our vision is a web that is fast, accessible, and delightful to use — where publishing is simple and the content shines."
             }
           ]
         },
@@ -55,7 +55,7 @@
             {
               "type": "text",
               "marks": [],
-              "text": "To promote economic growth and create good jobs, to enable Singaporeans to improve their lives. Together with our statutory boards, we will ensure that Singapore’s economy continues to be competitive, is able to attract investments, and nurture a deeper base of global Singapore enterprises."
+              "text": "To help teams publish their best work: intuitive tools, sensible defaults, and a platform that stays out of the way."
             }
           ]
         },
@@ -158,8 +158,8 @@
     },
     {
       "type": "image",
-      "src": "https://github.com/isomerpages/mti-corp/blob/staging/public/images/about/accreditations.png?raw=true",
-      "alt": "Three logos in a row. From left, they read SOCOTEC, People De Eloper, and Singapore Quality Class Star.",
+      "src": "https://placehold.co/600x400",
+      "alt": "A placeholder image showing three sample certification badges.",
       "width": 100
     }
   ]

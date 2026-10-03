@@ -37,7 +37,7 @@ export const DateFilterOnboardingBanner = (): JSX.Element | null => {
           externalLinkIcon={<></>}
           p={0}
           as={NextLink}
-          href="https://support.isomer.gov.sg/en/articles/15461505-how-to-manage-collection-filters"
+          href="https://github.com/morph-cms/morph/wiki/Collection-filters"
           color="interaction.links.default"
           onClick={() => setHasSeenOnboardingBanner(true)}
         >

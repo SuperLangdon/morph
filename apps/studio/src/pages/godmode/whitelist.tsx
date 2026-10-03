@@ -70,7 +70,7 @@ const GodModeWhitelistPage: NextPageWithLayout = () => {
           What happens when you whitelist an email?
         </Text>
         <Text>
-          The user with the given email will be able to log into Isomer Studio.
+          The user with the given email will be able to log into Morph.
           If the user is given vendor access, the email will only be whitelisted
           for 90 days. Input each email on a new line.
           <br /> <br /> If you want to whitelist multiple users at once, you can

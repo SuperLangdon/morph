@@ -20,7 +20,7 @@ const logger = createBaseLogger({
   path: "server/modules/user/inactiveUsers.service",
 })
 
-// Returns a subquery that selects userIds of currently active Isomer admins
+// Returns a subquery that selects userIds of currently active Morph admins
 // (i.e. those whose expiry is null or in the future). Used to exclude Isomer
 // admins from inactive-user queries.
 const activeIsomerAdminUserIds = () =>

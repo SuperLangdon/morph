@@ -1,5 +1,5 @@
 import type { Resource } from "~/server/modules/database"
-import { ISOMER_SUPPORT_EMAIL, ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_SUPPORT_EMAIL, MORPH_ISSUES_LINK } from "~/constants/misc"
 import { env } from "~/env.mjs"
 import { ResourceType, RoleType } from "~prisma/generated/generatedEnums"
 
@@ -16,7 +16,7 @@ describe("invitationTemplate", () => {
   it("should generate correct subject line", () => {
     const template = templates.invitation(mockData)
     expect(template.subject).toBe(
-      `[Isomer Studio] Activate your account to edit Isomer sites`,
+      `[Morph] Activate your account to edit Morph sites`,
     )
   })
 
@@ -74,7 +74,7 @@ describe("accountDeactivationWarningTemplate", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer Studio] Account deactivation warning - 7 days remaining",
+      "[Morph] Account deactivation warning - 7 days remaining",
     )
   })
 
@@ -87,7 +87,7 @@ describe("accountDeactivationWarningTemplate", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer Studio] Account deactivation warning - 14 days remaining",
+      "[Morph] Account deactivation warning - 14 days remaining",
     )
   })
 
@@ -174,7 +174,7 @@ describe("accountDeactivationTemplate", () => {
 
     // Assert
     expect(template.subject).toBe(
-      "[Isomer Studio] Your account has been deactivated due to inactivity",
+      "[Morph] Your account has been deactivated due to inactivity",
     )
   })
 
@@ -192,7 +192,7 @@ describe("accountDeactivationTemplate", () => {
 
     // Assert
     expect(template.body).toContain(
-      "Your Isomer Studio account has been removed as you have not logged in for over 90 days.",
+      "Your Morph account has been removed as you have not logged in for over 90 days.",
     )
   })
 
@@ -263,7 +263,7 @@ describe("accountDeactivationTemplate", () => {
 
     // Assert
     const expectedSiteInstructions = `<p><b>Test Site 1</b></p>
-        <p>There are no administrators for this site. To be added back, please send an email to <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
+        <p>There are no administrators for this site. To be added back, please send an email to <a href="${MORPH_ISSUES_LINK}">${MORPH_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
       `
     expect(template.body).toContain(expectedSiteInstructions)
   })
@@ -332,7 +332,7 @@ describe("accountDeactivationTemplate", () => {
     expect(template.body).toContain(expectedSiteInstructionForSiteWithTwoAdmins)
 
     const expectedSiteInstructionForSiteWithoutAdmins = `<p><b>Site without Admins</b></p>
-        <p>There are no administrators for this site. To be added back, please send an email to <a href="${ISOMER_SUPPORT_LINK}">${ISOMER_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
+        <p>There are no administrators for this site. To be added back, please send an email to <a href="${MORPH_ISSUES_LINK}">${MORPH_SUPPORT_EMAIL}</a> with your line manager in CC for approval.</p>
       `
     expect(template.body).toContain(expectedSiteInstructionForSiteWithoutAdmins)
   })
@@ -418,10 +418,10 @@ describe("email template HTML escaping", () => {
 
     // Assert
     expect(contentPublisherTemplate.subject).toBe(
-      "[Isomer Studio] R&D Report has been published",
+      "[Morph] R&D Report has been published",
     )
     expect(siteAdminTemplate.subject).toBe(
-      "[Isomer Studio] R&D Report has been published",
+      "[Morph] R&D Report has been published",
     )
   })
 

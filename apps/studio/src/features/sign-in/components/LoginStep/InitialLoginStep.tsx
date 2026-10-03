@@ -1,7 +1,7 @@
 import { Box, Stack, Text, VStack } from "@chakra-ui/react"
 import { Infobox } from "@opengovsg/design-system-react"
 import { useMemo } from "react"
-import { IsomerLogo } from "~/components/Svg"
+import { MorphLogo } from "~/components/Svg"
 import { useEnv } from "~/hooks/useEnv"
 
 import { EmailLoginForm } from "../EmailLogin"
@@ -36,7 +36,7 @@ export const InitialLoginStep = (): JSX.Element => {
   return (
     <Stack gap="1.5rem" direction="column" width="100%">
       <Box>
-        <IsomerLogo />
+        <MorphLogo />
       </Box>
 
       {!!errorState && (

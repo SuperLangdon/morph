@@ -9,7 +9,7 @@ import UsersPage from "~/pages/sites/[siteId]/users"
 
 import { ResetAddUserModalDecorator } from "../decorators"
 
-const EMAIL = "chillguy@isomer.gov.sg"
+const EMAIL = "chillguy@example.com"
 const COMMON_HANDLERS = [
   meHandlers.me(),
   resourceHandlers.getRolesFor.admin(),
@@ -96,7 +96,7 @@ export const AdminWarningBanner: Story = {
 
 // Selecting Admin no longer has any whitelist-specific effect of its own —
 // there's no longer a distinction between Admin and any other role. A
-// non-whitelisted non-gov.sg email still blocks the invite, but via the
+// non-whitelisted email still blocks the invite, but via the
 // same general "needs whitelisting" gate that blocks every role, not an
 // Admin-specific one: the Admin warning still shows (role is selected),
 // but Send invite stays disabled because the email itself isn't whitelisted.
@@ -132,7 +132,7 @@ export const AdminSelectionDoesNotBypassWhitelistGate: Story = {
     await expect(adminWarningText).toBeVisible()
 
     const whitelistErrorText = await screen.findByText(
-      "There are non-gov.sg domains that need to be whitelisted. Chat with Isomer Support to whitelist domains.",
+      "This email's domain is not whitelisted. Ask a Morph admin to whitelist the domain first.",
     )
     await expect(whitelistErrorText).toBeVisible()
 
@@ -141,7 +141,7 @@ export const AdminSelectionDoesNotBypassWhitelistGate: Story = {
   },
 }
 
-// Regression test for the fix allowing Admin for any whitelisted non-gov.sg
+// Regression test for the fix allowing Admin for any whitelisted
 // email — permanent or temporary (vendor) grants are treated identically, so
 // mocking isEmailWhitelisted: true covers both.
 export const NonGovEmailWhitelistedForAdmin: Story = {
@@ -208,7 +208,7 @@ export const EmailIsNotWhitelisted: Story = {
     }
 
     const nonGovEmailCannotBeAdminText = await screen.findByText(
-      "There are non-gov.sg domains that need to be whitelisted. Chat with Isomer Support to whitelist domains.",
+      "This email's domain is not whitelisted. Ask a Morph admin to whitelist the domain first.",
     )
     await expect(nonGovEmailCannotBeAdminText).toBeVisible()
   },

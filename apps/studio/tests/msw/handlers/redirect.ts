@@ -15,7 +15,7 @@ const DEFAULT_REDIRECT_ITEMS = [
   {
     id: "2",
     source: "/press-releases",
-    destination: "https://www.example.gov.sg/newsroom",
+    destination: "https://www.example.org/newsroom",
     publishedAt: MOCK_STORY_DATE,
   },
 ]
@@ -68,7 +68,7 @@ export const redirectHandlers = {
             {
               rowNumber: 3,
               source: "/old-two",
-              destination: "https://www.example.gov.sg",
+              destination: "https://www.example.org",
               error: null,
             },
           ],

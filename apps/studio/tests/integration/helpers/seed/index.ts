@@ -88,7 +88,7 @@ export const setupSite = async (siteId?: number, fetch?: boolean) => {
     })
   }
 
-  const name = `Ministry of Testing and Development ${nanoid()}`
+  const name = `Testing and Development Co ${nanoid()}`
   return await db.transaction().execute(async (tx) => {
     const site = await tx
       .insertInto("Site")
@@ -98,7 +98,6 @@ export const setupSite = async (siteId?: number, fetch?: boolean) => {
           theme: "isomer-next",
           logoUrl: "",
           siteName: name,
-          isGovernment: true,
           url: "",
         }),
         // @ts-expect-error id is GeneratedAlways but we override it for tests
@@ -177,7 +176,6 @@ export const setupSite = async (siteId?: number, fetch?: boolean) => {
           ],
           contactUsLink: "/contact-us",
           termsOfUseLink: "/terms-of-use",
-          feedbackFormLink: "https://www.form.gov.sg",
           privacyStatementLink: "/privacy",
         }),
         siteId: site.id,

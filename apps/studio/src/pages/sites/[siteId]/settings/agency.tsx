@@ -100,7 +100,7 @@ const AgencySettingsPage: NextPageWithLayout = () => {
       <SettingsGrid>
         <SettingsEditorGridItem as={SettingsEditingLayout}>
           <SettingsHeader
-            title="Name and agency"
+            title="Name and organisation"
             icon={BiWrench}
             isLoading={updateSiteConfigMutation.isPending}
             onClick={onSubmit}

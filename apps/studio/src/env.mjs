@@ -37,7 +37,7 @@ const client = z
       "preview",
     ]),
     NEXT_PUBLIC_APP_URL: z.string().url().optional(),
-    NEXT_PUBLIC_APP_NAME: z.string().default("Isomer Studio"),
+    NEXT_PUBLIC_APP_NAME: z.string().default("Morph"),
     NEXT_PUBLIC_APP_VERSION: z.string().default("0.0.0"),
     NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY: z.string().optional(),
     NEXT_PUBLIC_INTERCOM_APP_ID: z.string().optional(),

@@ -17,8 +17,6 @@ import {
   BiRevision,
   BiX,
 } from "react-icons/bi"
-import { AskgovWidget } from "~/components/Askgov"
-import { VicaWidget } from "~/components/Vica"
 import { env } from "~/env.mjs"
 import contentLayoutPreview from "~/features/editing-experience/data/contentLayoutPreview.json"
 import { FOOTER_QUERY_SELECTOR } from "~/features/settings/constants"
@@ -260,7 +258,7 @@ export const EditSettingsPreview = ({
             </Box>
             <AddressBar>
               <Text style={{ ...bodyTextStyle, fontFamily: "inherit" }}>
-                {rest.url ?? "example.isomer.gov.sg"}
+                {rest.url ?? "example.com"}
               </Text>
             </AddressBar>
           </>
@@ -273,8 +271,6 @@ export const EditSettingsPreview = ({
           {...previewProps}
           overrides={{ site: { siteName, ...rest } }}
         />
-        {!!rest.askgov && <AskgovWidget />}
-        {!!rest.vica && <VicaWidget />}
       </ViewportContainer>
     </Box>
   )

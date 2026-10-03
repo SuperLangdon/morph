@@ -267,7 +267,7 @@ describe("auditLogExport.query", () => {
     // Semantic change (ported from main, PR #2612): internal-team exclusion is
     // by membership in the `IsomerAdmin` table, not by an `@open.gov.sg` email
     // suffix — an @open.gov.sg address alone no longer excludes a user.
-    it("excludes Isomer admins even if they hold a permission", async () => {
+    it("excludes Morph admins even if they hold a permission", async () => {
       const { site } = await setupSite()
 
       const isomerAdmin = await setupUser({ email: "teammate@open.gov.sg" })
@@ -628,7 +628,7 @@ describe("auditLogExport.query", () => {
     // Semantic change (ported from main, PR #2612): internal-team exclusion is
     // by membership in the `IsomerAdmin` table, not by an `@open.gov.sg` email
     // suffix.
-    it("excludes Login events by Isomer admins", async () => {
+    it("excludes Login events by Morph admins", async () => {
       const { site } = await setupSite()
 
       // Agency user with a permission → their Login is INCLUDED
@@ -639,7 +639,7 @@ describe("auditLogExport.query", () => {
         createdAt: new Date("2024-02-01T00:00:00Z"),
       })
 
-      // Isomer admin → excluded from collaboratorWindows, Login NOT shown
+      // Morph admin → excluded from collaboratorWindows, Login NOT shown
       // even though they hold a permission on the site
       const isomerUser = await setupUser({ email: "teammate@open.gov.sg" })
       await setupIsomerAdmin({ userId: isomerUser.id })
@@ -1057,7 +1057,7 @@ describe("auditLogExport.query", () => {
         expect(logoutTimes).toEqual([T_10.getTime()])
       })
 
-      it("excludes a Logout by an Isomer admin", async () => {
+      it("excludes a Logout by an Morph admin", async () => {
         const { site } = await setupSite()
         const isomerAdmin = await setupUser({ email: "admin@open.gov.sg" })
         await setupIsomerAdmin({ userId: isomerAdmin.id })

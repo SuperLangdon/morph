@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-label="Morph">
+  <!-- Login-page banner: soft gradient field with an oversized ghosted
+       morph-bars motif and a square→circle interpolation trail. -->
+  <defs>
+    <linearGradient id="banner-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2FF"/>
+    </linearGradient>
+    <linearGradient id="banner-accent" gradientUnits="userSpaceOnUse" x1="240" y1="440" x2="560" y2="200">
+      <stop offset="0" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <radialGradient id="banner-blob-1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4F46E5" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#4F46E5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="banner-blob-2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#06B6D4" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="640" fill="url(#banner-bg)"/>
+  <circle cx="620" cy="140" r="220" fill="url(#banner-blob-1)"/>
+  <circle cx="180" cy="520" r="260" fill="url(#banner-blob-2)"/>
+
+  <!-- Interpolation trail: square corners relaxing into a circle -->
+  <g fill="none" stroke="#4F46E5" stroke-opacity="0.10" stroke-width="10">
+    <rect x="228" y="268" width="104" height="104" rx="8"/>
+    <rect x="352" y="268" width="104" height="104" rx="28"/>
+    <rect x="476" y="268" width="104" height="104" rx="52"/>
+  </g>
+
+  <!-- Oversized ghosted mark -->
+  <g fill="url(#banner-accent)" fill-opacity="0.85">
+    <rect x="250" y="300" width="34" height="140" rx="6"/>
+    <rect x="324" y="300" width="34" height="140" rx="17"/>
+    <circle cx="412" cy="370" r="28"/>
+  </g>
+
+  <!-- Scattered interpolation dots -->
+  <g fill="#0F172A" fill-opacity="0.06">
+    <circle cx="580" cy="420" r="6"/>
+    <circle cx="620" cy="390" r="4"/>
+    <circle cx="660" cy="440" r="5"/>
+    <circle cx="200" cy="200" r="5"/>
+    <circle cx="160" cy="240" r="4"/>
+    <rect x="560" y="200" width="12" height="12" rx="3"/>
+    <rect x="250" y="500" width="12" height="12" rx="6"/>
+  </g>
+</svg>

@@ -64,7 +64,7 @@ export const BASE_EXTENSIONS: Extensions = [
         // copied by the user from the preview, as browsers will automatically
         // transform relative links (in the form of [resource:siteId:resourceId])
         // into absolute links:
-        // https://studio.isomer.gov.sg/sites/1/pages/[resource:siteId:resourceId]
+        // https://studio.example.com/sites/1/pages/[resource:siteId:resourceId]
         // This plugin will transform the absolute links back into the relative
         // links, so that the original link is preserved in the editor.
         new Plugin({

@@ -154,7 +154,7 @@ const FixedBlock = () => {
             setDrawerState({ state: "databaseEditor" })
           }}
           label="Database"
-          description="Link your dataset from Data.gov.sg"
+          description="Link your dataset"
           icon={BiData}
         />
       </VStack>

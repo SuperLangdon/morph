@@ -426,7 +426,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -436,14 +435,14 @@ export const pageHandlers = {
             content: [
               {
                 type: "hero",
-                title: "Ministry of Trade and Industry",
+                title: "Acme Corporation",
                 variant: "gradient",
                 subtitle:
                   "A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity",
                 buttonUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 buttonLabel: "Main CTA",
                 backgroundUrl:
-                  "https://ohno.isomer.gov.sg/images/hero-banner.png",
+                  "/images/hero-banner.svg",
                 secondaryButtonUrl:
                   "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 secondaryButtonLabel: "Sub CTA",
@@ -494,10 +493,9 @@ export const pageHandlers = {
             version: "0.1.0",
           },
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -573,7 +571,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -582,7 +579,7 @@ export const pageHandlers = {
               title: "Page title here",
               permalink: "page-title-here",
               lastModified:
-                "Wed Sep 11 2024 16:32:44 GMT+0800 (Singapore Standard Time)",
+                "Wed Sep 11 2024 16:32:44 GMT+0800 (UTC+8)",
               contentPageHeader: { summary: "" },
             },
             layout: "content",
@@ -693,7 +690,7 @@ export const pageHandlers = {
               },
               {
                 type: "map",
-                title: "Singapore region",
+                title: "Sample region",
                 url: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127639.0647119137!2d103.79481771806647!3d1.343949056391766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssg!4v1731681854346!5m2!1sen!2ssg",
               },
               {
@@ -706,10 +703,9 @@ export const pageHandlers = {
           },
           type: "Page",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -785,7 +781,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -866,10 +861,9 @@ export const pageHandlers = {
           },
           type: "Page",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -943,7 +937,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -969,10 +962,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1046,7 +1038,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1063,10 +1054,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1140,7 +1130,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1157,10 +1146,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1179,7 +1167,6 @@ export const pageHandlers = {
               siteNavItems: [],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1207,10 +1194,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1284,7 +1270,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1306,10 +1291,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1348,7 +1332,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1387,10 +1370,9 @@ export const pageHandlers = {
           },
           type: "IndexPage",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },
@@ -1466,7 +1448,6 @@ export const pageHandlers = {
               ],
               contactUsLink: "/contact-us",
               termsOfUseLink: "/terms-of-use",
-              feedbackFormLink: "https://www.form.gov.sg",
               privacyStatementLink: "/privacy",
             },
           },
@@ -1475,7 +1456,7 @@ export const pageHandlers = {
               title: "Page title here",
               permalink: "database-layout",
               lastModified:
-                "Wed Sep 11 2024 16:32:44 GMT+0800 (Singapore Standard Time)",
+                "Wed Sep 11 2024 16:32:44 GMT+0800 (UTC+8)",
               contentPageHeader: { summary: "" },
               database: {
                 dataSource: {
@@ -1508,7 +1489,7 @@ export const pageHandlers = {
                       {
                         type: "text",
                         marks: [],
-                        text: "Link a dataset you own from Data.gov.sg in the Data table block below. Users can search through large datasets without having to leave your website.",
+                        text: "Link a dataset you own in the Data table block below. Users can search through large datasets without having to leave your website.",
                       },
                     ],
                   },
@@ -1519,10 +1500,9 @@ export const pageHandlers = {
           },
           type: "Page",
           theme: "isomer-next",
-          url: "https://www.isomer.gov.sg",
+          url: "https://www.example.com",
           logoUrl: "",
           siteName: "MTI",
-          isGovernment: true,
         }
       })
     },

@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test"
 test("go to /sign-in", async ({ page }) => {
   await page.goto("/sign-in")
 
-  const text = page.getByText(`Isomer Studio`).first()
+  const text = page.getByText(`Morph`).first()
 
   await expect(text).toBeVisible()
 })

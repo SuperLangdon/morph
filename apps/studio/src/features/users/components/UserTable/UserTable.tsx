@@ -109,7 +109,7 @@ const getColumns = ({
 
 export const UserTable = ({ siteId, adminType }: UserTableProps) => {
   const ability = useContext(UserManagementContext)
-  // The server only returns phone numbers to core Isomer admins
+  // The server only returns phone numbers to core Morph admins
   const { isAdmin: isCoreIsomerAdmin } = useIsUserIsomerAdmin({
     roles: [IsomerAdminRole.Core],
   })
@@ -118,7 +118,7 @@ export const UserTable = ({ siteId, adminType }: UserTableProps) => {
     () =>
       getColumns({
         siteId,
-        // Only show actions if not "Isomer Admins" tab
+        // Only show actions if not "Morph Admins" tab
         // because we should not let agencies manage isomer admins
         shouldShowActions:
           ability.can("manage", "UserManagement") && adminType === "agency",

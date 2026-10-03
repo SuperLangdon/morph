@@ -109,7 +109,7 @@ const resolveAuditLogDateRange = (
 // Create one audit-log export request per site this ask covers (already
 // permission-vetted by the caller — see audit.router.ts), as ONE transaction
 // with set-based queries rather than one transaction per site. An "allSites"
-// ask resolves to every site the caller Admins — for an Isomer Admin, every
+// ask resolves to every site the caller Admins — for an Morph Admin, every
 // site on the platform — so a per-site transaction loop would open one DB
 // transaction per site; batching keeps this to a fixed handful of queries
 // regardless of how many sites are resolved. `scope: "site"` reuses this same

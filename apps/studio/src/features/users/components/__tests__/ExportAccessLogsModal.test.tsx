@@ -3,7 +3,7 @@ import { ThemeProvider } from "@opengovsg/design-system-react"
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { createStore, Provider } from "jotai"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { getCurrentSingaporeMonth } from "~/schemas/audit"
+import { getCurrentExportMonth } from "~/schemas/audit"
 import { theme } from "~/theme"
 
 import { exportAccessLogsModalAtom } from "../../atoms"
@@ -91,7 +91,7 @@ describe("ExportAccessLogsModal", () => {
     expect(mutate).toHaveBeenCalledWith({
       scope: "allSites",
       siteId: SITE_ID,
-      month: getCurrentSingaporeMonth(),
+      month: getCurrentExportMonth(),
       reportType: "Access",
     })
   })

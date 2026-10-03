@@ -15,7 +15,7 @@ export const PAGE_BLOB: IsomerSchema = {
       buttonUrl: "/",
       secondaryButtonLabel: "Sub CTA",
       secondaryButtonUrl: "/",
-      backgroundUrl: "https://ohno.isomer.gov.sg/images/hero-banner.png",
+      backgroundUrl: "/images/hero-banner.svg",
     },
     {
       type: "infobar",

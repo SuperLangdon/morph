@@ -6,7 +6,7 @@ import SignInPage from "~/pages/sign-in"
 
 import { withChromaticModes } from "@isomer/storybook-config"
 
-const VALID_AUTH_EMAIL = "test@example.gov.sg"
+const VALID_AUTH_EMAIL = "test@example.com"
 
 const meta: Meta<typeof SignInPage> = {
   title: "Pages/Sign In Page/Email-only Sign In Page",

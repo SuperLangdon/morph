@@ -119,7 +119,7 @@ export const PhoneNumberNot8Digits: Story = {
   },
 }
 
-export const NonSingaporePhone: Story = {
+export const InvalidPhone: Story = {
   decorators: [ResetUpdateProfileModalDecorator],
   play: async (context) => {
     const { canvasElement } = context

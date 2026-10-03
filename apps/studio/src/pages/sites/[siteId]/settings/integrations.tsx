@@ -23,7 +23,6 @@ import {
   BRIEF_TOAST_SETTINGS,
   SETTINGS_TOAST_MESSAGES,
 } from "~/constants/toast"
-import { WidgetProvider } from "~/features/editing-experience/components/form-builder/contexts/WidgetContext"
 import { ErrorProvider } from "~/features/editing-experience/components/form-builder/ErrorProvider"
 import FormBuilder from "~/features/editing-experience/components/form-builder/FormBuilder"
 import { EditSettingsPreview } from "~/features/editing-experience/components/preview/EditSettingsPreview"
@@ -59,7 +58,7 @@ const IntegrationsSettingsPage: NextPageWithLayout = () => {
   const trpcUtils = trpc.useUtils()
   const toast = useToast(BRIEF_TOAST_SETTINGS)
   const [
-    { vica, askgov, siteGtmId, search, agencyName, url, siteName, ...rest },
+    { siteGtmId, search, agencyName, url, siteName, zendesk, ...rest },
   ] = trpc.site.getConfig.useSuspenseQuery({
     id: siteId,
   })
@@ -70,10 +69,10 @@ const IntegrationsSettingsPage: NextPageWithLayout = () => {
     useState<SimpleIntegrationsSettings>({ siteGtmId, search })
 
   const [complexIntegrationSettings, setComplexIntegrationSettings] =
-    useState<ComplexIntegrationsSettings>({ askgov, vica })
+    useState<ComplexIntegrationsSettings>({ zendesk })
 
   const isDirty = !isEqual(
-    pickBy({ siteGtmId, search, askgov, vica }, (val) => !!val),
+    pickBy({ siteGtmId, search, zendesk }, (val) => !!val),
     pickBy(
       { ...simpleIntegrationSettings, ...complexIntegrationSettings },
       (val) => !!val,
@@ -84,8 +83,7 @@ const IntegrationsSettingsPage: NextPageWithLayout = () => {
     trpc.site.updateSiteIntegrations.useMutation({
       onSuccess: async (updatedSite) => {
         setComplexIntegrationSettings({
-          askgov: updatedSite.config.askgov,
-          vica: updatedSite.config.vica,
+          zendesk: updatedSite.config.zendesk,
         })
         toast({
           ...SETTINGS_TOAST_MESSAGES.success,
@@ -112,7 +110,7 @@ const IntegrationsSettingsPage: NextPageWithLayout = () => {
         ...simpleIntegrationSettings,
         ...complexIntegrationSettings,
         siteName,
-        url: url || `https://sample.isomer.gov.sg`,
+        url: url || `https://example.com`,
         ...(agencyName !== undefined && { agencyName }),
       },
     })
@@ -153,38 +151,18 @@ const IntegrationsSettingsPage: NextPageWithLayout = () => {
               User support
             </Text>
             <Text textStyle="body-2">
-              You can choose from AskGov and VICA. Make sure you’re onboarded to
-              the platform before linking it to your site.
+              Make sure you’re onboarded to the platform before linking it to
+              your site.
             </Text>
           </Box>
-          <WidgetProvider
-            activeWidget={(askgov && "askgov") ?? (vica && "vica") ?? null}
-          >
-            <FormBuilder<ComplexIntegrationsSettings>
-              schema={ComplexIntegrationsSettingsSchema}
-              validateFn={complexIntegrationSettingsValidateFn}
-              data={complexIntegrationSettings}
-              handleChange={(data) => {
-                if (data.vica) {
-                  const newVicaState = {
-                    ...data.vica,
-                    "app-name": agencyName ?? siteName,
-                  }
-
-                  if (!isEqual(newVicaState, data.vica)) {
-                    setComplexIntegrationSettings({
-                      ...data,
-                      vica: newVicaState,
-                    })
-                  } else {
-                    setComplexIntegrationSettings(data)
-                  }
-                } else {
-                  setComplexIntegrationSettings(data)
-                }
-              }}
-            />
-          </WidgetProvider>
+          <FormBuilder<ComplexIntegrationsSettings>
+            schema={ComplexIntegrationsSettingsSchema}
+            validateFn={complexIntegrationSettingsValidateFn}
+            data={complexIntegrationSettings}
+            handleChange={(data) => {
+              setComplexIntegrationSettings(data)
+            }}
+          />
         </SettingsEditorGridItem>
         <SettingsPreviewGridItem>
           <EditSettingsPreview

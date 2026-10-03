@@ -1,7 +1,7 @@
 import { Flex, Link, Text } from "@chakra-ui/react"
 import { Button } from "@opengovsg/design-system-react"
 import NextLink from "next/link"
-import { ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_ISSUES_LINK } from "~/constants/misc"
 
 import { LiftUnderRepair } from "../Svg"
 import { ALL_SITES_CTA } from "./getNotFoundCta"
@@ -25,8 +25,8 @@ export const DefaultServerError = () => {
           It's not you, it's us. Please try refreshing this page.
           <br />
           If this issue persists,{" "}
-          <Link variant="inline" href={ISOMER_SUPPORT_LINK}>
-            contact Isomer Support
+          <Link variant="inline" href={MORPH_ISSUES_LINK}>
+            contact Morph Support
           </Link>
           .
         </Text>

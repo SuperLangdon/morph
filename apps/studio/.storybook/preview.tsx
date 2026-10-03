@@ -38,7 +38,7 @@ const trpc = createTRPCReact<AppRouter>()
 
 const StorybookEnvDecorator: Decorator = (story) => {
   const mockEnv: EnvContextReturn["env"] = merge(env, {
-    NEXT_PUBLIC_APP_NAME: "Isomer Studio",
+    NEXT_PUBLIC_APP_NAME: "Morph",
     NEXT_PUBLIC_APP_VERSION: "Storybook",
     // Required to be be empty string for storybook
     // so it will fallback to storybook static assets mock

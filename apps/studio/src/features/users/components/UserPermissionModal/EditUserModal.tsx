@@ -28,7 +28,7 @@ import {
   updateUserModalAtom,
 } from "../../atoms"
 import { AddAdminWarning } from "./Banners"
-import { ISOMER_GUIDE_URL, ROLE_CONFIGS } from "./constants"
+import { MORPH_GUIDE_URL, ROLE_CONFIGS } from "./constants"
 import { RoleBox } from "./RoleBox"
 
 export const EditUserModal = () => {
@@ -108,8 +108,8 @@ export const EditUserModal = () => {
                   description={
                     <Text>
                       Read more about user roles on the{" "}
-                      <Link href={ISOMER_GUIDE_URL} isExternal>
-                        Isomer Guide
+                      <Link href={MORPH_GUIDE_URL} isExternal>
+                        Morph Guide
                       </Link>
                       .
                     </Text>

@@ -260,7 +260,7 @@ describe("auditLogExport processor", () => {
     expect(updated.completedAt).not.toBeNull()
   })
 
-  it("processes an Isomer Admin request without a site permission", async () => {
+  it("processes an Morph Admin request without a site permission", async () => {
     // Arrange
     const { site } = await setupSite()
     const admin = await setupUser({ email: "isomer-admin@open.gov.sg" })

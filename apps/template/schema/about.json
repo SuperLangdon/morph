@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "page": {
     "contentPageHeader": {
-      "summary": "The Ministry of Trade and Industry is one of the ministries of the Singapore Government that works to advance Singapore's economy."
+      "summary": "We are a small team building useful things for the web. This sample page shows what Morph content looks like."
     },
     "title": "About us"
   },
@@ -21,25 +21,25 @@
               "type": "bold"
             }
           ],
-          "text": "Ministry of Trade and Industry"
+          "text": "Example Organisation"
         },
         {
           "type": "text",
-          "text": " is one of the ministries of the "
+          "text": " is a sample organisation included with "
         },
         {
           "type": "text",
           "marks": [
             {
               "type": "link",
-              "href": "https://www.gov.sg"
+              "href": "https://github.com/morph-cms/morph"
             }
           ],
-          "text": "Singapore Government"
+          "text": "Morph"
         },
         {
           "type": "text",
-          "text": " that works to advance Singapore's economy."
+          "text": ", the open-source CMS this site is built with. Replace this page with your own story."
         }
       ]
     }

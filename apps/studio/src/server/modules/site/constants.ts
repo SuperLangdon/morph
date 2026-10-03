@@ -16,7 +16,7 @@ export const PAGE_BLOB: IsomerSchema = {
       buttonUrl: "/",
       secondaryButtonLabel: "Sub CTA",
       secondaryButtonUrl: "/",
-      backgroundUrl: "https://ohno.isomer.gov.sg/images/hero-banner.png",
+      backgroundUrl: "/images/hero-banner.svg",
     },
     {
       type: "infobar",
@@ -51,9 +51,6 @@ export const PAGE_BLOB: IsomerSchema = {
         },
       ],
       title: "Irrationality in numbers",
-    },
-    {
-      type: "antiscambanner",
     },
   ],
 }
@@ -136,7 +133,7 @@ const FOOTER_ITEMS = [
 
 export const FOOTER = {
   contactUsLink: "/contact-us",
-  feedbackFormLink: "https://www.form.gov.sg",
+  feedbackFormLink: "",
   privacyStatementLink: "/privacy",
   termsOfUseLink: "/terms-of-use",
   siteNavItems: FOOTER_ITEMS,

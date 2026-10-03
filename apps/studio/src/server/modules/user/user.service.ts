@@ -52,7 +52,7 @@ export const createUserWithPermission = async ({
   if (!isWhitelisted) {
     throw new TRPCError({
       code: "FORBIDDEN",
-      message: "There are non-gov.sg domains that need to be whitelisted.",
+      message: "Some email domains are not whitelisted.",
     })
   }
 

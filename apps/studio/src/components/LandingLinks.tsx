@@ -5,7 +5,7 @@ export const LandingLinks = (): JSX.Element => {
     <HStack spacing="1.5rem">
       <Link
         title="View privacy statement"
-        href="https://www.isomer.gov.sg/privacy"
+        href="https://github.com/morph-cms/morph#privacy"
         variant="standalone"
         colorScheme="neutral"
         textStyle="caption-2"
@@ -16,7 +16,7 @@ export const LandingLinks = (): JSX.Element => {
 
       <Link
         title="View terms of use"
-        href="https://www.isomer.gov.sg/terms-of-use"
+        href="https://github.com/morph-cms/morph#terms-of-use"
         variant="standalone"
         colorScheme="neutral"
         textStyle="caption-2"
@@ -27,7 +27,7 @@ export const LandingLinks = (): JSX.Element => {
 
       <Link
         title="Report vulnerability"
-        href="https://go.gov.sg/report-vulnerability"
+        href="https://github.com/morph-cms/morph/security/advisories/new"
         variant="standalone"
         colorScheme="neutral"
         textStyle="caption-2"

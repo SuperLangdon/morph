@@ -55,7 +55,7 @@ export const CmsContainerWrapper = ({
       ? [
           {
             icon: BiStar,
-            label: "Isomer Admin Settings",
+            label: "Morph Admin Settings",
             href: `/sites/${siteId}/admin`,
           },
         ]
@@ -75,7 +75,7 @@ export const CmsContainerWrapper = ({
     {
       icon: BiHelpCircle,
       label: "Get support",
-      href: "https://support.isomer.gov.sg",
+      href: "https://github.com/morph-cms/morph/wiki",
     },
   ]
 

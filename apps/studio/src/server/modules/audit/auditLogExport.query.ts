@@ -136,7 +136,7 @@ export const getExportRange = (
  * day, whose trailing edge is still in the future) the predicate naturally
  * collapses to "who has access now" — this is intended.
  *
- * Internal Isomer admins (rows in the `IsomerAdmin` table) are excluded,
+ * Internal Morph admins (rows in the `IsomerAdmin` table) are excluded,
  * matching the script (PR #2612).
  */
 export const accessReportQuery = ({
@@ -159,7 +159,7 @@ export const accessReportQuery = ({
         'rp.createdAt as "Date added"',
       ])
       .where("rp.siteId", "=", siteId)
-      // Exclude internal Isomer admins from agency-facing reports
+      // Exclude internal Morph admins from agency-facing reports
       .where("u.id", "not in", (eb) =>
         eb.selectFrom("IsomerAdmin").select("IsomerAdmin.userId"),
       )
@@ -276,7 +276,7 @@ export const activityReportQuery = ({
           "permission.deletedAt as revokedAt",
         ])
         .where("permission.siteId", "=", siteId)
-        // Exclude internal Isomer admins from agency-facing reports
+        // Exclude internal Morph admins from agency-facing reports
         .where("collaboratorUser.id", "not in", (ieb) =>
           ieb.selectFrom("IsomerAdmin").select("IsomerAdmin.userId"),
         )

@@ -1,6 +1,6 @@
 import { useToast } from "@opengovsg/design-system-react"
 import posthog from "posthog-js"
-import { ISOMER_SUPPORT_EMAIL } from "~/constants/misc"
+import { MORPH_SUPPORT_EMAIL } from "~/constants/misc"
 import { BRIEF_TOAST_SETTINGS } from "~/constants/toast"
 import { AuditLogExportRequestedReportType } from "~/schemas/audit"
 import { trpc } from "~/utils/trpc"
@@ -61,7 +61,7 @@ export const useCreateAuditLogExportRequest = ({
         title: "Couldn't request export",
         description:
           error.message ||
-          `If this persists, please report this issue at ${ISOMER_SUPPORT_EMAIL}`,
+          `If this persists, please report this issue at ${MORPH_SUPPORT_EMAIL}`,
         status: "error",
       })
     },

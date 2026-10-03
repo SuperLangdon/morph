@@ -85,7 +85,7 @@ export const buildCollectionLinkPreviewSitemap = ({
     permalink: "/",
     lastModified,
     layout: ISOMER_USABLE_PAGE_LAYOUTS.Homepage,
-    title: "An Isomer Site",
+    title: "A Morph Site",
     summary: "",
     children: [node],
   }

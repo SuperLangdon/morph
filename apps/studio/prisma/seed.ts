@@ -123,13 +123,13 @@ async function main() {
     return
   }
 
-  // Create isomeradmin@open.gov.sg (will be assigned IsomerAdmin)
+  // Create morphadmin@example.com (will be assigned IsomerAdmin)
   const isomerAdminUser = await db
     .insertInto("User")
     .values({
       id: createId(),
-      email: "isomeradmin@open.gov.sg",
-      name: "isomeradmin",
+      email: "morphadmin@example.com",
+      name: "morphadmin",
       phone: "88888888",
     })
     .onConflict((oc) =>
@@ -186,10 +186,10 @@ async function main() {
     userId,
   })
 
-  // Whitelist @open.gov.sg domain
+  // Whitelist @example.com domain
   await db
     .insertInto("Whitelist")
-    .values({ email: "@open.gov.sg" })
+    .values({ email: "@example.com" })
     .onConflict((oc) =>
       oc
         .column("email")
@@ -197,7 +197,7 @@ async function main() {
     )
     .executeTakeFirstOrThrow()
 
-  // Assign IsomerAdmin (Core) to isomeradmin@open.gov.sg
+  // Assign IsomerAdmin (Core) to morphadmin@example.com
   await db
     .insertInto("IsomerAdmin")
     .values({ userId: isomerAdminUser.id, role: IsomerAdminRole.Core })
@@ -215,19 +215,19 @@ async function main() {
     users: [
       {
         name: "editor",
-        email: "editor@open.gov.sg",
+        email: "editor@example.com",
         role: RoleType.Editor,
         phone: "88888888",
       },
       {
         name: "publisher",
-        email: "publisher@open.gov.sg",
+        email: "publisher@example.com",
         role: RoleType.Publisher,
         phone: "88888888",
       },
       {
         name: "admin",
-        email: "admin@open.gov.sg",
+        email: "admin@example.com",
         role: RoleType.Admin,
         phone: "88888888",
       },

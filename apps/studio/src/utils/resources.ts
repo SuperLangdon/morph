@@ -93,7 +93,7 @@ export const isResourceMoveValid = (
   destination: BareResource,
 ) => {
   // Prevent users from moving the search page (permalink /search, no parent)
-  // This is a special page that is used to display the SearchSG results
+  // This is a special page that is used to display the search results
   if (source.permalink === SEARCH_PAGE_PERMALINK && source.parentId === null) {
     return new Error("The search page cannot be moved")
   }

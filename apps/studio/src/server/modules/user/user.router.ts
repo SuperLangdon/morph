@@ -203,7 +203,7 @@ export const userRouter = router({
         action: "read",
       })
 
-      // Phone numbers are PII, so only core Isomer admins may see them
+      // Phone numbers are PII, so only core Morph admins may see them
       const canViewPhone = await isActiveIsomerAdmin(ctx.user.id, [
         IsomerAdminRole.Core,
       ])
@@ -216,7 +216,7 @@ export const userRouter = router({
           "ActiveUser.name",
           "ActiveUser.lastLoginAt",
           "ActiveUser.createdAt",
-          // Isomer admins always have an effective Admin role regardless of
+          // Morph admins always have an effective Admin role regardless of
           // any explicit ResourcePermission entry; agency users use coalesce
           // to fall back to Admin only when no explicit role exists.
           (adminType === "isomer"

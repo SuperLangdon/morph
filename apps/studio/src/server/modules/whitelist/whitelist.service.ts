@@ -136,7 +136,7 @@ export const isEmailWhitelisted = async (email: string) => {
   // Step 3: Check if the suffix of the email domain is whitelisted
   const domainParts = emailDomain.split(".")
   for (let i = 1; i < domainParts.length; i++) {
-    // Suffices should start with a dot (e.g. ".gov.sg")
+    // Suffixes should start with a dot (e.g. ".example.com")
     const suffix = `.${domainParts.slice(i).join(".")}`
 
     const suffixMatch = await db

@@ -9,7 +9,7 @@ import {
   SettingsGrid,
   SettingsPreviewGridItem,
 } from "~/components/Settings"
-import { ISOMER_SUPPORT_EMAIL } from "~/constants/misc"
+import { MORPH_SUPPORT_EMAIL } from "~/constants/misc"
 import {
   BRIEF_TOAST_SETTINGS,
   SETTINGS_TOAST_MESSAGES,
@@ -47,7 +47,7 @@ const NavbarSettingsPage: NextPageWithLayout = () => {
         toast({
           status: "error",
           title: "Error saving navigation bar.",
-          description: `If this persists, please report this issue at ${ISOMER_SUPPORT_EMAIL}`,
+          description: `If this persists, please report this issue at ${MORPH_SUPPORT_EMAIL}`,
         })
       },
     })

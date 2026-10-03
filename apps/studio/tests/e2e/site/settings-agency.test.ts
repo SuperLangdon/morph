@@ -23,8 +23,8 @@ test.beforeEach(async () => {
   await db
     .updateTable("Site")
     .set({
-      name: "Isomer",
-      config: sql`jsonb_set(config, '{siteName}', '"Isomer"')`,
+      name: "Sample Site",
+      config: sql`jsonb_set(config, '{siteName}', '"Sample Site"')`,
     })
     .where("id", "=", getSeedSiteId())
     .execute()
@@ -39,14 +39,14 @@ test("admin can update site name on the agency settings page", async ({
 
   const nameField = page.getByLabel("Site name")
   await expect(nameField).toBeVisible()
-  await nameField.fill("Isomer (renamed)")
+  await nameField.fill("Sample Site (renamed)")
 
   await site.publishButton().click()
   await site.expectChangesPublishedToast()
 
   // Hard-assert persistence: reload and verify the value sticks.
   await page.reload()
-  await expect(page.getByLabel("Site name")).toHaveValue("Isomer (renamed)")
+  await expect(page.getByLabel("Site name")).toHaveValue("Sample Site (renamed)")
 })
 
 test.describe("publisher", () => {

@@ -149,7 +149,7 @@ export const PublishOrUnpublishModal = ({
           status: "error",
           title: isActionableError
             ? error.message
-            : "Failed to publish page. Please contact Isomer support.",
+            : "Failed to publish page. Please contact Morph Support.",
           ...(isActionableError
             ? ACTIONABLE_ERROR_TOAST_SETTINGS
             : BRIEF_TOAST_SETTINGS),
@@ -184,7 +184,7 @@ export const PublishOrUnpublishModal = ({
           status: "error",
           title: isActionableError
             ? error.message
-            : "Failed to schedule page. Please contact Isomer support.",
+            : "Failed to schedule page. Please contact Morph Support.",
           ...(isActionableError
             ? ACTIONABLE_ERROR_TOAST_SETTINGS
             : BRIEF_TOAST_SETTINGS),
@@ -215,7 +215,7 @@ export const PublishOrUnpublishModal = ({
           title:
             error.data?.code === "PRECONDITION_FAILED"
               ? error.message
-              : "Failed to unpublish page. Please contact Isomer support.",
+              : "Failed to unpublish page. Please contact Morph Support.",
           ...BRIEF_TOAST_SETTINGS,
         })
       },
@@ -251,7 +251,7 @@ export const PublishOrUnpublishModal = ({
         title:
           error.data?.code === "PRECONDITION_FAILED"
             ? error.message
-            : "Failed to schedule page unpublish. Please contact Isomer support.",
+            : "Failed to schedule page unpublish. Please contact Morph Support.",
         ...BRIEF_TOAST_SETTINGS,
       })
     },

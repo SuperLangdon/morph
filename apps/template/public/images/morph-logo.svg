@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Morph">
+  <!-- Morph mark: three verticals morphing from square corners to a full
+       circle — an abstract "M" mid-transformation. -->
+  <defs>
+    <linearGradient id="morph-mark-gradient" gradientUnits="userSpaceOnUse" x1="16" y1="68" x2="82" y2="28">
+      <stop offset="0" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="28" width="12" height="40" rx="2" fill="url(#morph-mark-gradient)"/>
+  <rect x="42" y="28" width="12" height="40" rx="6" fill="url(#morph-mark-gradient)"/>
+  <circle cx="72" cy="48" r="10" fill="url(#morph-mark-gradient)"/>
+</svg>

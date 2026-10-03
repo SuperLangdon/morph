@@ -39,7 +39,7 @@ export function AppNavbar(): JSX.Element {
           gap="0.5rem"
         >
           <Image
-            src="/assets/isomer-logo-color.svg"
+            src="/assets/morph-logo.svg"
             height={24}
             width={22}
             alt="Back to sites"
@@ -61,7 +61,7 @@ export function AppNavbar(): JSX.Element {
             rightIcon={<BiLinkExternal fontSize="1.25rem" />}
             as={NextLink}
             target="_blank"
-            href="https://go.gov.sg/isomer-issue"
+            href="https://github.com/morph-cms/morph/issues"
           >
             Report an issue
           </Button>

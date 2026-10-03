@@ -107,7 +107,7 @@ const GodModeDeleteAssetsPage: NextPageWithLayout = () => {
 
       <Flex flexDir="column" mt={8} bg="white" borderRadius="md" p={4} gap={4}>
         <Textarea
-          placeholder="https://isomer-user-content.by.gov.sg/36/uuid/picture.png"
+          placeholder="https://user-content.example.com/36/uuid/picture.png"
           value={urlsText}
           onChange={(e) => setUrlsText(e.target.value)}
           rows={10}

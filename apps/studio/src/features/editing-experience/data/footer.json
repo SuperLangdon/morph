@@ -46,19 +46,19 @@
   "socialMediaLinks": [
     {
       "type": "linkedin",
-      "url": "https://www.linkedin.com/company/open-government-products/"
+      "url": "https://www.linkedin.com/company/example/"
     },
     {
       "type": "instagram",
-      "url": "https://www.instagram.com/opengovsg/"
+      "url": "https://www.instagram.com/example/"
     },
     {
       "type": "youtube",
-      "url": "https://www.youtube.com/channel/UCuyiflEmkfLfIwOuuN5hAfg"
+      "url": "https://www.youtube.com/@example"
     }
   ],
   "contactUsLink": "/contact-us",
-  "feedbackFormLink": "https://www.form.gov.sg",
+  "feedbackFormLink": "",
   "privacyStatementLink": "/privacy",
   "termsOfUseLink": "/terms-of-use"
 }

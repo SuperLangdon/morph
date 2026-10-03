@@ -2,7 +2,7 @@ import { Flex, Link, Text } from "@chakra-ui/react"
 import { Button } from "@opengovsg/design-system-react"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { ISOMER_SUPPORT_LINK } from "~/constants/misc"
+import { MORPH_ISSUES_LINK } from "~/constants/misc"
 
 import { NoResultIcon } from "../Svg/NoResultIcon"
 import { getNotFoundCta } from "./getNotFoundCta"
@@ -28,7 +28,7 @@ export const DefaultNotFound = () => {
         <Text textStyle="body-2" textAlign="center">
           It may have been deleted or moved. <br />
           If you think this is an error,{" "}
-          <Link variant="inline" href={ISOMER_SUPPORT_LINK}>
+          <Link variant="inline" href={MORPH_ISSUES_LINK}>
             let us know
           </Link>
           .

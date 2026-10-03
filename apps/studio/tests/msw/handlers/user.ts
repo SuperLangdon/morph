@@ -19,8 +19,8 @@ export const userHandlers = {
         return [
           {
             id: "1",
-            name: "Government Editor",
-            email: "example_editor@isomer.gov.sg",
+            name: "Sample Editor",
+            email: "example_editor@example.com",
             role: RoleType.Editor,
             createdAt: new Date(),
             lastLoginAt: new Date(),
@@ -76,14 +76,14 @@ export const userHandlers = {
         ]
       })
     },
-    // Phone is only returned to core Isomer admins
+    // Phone is only returned to core Morph admins
     usersWithPhone: () => {
       return trpcMsw.user.list.query(() => {
         return [
           {
             id: "1",
-            name: "Government Editor",
-            email: "example_editor@isomer.gov.sg",
+            name: "Sample Editor",
+            email: "example_editor@example.com",
             role: RoleType.Editor,
             phone: "91234567",
             createdAt: new Date(),
@@ -107,7 +107,7 @@ export const userHandlers = {
           {
             id: "1",
             name: "Should not show action menu",
-            email: "admin@open.gov.sg",
+            email: "admin@example.com",
             role: RoleType.Admin,
             createdAt: new Date(),
             lastLoginAt: new Date(),

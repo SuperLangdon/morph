@@ -6,10 +6,10 @@ import { IsomerAdminRole } from "~prisma/generated/generatedEnums"
 import { db } from "~server/db"
 
 const ISOMER_ADMIN_TEST_EMAILS = [
-  "admin1@open.gov.sg",
-  "admin2@open.gov.sg",
-  "migrator1@open.gov.sg",
-  "migrator2@open.gov.sg",
+  "admin1@example.com",
+  "admin2@example.com",
+  "migrator1@example.com",
+  "migrator2@example.com",
 ]
 
 export const isomerAdminsCount = ISOMER_ADMIN_TEST_EMAILS.length
