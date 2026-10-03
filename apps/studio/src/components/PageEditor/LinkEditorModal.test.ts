@@ -6,7 +6,7 @@ describe("linkEditorSchema", () => {
   it("accepts a valid external link", () => {
     const result = linkEditorSchema.safeParse({
       linkText: "Morph",
-      linkHref: "https://isomer.gov.sg",
+      linkHref: "https://example.com",
     })
     expect(result.success).toBe(true)
   })
@@ -14,7 +14,7 @@ describe("linkEditorSchema", () => {
   it("rejects an empty linkText", () => {
     const result = linkEditorSchema.safeParse({
       linkText: "",
-      linkHref: "https://isomer.gov.sg",
+      linkHref: "https://example.com",
     })
     expect(result.success).toBe(false)
   })
@@ -30,11 +30,11 @@ describe("linkEditorSchema", () => {
   it("trims stray leading/trailing whitespace from a valid linkHref", () => {
     const result = linkEditorSchema.safeParse({
       linkText: "Morph",
-      linkHref: "  https://isomer.gov.sg  ",
+      linkHref: "  https://example.com  ",
     })
     expect(result.success).toBe(true)
     if (result.success) {
-      expect(result.data.linkHref).toBe("https://isomer.gov.sg")
+      expect(result.data.linkHref).toBe("https://example.com")
     }
   })
 

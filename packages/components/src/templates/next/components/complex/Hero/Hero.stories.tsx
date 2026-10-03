@@ -25,7 +25,7 @@ export const Gradient: Story = {
     headingLevel: 1,
     site: generateSiteConfig(),
     backgroundUrl: "/hero-banner.png",
-    title: "Ministry of Trade and Industry",
+    title: "Acme Organisation",
     subtitle:
       "A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity",
     buttonLabel: "Main CTA",

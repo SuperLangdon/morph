@@ -69,7 +69,7 @@ vi.mock("~/env.mjs", () => ({
     // The emailed download link is `${NEXT_PUBLIC_APP_URL}/api/...` and the
     // Download Token is sealed with SESSION_SECRET — both are read via the
     // fulfilment path now, so the mocked env must supply them.
-    NEXT_PUBLIC_APP_URL: "https://studio.test.gov.sg",
+    NEXT_PUBLIC_APP_URL: "https://studio.test.example.org",
     SESSION_SECRET: "test-session-secret-at-least-32-chars-long",
   },
 }))
@@ -242,7 +242,7 @@ describe("auditLogExport processor", () => {
     // emailed anymore.
     expect(emailArg.link.label).toBe("access")
     expect(emailArg.link.url).toContain(
-      "https://studio.test.gov.sg/api/audit-log-exports/download?token=",
+      "https://studio.test.example.org/api/audit-log-exports/download?token=",
     )
     expect(emailArg.link.url).not.toContain("amazonaws.com")
     expect(emailArg.recipientEmail).toBe("admin@vendor.com.sg")
@@ -263,7 +263,7 @@ describe("auditLogExport processor", () => {
   it("processes an Morph Admin request without a site permission", async () => {
     // Arrange
     const { site } = await setupSite()
-    const admin = await setupUser({ email: "isomer-admin@open.gov.sg" })
+    const admin = await setupUser({ email: "isomer-admin@example.com" })
     await setupIsomerAdmin({ userId: admin.id })
     const request = await seedRequest({
       siteId: site.id,
@@ -658,7 +658,7 @@ describe("auditLogExport processor", () => {
       // token), never a presigned S3 URL.
       expect(secondEmail.link.label).toBe("access")
       expect(secondEmail.link.url).toContain(
-        "https://studio.test.gov.sg/api/audit-log-exports/download?token=",
+        "https://studio.test.example.org/api/audit-log-exports/download?token=",
       )
       expect(secondEmail.link.url).not.toContain("amazonaws.com")
       expect(mockSendAuditLogExportFailedEmail).not.toHaveBeenCalled()
@@ -915,7 +915,7 @@ describe("auditLogExport processor", () => {
       )
       for (const link of emailArg.links) {
         expect(link.url).toContain(
-          "https://studio.test.gov.sg/api/audit-log-exports/download?token=",
+          "https://studio.test.example.org/api/audit-log-exports/download?token=",
         )
       }
 

@@ -7,7 +7,7 @@ import { ISOMER_PAGE_LAYOUTS } from "~/types/constants"
 import { getMetadata, getPageJsonLd, getSiteJsonLd } from "../metadata"
 
 const baseSite = {
-  siteName: "Example Ministry",
+  siteName: "Example Organisation",
   url: "https://www.example.gov",
   logoUrl: "/logo.svg",
 } as IsomerPageSchemaType["site"]
@@ -133,7 +133,7 @@ describe("getSiteJsonLd", () => {
     const jsonLd = getSerializedJsonLd({
       site: {
         siteName: "Public Service Portal",
-        agencyName: "Example Ministry",
+        agencyName: "Example Organisation",
         url: "https://example.com",
         logoUrl: "/images/logo.svg",
         assetsBaseUrl: "https://assets.example.com/",
@@ -158,11 +158,11 @@ describe("getSiteJsonLd", () => {
         socialMediaLinks: [
           {
             type: "linkedin",
-            url: "https://www.linkedin.com/company/example-ministry",
+            url: "https://www.linkedin.com/company/example-org",
           },
           {
             type: "instagram",
-            url: "https://www.instagram.com/exampleministry",
+            url: "https://www.instagram.com/exampleorg",
           },
         ],
       },
@@ -183,7 +183,7 @@ describe("getSiteJsonLd", () => {
         {
           "@type": "Organization",
           "@id": "https://example.com/#organization",
-          name: "Example Ministry",
+          name: "Example Organisation",
           url: "https://example.com/",
           logo: "https://assets.example.com/images/logo.svg",
           description: "We serve the public.",
@@ -202,8 +202,8 @@ describe("getSiteJsonLd", () => {
             url: "https://example.com/contact-us",
           },
           sameAs: [
-            "https://www.linkedin.com/company/example-ministry",
-            "https://www.instagram.com/exampleministry",
+            "https://www.linkedin.com/company/example-org",
+            "https://www.instagram.com/exampleorg",
           ],
         },
       ],

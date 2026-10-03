@@ -90,8 +90,9 @@ const isNewThingEnabled = useFeatureValue<boolean>(SOME_FEATURE_KEY, false)
   instead of a `*_FEATURE_KEY` constant from `lib/growthbook.ts`.
 - A rollout-sensitive flag defaulting to `true` (unsafe fallback) — new behavior
   should default off, so an outage falls back to the known-good path. See the
-  deliberate exception `IS_SINGPASS_ENABLED_FEATURE_KEY_FALLBACK_VALUE` in
-  `apps/studio/src/lib/growthbook.ts` where `true` is intentional.
+  historical (since-removed) login flag, which defaulted on because
+disabling it locked existing users out mid-rollout.
+
 - Canary pattern reference: `enabledSites.includes(siteId.toString())` in
   `apps/studio/src/features/editing-experience/components/form-builder/renderers/controls/JsonFormsCategoryControl.tsx:66`.
 - A hand-rolled `enabledEmails`/allowlist check in application code — `email`

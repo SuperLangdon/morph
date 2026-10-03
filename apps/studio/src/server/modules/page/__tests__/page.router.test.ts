@@ -2037,7 +2037,7 @@ describe("page.router", async () => {
         .values({
           siteId: site.id,
           source: normalizeRedirectPath(fullPermalink!),
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         })
         .execute()
 
@@ -2076,7 +2076,7 @@ describe("page.router", async () => {
         .values({
           siteId: site.id,
           source: "/some-unrelated-path",
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         })
         .execute()
 
@@ -2113,7 +2113,7 @@ describe("page.router", async () => {
         .values({
           siteId: site.id,
           source: normalizeRedirectPath(fullPermalink!),
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         })
         .execute()
 
@@ -3231,7 +3231,7 @@ describe("page.router", async () => {
           .values({
             siteId: site.id,
             source: "/new-page",
-            destination: "https://example.gov.sg/elsewhere",
+            destination: "https://example.org/elsewhere",
           })
           .execute()
 
@@ -3300,7 +3300,7 @@ describe("page.router", async () => {
           .values({
             siteId: site.id,
             source: "/old-page",
-            destination: "https://example.gov.sg/stale",
+            destination: "https://example.org/stale",
             deletedAt: new Date(),
           })
           .returningAll()

@@ -44,7 +44,7 @@ export const Admin: Story = {
   play: async ({ canvasElement }) => {
     const screen = within(canvasElement)
     // Anchor on the table having rendered before asserting the absence.
-    await screen.findByText("Government Editor")
+    await screen.findByText("Sample Editor")
     await expect(
       screen.queryByRole("columnheader", { name: "Phone" }),
     ).toBeNull()

@@ -21,7 +21,7 @@ const createCaller = createCallerFactory(emailSessionRouter)
 describe("auth.email", () => {
   let caller: ReturnType<typeof createCaller>
   let session: ReturnType<typeof applySession>
-  const TEST_VALID_EMAIL = "test@open.gov.sg"
+  const TEST_VALID_EMAIL = "test@example.com"
 
   beforeEach(async () => {
     await resetTables("AuditLog", "User", "VerificationToken", "Whitelist")

@@ -2,7 +2,6 @@ import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
 // These dependency signatures survive webpack minification.
-export const ALGOLIA_MARKERS = ["react-instantsearch", "algoliasearch"] as const
 export const ZOD_MARKERS = ["ZodError"] as const
 
 const scanBundleForMarkers = (outDir: string, markers: readonly string[]) => {
@@ -32,9 +31,6 @@ const scanBundleForMarkers = (outDir: string, markers: readonly string[]) => {
     matchedMarkers: [...matchedMarkers],
   }
 }
-
-export const scanBundleForAlgolia = (outDir: string) =>
-  scanBundleForMarkers(outDir, ALGOLIA_MARKERS)
 
 export const scanBundleForZod = (outDir: string) =>
   scanBundleForMarkers(outDir, ZOD_MARKERS)

@@ -441,7 +441,7 @@ describe("site.router", async () => {
       const result = unauthedCaller.updateSiteConfig({
         siteName: MOCK_SITE_NAME,
         logoUrl: MOCK_LOGO_URL,
-        url: "https://www.isomer.gov.sg",
+        url: "https://www.example.com",
         theme: "isomer-next",
         siteId: 1,
       })
@@ -459,7 +459,7 @@ describe("site.router", async () => {
       const result = caller.updateSiteConfig({
         siteName: MOCK_SITE_NAME,
         logoUrl: MOCK_LOGO_URL,
-        url: "https://www.isomer.gov.sg",
+        url: "https://www.example.com",
         theme: "isomer-next",
         siteId: site.id,
       })
@@ -484,7 +484,7 @@ describe("site.router", async () => {
       const result = caller.updateSiteConfig({
         siteName: MOCK_SITE_NAME,
         logoUrl: MOCK_LOGO_URL,
-        url: "https://www.isomer.gov.sg",
+        url: "https://www.example.com",
         theme: "isomer-next",
         siteId: site.id,
       })

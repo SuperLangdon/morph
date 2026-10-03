@@ -396,7 +396,7 @@ describe("redirect.router", async () => {
       const result = await caller.validate({
         siteId,
         source: "/old",
-        destination: "https://www.example.gov.sg/new",
+        destination: "https://www.example.org/new",
       })
 
       // Assert
@@ -429,7 +429,7 @@ describe("redirect.router", async () => {
       const result = await caller.validate({
         siteId,
         source: "/old",
-        destination: "https://www.example.gov.sg",
+        destination: "https://www.example.org",
       })
 
       // Assert
@@ -550,7 +550,7 @@ describe("redirect.router", async () => {
       const result = await caller.validate({
         siteId,
         source: "/old",
-        destination: "https://www.example.gov.sg",
+        destination: "https://www.example.org",
       })
 
       // Assert
@@ -704,12 +704,12 @@ describe("redirect.router", async () => {
       await caller.create({
         siteId,
         source: "/old",
-        destination: "https://www.example.gov.sg/path/",
+        destination: "https://www.example.org/path/",
       })
 
       // Assert
       const result = await caller.list({ siteId })
-      expect(result[0]!.destination).toBe("https://www.example.gov.sg/path/")
+      expect(result[0]!.destination).toBe("https://www.example.org/path/")
     })
 
     it("should throw 409 if a live redirect already exists for the source", async () => {
@@ -877,7 +877,7 @@ describe("redirect.router", async () => {
       await caller.create({
         siteId,
         source: "/draft-page",
-        destination: "https://www.example.gov.sg",
+        destination: "https://www.example.org",
       })
 
       // Assert
@@ -885,7 +885,7 @@ describe("redirect.router", async () => {
       expect(result).toContainEqual(
         expect.objectContaining({
           source: "/draft-page",
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         }),
       )
     })
@@ -1368,7 +1368,7 @@ describe("redirect.router", async () => {
 
     it("should not resolve or warn for an external URL destination", async () => {
       // Arrange — external URLs aren't internal destinations; they never warn.
-      const reference = "https://www.example.gov.sg/page"
+      const reference = "https://www.example.org/page"
 
       // Act
       const result = await caller.resolveReferences({
@@ -1807,7 +1807,7 @@ describe("redirect.router", async () => {
         .values({
           siteId,
           source: "/old",
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         })
         .execute()
 
@@ -1816,7 +1816,7 @@ describe("redirect.router", async () => {
 
       // Assert
       expect(result).toEqual({
-        destination: "https://www.example.gov.sg",
+        destination: "https://www.example.org",
         destinationResourceId: null,
       })
     })
@@ -1857,7 +1857,7 @@ describe("redirect.router", async () => {
         .values({
           siteId,
           source: "/old",
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
         })
         .execute()
 
@@ -1866,7 +1866,7 @@ describe("redirect.router", async () => {
 
       // Assert
       expect(result).toEqual({
-        destination: "https://www.example.gov.sg",
+        destination: "https://www.example.org",
         destinationResourceId: null,
       })
     })
@@ -1878,7 +1878,7 @@ describe("redirect.router", async () => {
         .values({
           siteId,
           source: "/old",
-          destination: "https://www.example.gov.sg",
+          destination: "https://www.example.org",
           deletedAt: new Date(),
         })
         .execute()

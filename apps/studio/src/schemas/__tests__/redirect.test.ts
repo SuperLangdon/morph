@@ -200,7 +200,7 @@ describe("createRedirectSchema", () => {
     it("should reject a source that is a full URL with the design copy", () => {
       // Arrange
       const urlSources = [
-        "https://example.gov.sg/page",
+        "https://example.org/page",
         "http://example.com",
         "ftp://example.com/file",
       ]
@@ -326,11 +326,11 @@ describe("createRedirectSchema", () => {
       // external URL must not be rewritten by the path normaliser.
       const result = createRedirectSchema.parse({
         ...VALID_REDIRECT,
-        destination: "https://www.example.gov.sg/path/?ref=1",
+        destination: "https://www.example.org/path/?ref=1",
       })
 
       // Assert
-      expect(result.destination).toBe("https://www.example.gov.sg/path/?ref=1")
+      expect(result.destination).toBe("https://www.example.org/path/?ref=1")
     })
 
     it("should accept destinations starting with '/'", () => {
@@ -356,7 +356,7 @@ describe("createRedirectSchema", () => {
       // Arrange / Act
       const result = createRedirectSchema.safeParse({
         ...VALID_REDIRECT,
-        destination: "https://www.example.gov.sg/page",
+        destination: "https://www.example.org/page",
       })
 
       // Assert
@@ -385,7 +385,7 @@ describe("createRedirectSchema", () => {
         "link with space",
         // Doubled scheme parses as a URL with hostname "https" — a prefix check
         // would let it through, the host-must-have-a-dot rule rejects it.
-        "https://https://www.isomer.gov.sg",
+        "https://https://www.example.com",
         // Bare single-label hosts are never valid public redirect targets.
         "https://localhost",
         "https://",
@@ -477,11 +477,11 @@ describe("createRedirectSchema", () => {
       // Arrange / Act
       const result = createRedirectSchema.parse({
         ...VALID_REDIRECT,
-        destination: "https://www.example.gov.sg/a//b",
+        destination: "https://www.example.org/a//b",
       })
 
       // Assert
-      expect(result.destination).toBe("https://www.example.gov.sg/a//b")
+      expect(result.destination).toBe("https://www.example.org/a//b")
     })
 
     it("should allow a query string on an internal path", () => {
@@ -512,7 +512,7 @@ describe("createRedirectSchema", () => {
       // Arrange / Act: fragments are legitimate on external destinations too.
       const result = createRedirectSchema.safeParse({
         ...VALID_REDIRECT,
-        destination: "https://www.example.gov.sg/page#section",
+        destination: "https://www.example.org/page#section",
       })
 
       // Assert
@@ -525,13 +525,13 @@ describe("createRedirectSchema", () => {
       // Location header) where it could inject a response header.
       const cases = [
         {
-          input: "https://evil.gov.sg/\r\npath",
-          expected: "https://evil.gov.sg/path",
+          input: "https://evil.example.org/\r\npath",
+          expected: "https://evil.example.org/path",
         },
-        { input: "https://evil.gov.sg/\x00", expected: "https://evil.gov.sg/" },
+        { input: "https://evil.example.org/\x00", expected: "https://evil.example.org/" },
         {
-          input: "https://evil.gov.sg/\ttab",
-          expected: "https://evil.gov.sg/tab",
+          input: "https://evil.example.org/\ttab",
+          expected: "https://evil.example.org/tab",
         },
       ]
 
@@ -553,7 +553,7 @@ describe("createRedirectSchema", () => {
       // https URL alike), since it is never meaningful in a redirect target.
       const invalidDestinations = [
         "/foo/../bar",
-        "https://www.example.gov.sg/foo/../bar",
+        "https://www.example.org/foo/../bar",
       ]
 
       invalidDestinations.forEach((destination) => {
@@ -620,7 +620,7 @@ describe("createRedirectSchema", () => {
       const result = createRedirectSchema.safeParse({
         ...VALID_REDIRECT,
         source: "/same",
-        destination: "https://example.gov.sg/same",
+        destination: "https://example.org/same",
       })
 
       // Assert

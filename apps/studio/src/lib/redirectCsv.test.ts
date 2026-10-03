@@ -17,7 +17,7 @@ const header = `${SOURCE_HEADER},${DESTINATION_HEADER}`
 describe("parseRedirectCsv", () => {
   it("parses rows with 1-based line numbers and trims cells", () => {
     // Arrange
-    const csv = `${header}\n/old , /new\n/blog,https://example.gov.sg`
+    const csv = `${header}\n/old , /new\n/blog,https://example.org`
 
     // Act
     const result = parseRedirectCsv(csv)
@@ -29,7 +29,7 @@ describe("parseRedirectCsv", () => {
       {
         rowNumber: 3,
         source: "/blog",
-        destination: "https://example.gov.sg",
+        destination: "https://example.org",
         malformed: false,
       },
     ])
@@ -52,7 +52,7 @@ describe("parseRedirectCsv", () => {
   it("flags a row split by an unquoted comma as malformed", () => {
     // Arrange: the destination contains an unquoted comma, so it splits into a
     // stray third field that would otherwise silently truncate the destination.
-    const csv = `${header}\n/old,https://example.gov.sg/a,b`
+    const csv = `${header}\n/old,https://example.org/a,b`
 
     // Act
     const result = parseRedirectCsv(csv)
@@ -134,7 +134,7 @@ describe("parseRedirectCsv", () => {
     // rest of the file into one field, swallowing the second redirect. That must
     // be rejected outright rather than validated row-by-row (which would silently
     // drop /keep -> /somewhere).
-    const csv = `${header}\n/old,"https://example.gov.sg/a\n/keep,/somewhere`
+    const csv = `${header}\n/old,"https://example.org/a\n/keep,/somewhere`
 
     // Act
     const result = parseRedirectCsv(csv)

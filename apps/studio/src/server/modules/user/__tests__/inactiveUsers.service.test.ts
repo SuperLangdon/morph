@@ -32,9 +32,9 @@ import {
 } from "../inactiveUsers.service"
 
 const TEST_ISOMER_ADMIN_EMAILS = [
-  "testadmin1@open.gov.sg",
-  "testadmin2@open.gov.sg",
-  "testmigrator1@open.gov.sg",
+  "testadmin1@example.com",
+  "testadmin2@example.com",
+  "testmigrator1@example.com",
 ]
 
 const setupIsomerAdminUser = async ({
@@ -910,7 +910,7 @@ describe("inactiveUsers.service", () => {
 
     it("should select isomer admins with expired entries as inactive", async () => {
       // Arrange
-      const expiredAdminEmail = "expiredadmin@open.gov.sg"
+      const expiredAdminEmail = "expiredadmin@example.com"
       const expiredAdmin = await setupUser({
         email: expiredAdminEmail,
         lastLoginAt: null,

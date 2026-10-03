@@ -122,7 +122,6 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "chakra-react-select"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "algoliasearch"
         update-types: ["version-update:semver-major"]
       # Storybook 10.5.x breaks interactive stories: its instrumented
       # HTMLElement.prototype.focus getter conflicts with

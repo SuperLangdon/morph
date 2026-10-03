@@ -19,9 +19,11 @@ import { dirname, join } from "node:path"
 import { argv } from "node:process"
 import { pathToFileURL } from "node:url"
 
-const SINGAPORE_TIME_ZONE = "Asia/Singapore"
+// A fixed timezone keeps the generated feed byte-identical regardless of
+// where the build runs.
+const FEED_TIME_ZONE = "UTC"
 // RFC-822 datetime required by RSS 2.0 <pubDate>/<lastBuildDate>, e.g.
-// "Tue, 15 Jul 2026 00:00:00 +0800". English weekday/month come from date-fns'
+// "Tue, 15 Jul 2026 00:00:00 +0000". English weekday/month come from date-fns'
 // default (en-US) locale, which the spec mandates; `xx` yields "+0800".
 const RFC_822_FORMAT = "EEE, dd MMM yyyy HH:mm:ss xx"
 
@@ -46,16 +48,16 @@ export const escapeXml = (value: string): string =>
   value.replace(/[&<>"']/g, (char) => XML_ESCAPES[char] ?? char)
 
 export const toRfc822 = (date: Date): string =>
-  formatInTimeZone(date, SINGAPORE_TIME_ZONE, RFC_822_FORMAT)
+  formatInTimeZone(date, FEED_TIME_ZONE, RFC_822_FORMAT)
 
 // The article date is a calendar day with no time; getCollectionItems (via
 // getParsedDate) turns it into the build server's *local* midnight. Read the day
-// back off the local fields — converting the instant to SGT first would roll it
-// back a day anywhere east of Singapore — then anchor it to midnight SGT so the
-// feed is identical regardless of where it is built.
+// back off the local fields — converting the instant to UTC first could roll it
+// back a day anywhere east of UTC — then anchor it to midnight UTC so the feed
+// is identical regardless of where it is built.
 export const articleDateToRfc822 = (date: Date): string => {
   const day = format(date, "yyyy-MM-dd")
-  return toRfc822(fromZonedTime(`${day}T00:00:00`, SINGAPORE_TIME_ZONE))
+  return toRfc822(fromZonedTime(`${day}T00:00:00`, FEED_TIME_ZONE))
 }
 
 const toAbsoluteUrl = (href: string, siteUrl?: string): string => {

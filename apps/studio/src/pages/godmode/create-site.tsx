@@ -110,7 +110,7 @@ const GodModeCreateSitePage: NextPageWithLayout = () => {
         <FormControl isRequired isInvalid={!!errors.siteName}>
           <FormLabel>Site name</FormLabel>
           <Input
-            placeholder="Ministry of Isomer"
+            placeholder="Sample Organisation"
             {...register("siteName")}
             size="lg"
           />

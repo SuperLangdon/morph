@@ -73,14 +73,14 @@ describe("isReferenceDestination", () => {
 
   it("returns false for literal paths and external URLs", () => {
     expect(isReferenceDestination("/about-us")).toBe(false)
-    expect(isReferenceDestination("https://example.gov.sg/page")).toBe(false)
+    expect(isReferenceDestination("https://example.org/page")).toBe(false)
   })
 
   it("returns false for a value that merely contains the reference substring", () => {
     // The shared regex is unanchored; isReferenceDestination must not match a
     // reference embedded in an external URL or a longer string.
     expect(
-      isReferenceDestination("https://example.gov.sg/[resource:1:2]"),
+      isReferenceDestination("https://example.org/[resource:1:2]"),
     ).toBe(false)
     expect(isReferenceDestination("[resource:1:2]/extra")).toBe(false)
   })
@@ -142,7 +142,7 @@ describe("shouldWarnDestination", () => {
   })
 
   it("does not warn for a destination that is still resolving or external", () => {
-    expect(shouldWarnDestination("https://example.gov.sg", new Map())).toBe(
+    expect(shouldWarnDestination("https://example.org", new Map())).toBe(
       false,
     )
     expect(shouldWarnDestination("[resource:1:2]", new Map())).toBe(false)

@@ -200,7 +200,7 @@ describe("auditLogExport.query", () => {
       const { site } = await setupSite()
 
       // Created Feb 2024, still active → INCLUDED
-      const activeUser = await setupUser({ email: "active@agency.gov.sg" })
+      const activeUser = await setupUser({ email: "active@agency.example.org" })
       await setupPermission({
         userId: activeUser.id,
         siteId: site.id,
@@ -208,7 +208,7 @@ describe("auditLogExport.query", () => {
       })
 
       // Created Apr 2024 (after month end) → EXCLUDED
-      const futureUser = await setupUser({ email: "future@agency.gov.sg" })
+      const futureUser = await setupUser({ email: "future@agency.example.org" })
       await setupPermission({
         userId: futureUser.id,
         siteId: site.id,
@@ -217,7 +217,7 @@ describe("auditLogExport.query", () => {
 
       // Created Jan 2024, revoked Feb 2024 (before month end) → EXCLUDED
       const revokedEarlyUser = await setupUser({
-        email: "revoked-early@agency.gov.sg",
+        email: "revoked-early@agency.example.org",
       })
       await setupPermission({
         userId: revokedEarlyUser.id,
@@ -229,7 +229,7 @@ describe("auditLogExport.query", () => {
       // Created Jan 2024, revoked May 2024 (after month end) → INCLUDED
       // (they had access during March)
       const revokedLateUser = await setupUser({
-        email: "revoked-late@agency.gov.sg",
+        email: "revoked-late@agency.example.org",
       })
       await setupPermission({
         userId: revokedLateUser.id,
@@ -243,7 +243,7 @@ describe("auditLogExport.query", () => {
       // 2024-03-31 23:59:59.999 UTC) → EXCLUDED: `deletedAt >= rangeEnd`
       // fails, so the user no longer had access at the end of the range.
       const revokedAtBoundaryUser = await setupUser({
-        email: "revoked-at-boundary@agency.gov.sg",
+        email: "revoked-at-boundary@agency.example.org",
       })
       await setupPermission({
         userId: revokedAtBoundaryUser.id,
@@ -259,18 +259,18 @@ describe("auditLogExport.query", () => {
       const emails = rows.map((r) => r.Email).sort()
 
       expect(emails).toEqual([
-        "active@agency.gov.sg",
-        "revoked-late@agency.gov.sg",
+        "active@agency.example.org",
+        "revoked-late@agency.example.org",
       ])
     })
 
     // Semantic change (ported from main, PR #2612): internal-team exclusion is
-    // by membership in the `IsomerAdmin` table, not by an `@open.gov.sg` email
-    // suffix — an @open.gov.sg address alone no longer excludes a user.
+    // by membership in the `IsomerAdmin` table, not by an `@example.com` email
+    // suffix — an @example.com address alone no longer excludes a user.
     it("excludes Morph admins even if they hold a permission", async () => {
       const { site } = await setupSite()
 
-      const isomerAdmin = await setupUser({ email: "teammate@open.gov.sg" })
+      const isomerAdmin = await setupUser({ email: "teammate@example.com" })
       await setupIsomerAdmin({ userId: isomerAdmin.id })
       await setupPermission({
         userId: isomerAdmin.id,
@@ -278,7 +278,7 @@ describe("auditLogExport.query", () => {
         createdAt: new Date("2024-02-01T00:00:00Z"),
       })
 
-      const agencyUser = await setupUser({ email: "agency@agency.gov.sg" })
+      const agencyUser = await setupUser({ email: "agency@agency.example.org" })
       await setupPermission({
         userId: agencyUser.id,
         siteId: site.id,
@@ -289,14 +289,14 @@ describe("auditLogExport.query", () => {
         siteId: site.id,
         auditLogDateRange,
       })
-      expect(rows.map((r) => r.Email)).toEqual(["agency@agency.gov.sg"])
+      expect(rows.map((r) => r.Email)).toEqual(["agency@agency.example.org"])
     })
 
     it("excludes users permissioned only on a different site", async () => {
       const { site } = await setupSite()
       const { site: otherSite } = await setupSite()
 
-      const otherUser = await setupUser({ email: "other@agency.gov.sg" })
+      const otherUser = await setupUser({ email: "other@agency.example.org" })
       await setupPermission({
         userId: otherUser.id,
         siteId: otherSite.id,
@@ -316,7 +316,7 @@ describe("auditLogExport.query", () => {
       // 2024-03-31T23:30:00Z === 2024-04-01 07:30 UTC → belongs to April,
       // so a permission created at that instant is AFTER March's monthEnd
       // and must be EXCLUDED from the March report.
-      const boundaryUser = await setupUser({ email: "boundary@agency.gov.sg" })
+      const boundaryUser = await setupUser({ email: "boundary@agency.example.org" })
       await setupPermission({
         userId: boundaryUser.id,
         siteId: site.id,
@@ -325,7 +325,7 @@ describe("auditLogExport.query", () => {
 
       // A permission created just before the UTC month end is INCLUDED.
       // 2024-03-31T15:00:00Z === 2024-03-31 23:00 UTC.
-      const inMonthUser = await setupUser({ email: "in-month@agency.gov.sg" })
+      const inMonthUser = await setupUser({ email: "in-month@agency.example.org" })
       await setupPermission({
         userId: inMonthUser.id,
         siteId: site.id,
@@ -336,7 +336,7 @@ describe("auditLogExport.query", () => {
       // (deletedAt === rangeEnd - 1ms === 2024-03-31T15:59:59.999Z) is
       // EXCLUDED: `deletedAt >= rangeEnd` fails.
       const revokedAtBoundaryUser = await setupUser({
-        email: "revoked-at-boundary@agency.gov.sg",
+        email: "revoked-at-boundary@agency.example.org",
       })
       await setupPermission({
         userId: revokedAtBoundaryUser.id,
@@ -349,7 +349,7 @@ describe("auditLogExport.query", () => {
       // 2024-03-31T16:00:00.000Z) still covered the last instant of the range
       // and is INCLUDED.
       const revokedAfterBoundaryUser = await setupUser({
-        email: "revoked-after-boundary@agency.gov.sg",
+        email: "revoked-after-boundary@agency.example.org",
       })
       await setupPermission({
         userId: revokedAfterBoundaryUser.id,
@@ -363,8 +363,8 @@ describe("auditLogExport.query", () => {
         auditLogDateRange,
       })
       expect(rows.map((r) => r.Email).sort()).toEqual([
-        "in-month@agency.gov.sg",
-        "revoked-after-boundary@agency.gov.sg",
+        "in-month@agency.example.org",
+        "revoked-after-boundary@agency.example.org",
       ])
     })
 
@@ -373,7 +373,7 @@ describe("auditLogExport.query", () => {
       const createdAt = new Date("2024-02-15T00:00:00Z")
       const lastLoginAt = new Date("2024-02-20T00:00:00Z")
       const user = await setupUser({
-        email: "shape@agency.gov.sg",
+        email: "shape@agency.example.org",
         lastLoginAt,
       })
       await setupPermission({
@@ -391,7 +391,7 @@ describe("auditLogExport.query", () => {
       // String-alias columns keep their quotes in the key (matches the
       // script; `toCsv` strips them for the CSV header).
       expect(rows[0]).toEqual({
-        Email: "shape@agency.gov.sg",
+        Email: "shape@agency.example.org",
         '"Last login"': lastLoginAt,
         Role: RoleType.Admin,
         '"Date added"': createdAt,
@@ -410,7 +410,7 @@ describe("auditLogExport.query", () => {
   describe("getActivityReportRows (month-scoped events)", () => {
     it("includes in-month events with a non-empty Description and excludes out-of-month events", async () => {
       const { site } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       // In-month Publish (reads metadata ->> 'title'/'type'/'id')
       await insertAuditLog({
@@ -471,7 +471,7 @@ describe("auditLogExport.query", () => {
 
     it("resolves a Description for Unpublish events instead of falling through to '-'", async () => {
       const { site } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       await insertAuditLog({
         eventType: AuditLogEvent.Unpublish,
@@ -495,7 +495,7 @@ describe("auditLogExport.query", () => {
 
     it("buckets a boundary event by UTC, not UTC", async () => {
       const { site } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       // 2024-03-31T23:30:00Z === 2024-04-01 07:30 UTC → April, EXCLUDED from March
       await insertAuditLog({
@@ -531,7 +531,7 @@ describe("auditLogExport.query", () => {
 
     it("includes a legacy event whose siteId lives only under delta.after (numeric-cast fallback)", async () => {
       const { site } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       // Legacy row: top-level siteId is NULL, and the site association lives
       // only under delta.after.siteId. The fallback predicate extracts that
@@ -564,8 +564,8 @@ describe("auditLogExport.query", () => {
 
     it("renders the target email for a PermissionDelete (userId under delta.before)", async () => {
       const { site } = await setupSite()
-      const actor = await setupUser({ email: "admin@agency.gov.sg" })
-      const target = await setupUser({ email: "revoked@agency.gov.sg" })
+      const actor = await setupUser({ email: "admin@agency.example.org" })
+      const target = await setupUser({ email: "revoked@agency.example.org" })
 
       // PermissionDelete stores the affected user's id under delta.before
       // (delta.after is null). The `pu` join must resolve the email from the
@@ -591,14 +591,14 @@ describe("auditLogExport.query", () => {
       )
       expect(deleteRows).toHaveLength(1)
       expect(deleteRows[0]?.Description).toBe(
-        `Permission (${RoleType.Editor}) revoked from revoked@agency.gov.sg`,
+        `Permission (${RoleType.Editor}) revoked from revoked@agency.example.org`,
       )
     })
 
     it("renders the target email for a PermissionCreate (userId under delta.after)", async () => {
       const { site } = await setupSite()
-      const actor = await setupUser({ email: "admin@agency.gov.sg" })
-      const target = await setupUser({ email: "granted@agency.gov.sg" })
+      const actor = await setupUser({ email: "admin@agency.example.org" })
+      const target = await setupUser({ email: "granted@agency.example.org" })
 
       await insertAuditLog({
         eventType: AuditLogEvent.PermissionCreate,
@@ -621,18 +621,18 @@ describe("auditLogExport.query", () => {
       )
       expect(createRows).toHaveLength(1)
       expect(createRows[0]?.Description).toBe(
-        `Permission (${RoleType.Editor}) granted to granted@agency.gov.sg`,
+        `Permission (${RoleType.Editor}) granted to granted@agency.example.org`,
       )
     })
 
     // Semantic change (ported from main, PR #2612): internal-team exclusion is
-    // by membership in the `IsomerAdmin` table, not by an `@open.gov.sg` email
+    // by membership in the `IsomerAdmin` table, not by an `@example.com` email
     // suffix.
     it("excludes Login events by Morph admins", async () => {
       const { site } = await setupSite()
 
       // Agency user with a permission → their Login is INCLUDED
-      const agencyUser = await setupUser({ email: "agency@agency.gov.sg" })
+      const agencyUser = await setupUser({ email: "agency@agency.example.org" })
       await setupPermission({
         userId: agencyUser.id,
         siteId: site.id,
@@ -641,7 +641,7 @@ describe("auditLogExport.query", () => {
 
       // Morph admin → excluded from collaboratorWindows, Login NOT shown
       // even though they hold a permission on the site
-      const isomerUser = await setupUser({ email: "teammate@open.gov.sg" })
+      const isomerUser = await setupUser({ email: "teammate@example.com" })
       await setupIsomerAdmin({ userId: isomerUser.id })
       await setupPermission({
         userId: isomerUser.id,
@@ -655,7 +655,7 @@ describe("auditLogExport.query", () => {
         userId: agencyUser.id,
         siteId: null,
         delta: {
-          before: { identifier: "agency@agency.gov.sg|10.0.0.1" },
+          before: { identifier: "agency@agency.example.org|10.0.0.1" },
           after: null,
         },
         createdAt: new Date("2024-03-05T02:00:00Z"),
@@ -665,7 +665,7 @@ describe("auditLogExport.query", () => {
         userId: isomerUser.id,
         siteId: null,
         delta: {
-          before: { identifier: "teammate@open.gov.sg|10.0.0.2" },
+          before: { identifier: "teammate@example.com|10.0.0.2" },
           after: null,
         },
         createdAt: new Date("2024-03-06T02:00:00Z"),
@@ -681,7 +681,7 @@ describe("auditLogExport.query", () => {
       )
       expect(loginRows).toHaveLength(1)
       expect(loginRows[0]?.Description).toBe(
-        "Login attempt by agency@agency.gov.sg from IP address 10.0.0.1",
+        "Login attempt by agency@agency.example.org from IP address 10.0.0.1",
       )
     })
 
@@ -690,7 +690,7 @@ describe("auditLogExport.query", () => {
 
       // Permission granted AFTER the range (Apr 2024) → not active during
       // March, so this user's Login must be EXCLUDED.
-      const futureUser = await setupUser({ email: "future@agency.gov.sg" })
+      const futureUser = await setupUser({ email: "future@agency.example.org" })
       await setupPermission({
         userId: futureUser.id,
         siteId: site.id,
@@ -700,7 +700,7 @@ describe("auditLogExport.query", () => {
       // Permission revoked BEFORE the range began (deletedAt in Feb, before
       // rangeStart === 2024-03-01 00:00 UTC) → EXCLUDED.
       const revokedBeforeUser = await setupUser({
-        email: "revoked-before@agency.gov.sg",
+        email: "revoked-before@agency.example.org",
       })
       await setupPermission({
         userId: revokedBeforeUser.id,
@@ -710,7 +710,7 @@ describe("auditLogExport.query", () => {
       })
 
       // Permission active throughout March → INCLUDED (control).
-      const activeUser = await setupUser({ email: "active@agency.gov.sg" })
+      const activeUser = await setupUser({ email: "active@agency.example.org" })
       await setupPermission({
         userId: activeUser.id,
         siteId: site.id,
@@ -718,9 +718,9 @@ describe("auditLogExport.query", () => {
       })
 
       for (const [email, at] of [
-        ["future@agency.gov.sg", "2024-03-05T02:00:00Z"],
-        ["revoked-before@agency.gov.sg", "2024-03-06T02:00:00Z"],
-        ["active@agency.gov.sg", "2024-03-07T02:00:00Z"],
+        ["future@agency.example.org", "2024-03-05T02:00:00Z"],
+        ["revoked-before@agency.example.org", "2024-03-06T02:00:00Z"],
+        ["active@agency.example.org", "2024-03-07T02:00:00Z"],
       ] as const) {
         await insertAuditLog({
           eventType: AuditLogEvent.Login,
@@ -740,7 +740,7 @@ describe("auditLogExport.query", () => {
         (r) => r['"Event type"'] === AuditLogEvent.Login,
       )
       expect(loginRows.map((r) => r.Description)).toEqual([
-        "Login attempt by active@agency.gov.sg from IP address 10.0.0.1",
+        "Login attempt by active@agency.example.org from IP address 10.0.0.1",
       ])
     })
 
@@ -752,12 +752,12 @@ describe("auditLogExport.query", () => {
     // allow-listed it.
     it("excludes a Login for a user known only via a permission-change event (no ResourcePermission row)", async () => {
       const { site } = await setupSite()
-      const actor = await setupUser({ email: "admin@agency.gov.sg" })
+      const actor = await setupUser({ email: "admin@agency.example.org" })
 
       // This user has NO ResourcePermission row for the site — only a
       // PermissionCreate audit event within the window.
       const changedUser = await setupUser({
-        email: "changed@agency.gov.sg",
+        email: "changed@agency.example.org",
       })
 
       await insertAuditLog({
@@ -776,7 +776,7 @@ describe("auditLogExport.query", () => {
         userId: changedUser.id,
         siteId: null,
         delta: {
-          before: { identifier: "changed@agency.gov.sg|10.0.0.9" },
+          before: { identifier: "changed@agency.example.org|10.0.0.9" },
           after: null,
         },
         createdAt: new Date("2024-03-11T02:00:00Z"),
@@ -801,7 +801,7 @@ describe("auditLogExport.query", () => {
     it("excludes a displayable event that belongs to a different site", async () => {
       const { site } = await setupSite()
       const { site: otherSite } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       await insertAuditLog({
         eventType: AuditLogEvent.ResourceCreate,
@@ -823,7 +823,7 @@ describe("auditLogExport.query", () => {
 
     it("renders an AuditLogExportCreate description from the requested range and report type", async () => {
       const { site } = await setupSite()
-      const admin = await setupUser({ email: "exporter@agency.gov.sg" })
+      const admin = await setupUser({ email: "exporter@agency.example.org" })
 
       // The delta stores what was ASKED for, so the description echoes it
       // verbatim regardless of report type.
@@ -855,7 +855,7 @@ describe("auditLogExport.query", () => {
 
     it("renders RedirectCreate, RedirectCreate-revival and RedirectDelete descriptions", async () => {
       const { site } = await setupSite()
-      const user = await setupUser({ email: "editor@agency.gov.sg" })
+      const user = await setupUser({ email: "editor@agency.example.org" })
 
       // Newly created redirect (no `before`)
       await insertAuditLog({
@@ -945,7 +945,7 @@ describe("auditLogExport.query", () => {
 
       it("includes a Login during an active collaboration window", async () => {
         const { site } = await setupSite()
-        const collaborator = await setupUser({ email: "active@agency.gov.sg" })
+        const collaborator = await setupUser({ email: "active@agency.example.org" })
         await setupPermission({
           userId: collaborator.id,
           siteId: site.id,
@@ -966,7 +966,7 @@ describe("auditLogExport.query", () => {
       it("excludes a Login before the collaborator was granted", async () => {
         const { site } = await setupSite()
         const collaborator = await setupUser({
-          email: "pregrant@agency.gov.sg",
+          email: "pregrant@agency.example.org",
         })
         await setupPermission({
           userId: collaborator.id,
@@ -986,7 +986,7 @@ describe("auditLogExport.query", () => {
       it("excludes a Login after the collaborator was revoked", async () => {
         const { site } = await setupSite()
         const collaborator = await setupUser({
-          email: "postrevoke@agency.gov.sg",
+          email: "postrevoke@agency.example.org",
         })
         await setupPermission({
           userId: collaborator.id,
@@ -1006,7 +1006,7 @@ describe("auditLogExport.query", () => {
       it("removed then re-added: logins in the active windows show, the gap does not", async () => {
         // Window 1: [GRANTED_BEFORE_RANGE, T_10); window 2: [T_20, ∞)
         const { site } = await setupSite()
-        const collaborator = await setupUser({ email: "readded@agency.gov.sg" })
+        const collaborator = await setupUser({ email: "readded@agency.example.org" })
         await setupPermission({
           userId: collaborator.id,
           siteId: site.id,
@@ -1036,7 +1036,7 @@ describe("auditLogExport.query", () => {
       it("includes a Logout during an active collaboration window and excludes one at the exact moment of revocation", async () => {
         const { site } = await setupSite()
         const collaborator = await setupUser({
-          email: "logouts@agency.gov.sg",
+          email: "logouts@agency.example.org",
         })
         await setupPermission({
           userId: collaborator.id,
@@ -1059,7 +1059,7 @@ describe("auditLogExport.query", () => {
 
       it("excludes a Logout by an Morph admin", async () => {
         const { site } = await setupSite()
-        const isomerAdmin = await setupUser({ email: "admin@open.gov.sg" })
+        const isomerAdmin = await setupUser({ email: "admin@example.com" })
         await setupIsomerAdmin({ userId: isomerAdmin.id })
         await setupPermission({
           userId: isomerAdmin.id,
@@ -1113,13 +1113,13 @@ describe("auditLogExport.query", () => {
     it("produces a header row plus one data row per input row", () => {
       const rows = [
         {
-          Email: "a@agency.gov.sg",
+          Email: "a@agency.example.org",
           Role: "Admin",
           "Date added": new Date("2024-02-15T00:00:00Z"),
           "Last login": null,
         },
         {
-          Email: "b@agency.gov.sg",
+          Email: "b@agency.example.org",
           Role: "Editor",
           "Date added": new Date("2024-02-16T00:00:00Z"),
           "Last login": new Date("2024-03-01T00:00:00Z"),
@@ -1135,10 +1135,10 @@ describe("auditLogExport.query", () => {
       expect(lines[0]).toBe("Email,Role,Date added,Last login")
       // Dates render in UTC (+08:00), so 00:00Z → 08:00+08:00.
       expect(lines[1]).toBe(
-        "a@agency.gov.sg,Admin,2024-02-15T08:00:00.000+08:00,",
+        "a@agency.example.org,Admin,2024-02-15T08:00:00.000+08:00,",
       )
       expect(lines[2]).toBe(
-        "b@agency.gov.sg,Editor,2024-02-16T08:00:00.000+08:00,2024-03-01T08:00:00.000+08:00",
+        "b@agency.example.org,Editor,2024-02-16T08:00:00.000+08:00,2024-03-01T08:00:00.000+08:00",
       )
     })
 
@@ -1172,13 +1172,13 @@ describe("auditLogExport.query", () => {
     it("streams byte-for-byte the same CSV as the buffered toCsv", async () => {
       const rows = [
         {
-          Email: "a@agency.gov.sg",
+          Email: "a@agency.example.org",
           Role: "Admin",
           "Date added": new Date("2024-02-15T00:00:00Z"),
           "Last login": null,
         },
         {
-          Email: "b@agency.gov.sg",
+          Email: "b@agency.example.org",
           Role: "Editor",
           "Date added": new Date("2024-02-16T00:00:00Z"),
           "Last login": new Date("2024-03-01T00:00:00Z"),

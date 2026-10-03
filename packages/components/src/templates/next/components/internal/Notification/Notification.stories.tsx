@@ -30,7 +30,7 @@ export const TitleAndDescription: Story = {
           type: "paragraph",
           content: [
             {
-              text: "Contents on this site are neither accurate nor are representative of any Ministry's views. ",
+              text: "Contents on this site are neither accurate nor are representative of any organisation's views. ",
               type: "text",
             },
             {
@@ -91,7 +91,7 @@ export const LongContent: Story = {
           type: "paragraph",
           content: [
             {
-              text: "Contents on this site are neither accurate nor are representative of any Ministry's views. It may contain outdated or incorrect information. For accurate information, go to individual agency websites. ",
+              text: "Contents on this site are neither accurate nor are representative of any organisation's views. It may contain outdated or incorrect information. For accurate information, go to the official source websites. ",
               type: "text",
             },
             {

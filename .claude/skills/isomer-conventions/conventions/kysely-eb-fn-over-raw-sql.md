@@ -19,7 +19,7 @@ use it instead of a raw `` sql`...` `` template. The common case is
 
 Raw `` sql`...` `` remains fine where the builder has no equivalent — e.g.
 JSON path extraction (`content->'page'->>'description'`) or `regexp_replace`,
-as in `apps/studio/src/server/modules/gazette/gazette.router.ts:135,147`.
+as in `apps/studio/src/server/modules/site/site.router.ts`.
 
 ## Why
 
@@ -40,7 +40,7 @@ also dodge Kysely's identifier quoting, so they're easier to get subtly wrong.
 
 ## Good
 
-See `apps/studio/src/server/modules/gazette/gazette.router.ts:158-161`:
+See `apps/studio/src/server/modules/site/site.router.ts`:
 
 ```ts
 .select([

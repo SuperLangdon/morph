@@ -365,7 +365,7 @@ export const Default: Story = {
             method: "address",
             label: "Chancery",
             values: [
-              "c/o Ministry of Isomer",
+              "c/o Sample Organisation",
               "Lazada One",
               "Rivertown 123456",
             ],

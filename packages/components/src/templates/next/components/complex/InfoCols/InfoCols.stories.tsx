@@ -27,7 +27,7 @@ export const Default: Story = {
     sectionIdx: 0,
     title: "MTI Highlights",
     subtitle:
-      "These are some of the things we are working on. As a ministry, we focus on delivering value to the members of public.",
+      "These are some of the things we are working on. As an organisation, we focus on delivering value to the public.",
     infoBoxes: [
       {
         title: "Committee of Supply (COS) 2023",

@@ -34,7 +34,7 @@ export const Default: Story = {
     const screen = within(canvasElement)
 
     const actionMenu = await screen.findByRole("button", {
-      name: "Options for Government Editor",
+      name: "Options for Sample Editor",
     })
     await userEvent.click(actionMenu)
 

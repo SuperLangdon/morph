@@ -48,7 +48,7 @@ describe("resource.router", async () => {
   let caller: ReturnType<typeof createCaller>
   const session = await applyAuthedSession()
 
-  const TEST_VALID_EMAIL = "test@open.gov.sg"
+  const TEST_VALID_EMAIL = "test@example.com"
 
   beforeAll(async () => {
     caller = createCaller(createMockRequest(session))
@@ -2041,7 +2041,7 @@ describe("resource.router", async () => {
           .values({
             siteId: site.id,
             source: "/dest/old-page",
-            destination: "https://example.gov.sg/elsewhere",
+            destination: "https://example.org/elsewhere",
           })
           .execute()
 
@@ -2076,7 +2076,7 @@ describe("resource.router", async () => {
           .values({
             siteId: site.id,
             source: "/dest/old-page",
-            destination: "https://example.gov.sg/elsewhere",
+            destination: "https://example.org/elsewhere",
           })
           .execute()
 
@@ -2173,7 +2173,7 @@ describe("resource.router", async () => {
             .values({
               siteId: site.id,
               source: "/dest/src-folder/child",
-              destination: "https://example.gov.sg/elsewhere",
+              destination: "https://example.org/elsewhere",
             })
             .execute()
 

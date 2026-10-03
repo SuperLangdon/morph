@@ -105,7 +105,7 @@ const generateArgs = ({
               {
                 id: "3",
                 title:
-                  "Date of Government Gazette Notification on Dissolution of Parliament",
+                  "Date of the last quarterly review",
                 tagged: [HOMEPAGE_CATEGORY_OPTION_ID],
                 permalink: "/collection-1/item-1",
                 layout: "article",
@@ -136,7 +136,7 @@ const generateArgs = ({
               },
               {
                 id: "5",
-                title: "Where does Government revenue come from?",
+                title: "Where does our funding come from?",
                 tagged: [HOMEPAGE_CATEGORY_OPTION_ID],
                 permalink: "/collection-1/item-3",
                 layout: "article",
@@ -365,9 +365,9 @@ const generateArgs = ({
       {
         type: "infocards",
         variant: "cardsWithFullImages",
-        title: "Section title ministry highlights",
+        title: "Section title — what we do",
         subtitle:
-          "Section subtitle, maximum 150 chars. These are some of the things we are working on. As a ministry, we focus on delivering value to the members of public.",
+          "Section subtitle, maximum 150 chars. These are some of the things we are working on. As an organisation, we focus on delivering value to the public.",
         label: "This is a CTA",
         url: "/",
         cards: [
@@ -400,9 +400,9 @@ const generateArgs = ({
       {
         type: "infocards",
         maxColumns: "3",
-        title: "Section title ministry highlights",
+        title: "Section title — what we do",
         subtitle:
-          "Section subtitle, maximum 150 chars. These are some of the things we are working on. As a ministry, we focus on delivering value to the members of public.",
+          "Section subtitle, maximum 150 chars. These are some of the things we are working on. As an organisation, we focus on delivering value to the public.",
         variant: "cardsWithImages",
         label: "This is a CTA",
         url: "/",
@@ -411,7 +411,7 @@ const generateArgs = ({
             title: "Card with short title",
             url: "https://www.google.com",
             description:
-              "Card description, 200 chars. In the kingdom of Veridonia, the government operates as a benevolent monarchy, guided by ancient traditions and the wisdom of its sovereign.",
+              "Card description, 200 chars. In the kingdom of Veridonia, the realm prospers under ancient traditions, benevolent councils, and the wisdom of its elders.",
             imageUrl: "https://placehold.co/200x300",
             imageAlt: "alt text",
           },
@@ -419,7 +419,7 @@ const generateArgs = ({
             title: "Hover on me to see me change colors",
             url: "https://www.google.com",
             description:
-              "Card description, 200 chars. In the kingdom of Veridonia, the government operates as a benevolent monarchy, guided by ancient traditions and the wisdom of its sovereign.",
+              "Card description, 200 chars. In the kingdom of Veridonia, the realm prospers under ancient traditions, benevolent councils, and the wisdom of its elders.",
             imageUrl:
               "https://images.unsplash.com/photo-1722260613137-f8f5ac432d69?q=80&w=3570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             imageAlt: "alt text",
@@ -579,7 +579,7 @@ const generateArgs = ({
             method: "address",
             label: "Chancery",
             values: [
-              "c/o Ministry of Foreign Affairs",
+              "c/o Sample Organisation",
               "Tanglin",
               "Rivertown 248163",
             ],
@@ -665,7 +665,7 @@ export const Default: Story = {
       type: "hero",
       variant: "gradient",
       backgroundUrl: "/hero-banner.png",
-      title: "Ministry of Trade and Industry",
+      title: "Acme Organisation",
       subtitle:
         "A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity",
       buttonLabel: "Main CTA",
@@ -682,7 +682,7 @@ export const Dark: Story = {
       type: "hero",
       variant: "gradient",
       backgroundUrl: "/hero-banner.png",
-      title: "Ministry of Trade and Industry",
+      title: "Acme Organisation",
       subtitle:
         "A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity",
       buttonLabel: "Main CTA",
@@ -721,7 +721,7 @@ export const HeroLargeImage: Story = {
       type: "hero",
       variant: "largeImage",
       backgroundUrl: "/hero-banner.png",
-      title: "Hi I am a ministry’s title keep it under 50 please",
+      title: "Hi I am an organisation’s title keep it under 50 please",
       subtitle:
         "Max 250 chars please. A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity. A leading global city of enterprise and talent, a vibrant nation of innovation and opportunity. A leading global city of enterprise",
       buttonLabel: "Learn more about us",

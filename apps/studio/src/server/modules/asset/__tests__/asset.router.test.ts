@@ -49,7 +49,7 @@ describe("asset.router", async () => {
   let caller: ReturnType<typeof createCaller>
   const session = await applyAuthedSession()
 
-  const TEST_VALID_EMAIL = "test@open.gov.sg"
+  const TEST_VALID_EMAIL = "test@example.com"
 
   beforeAll(() => {
     caller = createCaller(createMockRequest(session))

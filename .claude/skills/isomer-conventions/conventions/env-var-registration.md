@@ -37,8 +37,8 @@ environment.
 // turbo.json — new var consumed in app code + env.mjs, but not declared here
 "globalEnv": [
   "DATABASE_URL",
-  "SEARCHSG_API_KEY"
-  // ALGOLIA_API_KEY used at runtime/build but missing → not passed to tasks,
+  "SESSION_SECRET"
+  // SMTP_PASS used at runtime/build but missing → not passed to tasks,
   // not part of the cache key
 ]
 ```
@@ -50,16 +50,15 @@ environment.
 // turbo.json
 "globalEnv": [
   "DATABASE_URL",
-  "SEARCHSG_API_KEY",
-  "ALGOLIA_APP_ID",
-  "ALGOLIA_API_KEY",
-  "ALGOLIA_INDEX_NAME"
+  "SESSION_SECRET",
+  "SMTP_HOST",
+  "SMTP_USER",
+  "SMTP_PASS"
 ]
 ```
 plus the same three keys added to `apps/studio/.env.example` and
 `apps/studio/.env.test`, and to the `env.mjs` schema + `runtimeEnv`. See the
-`ALGOLIA_*` rollout (`turbo.json:8` `globalEnv`) and the `SEARCHSG_API_KEY` /
-`S3_GAZETTE_*` precedents already listed there.
+`SMTP_*` rollout (`turbo.json` `globalEnv`) for a live precedent.
 
 ## How to detect
 
@@ -69,7 +68,7 @@ read by a build/test/lint/typecheck task — `turbo.json` `globalEnv`. Grep the
 var name across all four:
 
 ```bash
-grep -rn "ALGOLIA_API_KEY" turbo.json apps/studio/.env.example apps/studio/.env.test apps/studio/src/env.mjs
+grep -rn "SMTP_PASS" turbo.json apps/studio/.env.example apps/studio/.env.test apps/studio/src/env.mjs
 ```
 
 A hit count below four (when the var is task-read) is the smell.

@@ -7,33 +7,33 @@ describe("addRedirectSchema destination scheme normalisation", () => {
     // Arrange / Act
     const result = addRedirectSchema.parse({
       ...VALID,
-      destination: "www.example.gov.sg/page",
+      destination: "www.example.org/page",
     })
 
     // Assert
-    expect(result.destination).toBe("https://www.example.gov.sg/page")
+    expect(result.destination).toBe("https://www.example.org/page")
   })
 
   it("should upgrade an http:// destination to https://", () => {
     // Arrange / Act
     const result = addRedirectSchema.parse({
       ...VALID,
-      destination: "http://www.example.gov.sg/page",
+      destination: "http://www.example.org/page",
     })
 
     // Assert
-    expect(result.destination).toBe("https://www.example.gov.sg/page")
+    expect(result.destination).toBe("https://www.example.org/page")
   })
 
   it("should leave an https:// destination untouched", () => {
     // Arrange / Act
     const result = addRedirectSchema.parse({
       ...VALID,
-      destination: "https://www.example.gov.sg/page",
+      destination: "https://www.example.org/page",
     })
 
     // Assert
-    expect(result.destination).toBe("https://www.example.gov.sg/page")
+    expect(result.destination).toBe("https://www.example.org/page")
   })
 
   it("should leave an internal path untouched (no scheme prepended)", () => {

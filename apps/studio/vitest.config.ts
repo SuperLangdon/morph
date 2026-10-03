@@ -35,7 +35,7 @@ export default defineConfig({
           ],
           retry: 0,
           globals: true,
-          setupFiles: ["tests/mocks/db.ts", "tests/mocks/mockpass.ts"],
+          setupFiles: ["tests/mocks/db.ts"],
           globalSetup: ["tests/global-setup.ts"],
         },
       },

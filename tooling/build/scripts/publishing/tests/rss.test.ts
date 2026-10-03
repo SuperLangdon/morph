@@ -20,7 +20,7 @@ import {
   toRfc822,
 } from "../rss"
 
-// Exercise the article-date conversion east of Singapore without a CI-only job.
+// Exercise the article-date conversion east of UTC without a CI-only job.
 process.env.TZ = "Asia/Tokyo"
 
 const COLLECTION_PERMALINK = "/newsroom"
@@ -142,7 +142,7 @@ describe("escapeXml", () => {
 })
 
 describe("date formatting", () => {
-  it("formats an instant as RFC-822 in Singapore time", () => {
+  it("formats an instant as RFC-822 in UTC", () => {
     // Arrange
     const noonSgt = new Date("2026-07-15T04:00:00.000Z") // 12:00 SGT
 
@@ -150,21 +150,21 @@ describe("date formatting", () => {
     const result = toRfc822(noonSgt)
 
     // Assert
-    expect(result).toBe("Wed, 15 Jul 2026 12:00:00 +0800")
+    expect(result).toBe("Wed, 15 Jul 2026 12:00:00 +0000")
   })
 
   it("anchors a calendar-day article date to midnight SGT regardless of build tz", () => {
     // Arrange — getParsedDate yields the build server's *local* midnight for the
     // calendar day, which is what this constructor reproduces in any timezone.
     // Deriving the day by converting that instant to SGT would roll it back to
-    // the 14th anywhere east of Singapore.
+    // the 14th anywhere east of UTC.
     const localMidnight = new Date(2026, 6, 15)
 
     // Act
     const result = articleDateToRfc822(localMidnight)
 
     // Assert
-    expect(result).toBe("Wed, 15 Jul 2026 00:00:00 +0800")
+    expect(result).toBe("Wed, 15 Jul 2026 00:00:00 +0000")
   })
 })
 

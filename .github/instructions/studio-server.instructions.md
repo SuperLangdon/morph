@@ -17,7 +17,7 @@ applyTo: "apps/studio/src/server/**/*.ts,apps/studio/src/pages/api/**/*.ts"
   actual persisted before and after values, rather than request input assumed
   to match the database.
 - Require `.meta({ rateLimitOptions: ... })` for user-triggered procedures that
-  call external services such as email, S3, or Singpass.
+  call external services such as email or S3.
 - Do not return raw database errors, caught `error.message` values, request
   data, stack traces, credentials, or other sensitive internal details to
   clients. Log server details with the request logger and return an appropriate

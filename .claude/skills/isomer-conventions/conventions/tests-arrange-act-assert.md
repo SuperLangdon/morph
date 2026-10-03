@@ -29,7 +29,7 @@ unit. It's already the house style here, so deviating just adds inconsistency.
 
 ```ts
 it("replaces whitespace with hyphens", () => {
-  expect(toFileId("Gazette Notice 2026.pdf")).toBe("Gazette-Notice-2026.pdf")
+  expect(slugifyFileName("Annual Report 2026.pdf")).toBe("Annual-Report-2026.pdf")
   const other = toFileId("a b")        // a second act buried among asserts
   expect(other).toBe("a-b")
 })
@@ -40,15 +40,15 @@ it("replaces whitespace with hyphens", () => {
 ```ts
 it("replaces whitespace with hyphens", () => {
   // Arrange / Act
-  const result = toFileId("Gazette Notice 2026.pdf")
+  const result = slugifyFileName("Annual Report 2026.pdf")
 
   // Assert
-  expect(result).toBe("Gazette-Notice-2026.pdf")
+  expect(result).toBe("Annual-Report-2026.pdf")
   expect(result).toMatch(FILE_ID_REGEX)
 })
 ```
 
-See `apps/studio/src/features/gazettes/utils/__tests__/toFileId.test.ts` for the
+See `apps/studio/src/features/editing-experience/utils/__tests__` for
 established style.
 
 ## How to detect

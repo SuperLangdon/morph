@@ -9,7 +9,7 @@ type: best-practice
 When you need a **canonical** date/month string — one you will compare, sort,
 store, or regex-match (e.g. `yyyy-MM` for "which month") — produce it with
 `date-fns-tz`'s explicit format token in an explicit timezone:
-`formatInTimeZone(date, "Asia/Singapore", "yyyy-MM")`.
+`formatInTimeZone(date, "UTC", "yyyy-MM")`.
 
 Do **not** reach for an `Intl.DateTimeFormat` locale that happens to emit the
 order you want (the `"en-CA"` → `"2026-06"` trick, `"en-GB"` for `"MMMM yyyy"`,
@@ -38,7 +38,7 @@ the zero-padded result sorting lexicographically === chronologically.
 ```ts
 // Locale chosen purely because it emits yyyy-MM order — breaks on small-ICU.
 const currentMonth = new Intl.DateTimeFormat("en-CA", {
-  timeZone: "Asia/Singapore",
+  timeZone: "UTC",
   year: "numeric",
   month: "2-digit",
 }).format(new Date()) // "2026-06"  …or "06/2026" if ICU data is missing
@@ -51,16 +51,15 @@ if (requestedMonth > currentMonth) throwFutureError()
 ```ts
 import { formatInTimeZone } from "date-fns-tz"
 
-const SINGAPORE_TIME_ZONE = "Asia/Singapore"
+const EXPORT_TIME_ZONE = "UTC"
 
-const currentMonth = formatInTimeZone(new Date(), SINGAPORE_TIME_ZONE, "yyyy-MM")
+const currentMonth = formatInTimeZone(new Date(), EXPORT_TIME_ZONE, "yyyy-MM")
 
 if (requestedMonth > currentMonth) throwFutureError()
 ```
 
 `toLocaleDateString`/`Intl` are still fine for **display** — e.g.
-`apps/studio/src/utils/formatDate.ts` and the gazette publish-date label
-(`apps/studio/src/server/modules/gazette/gazette.service.ts:400`) format dates
+`apps/studio/src/utils/formatDate.ts` and scheduled-publish labels format dates
 for humans, not for comparison, so they are not violations.
 
 ## How to detect
@@ -76,5 +75,5 @@ grep -rn 'Intl.DateTimeFormat\|toLocaleDateString' apps/studio/src
 A locale string picked for its *separator/order* (`"en-CA"`, `"sv-SE"`, …)
 rather than for the reader's locale is the tell. The blessed pattern is used in
 the audit log export feature (`apps/studio/src/schemas/audit.ts`
-`getCurrentSingaporeMonth`). Related: [Document every regex, and keep the
+`getCurrentExportMonth`). Related: [Document every regex, and keep the
 comment correct](document-regex-with-verified-comments.md).

@@ -51,7 +51,7 @@ describe("user.service", () => {
   })
 
   describe("createUserWithPermission", () => {
-    const TEST_EMAIL = "test@open.gov.sg"
+    const TEST_EMAIL = "test@example.com"
     let siteId: number
     let creatorUserId: string
 
@@ -66,7 +66,7 @@ describe("user.service", () => {
 
       const creator = await setupUser({
         name: "creator",
-        email: "creator@open.gov.sg",
+        email: "creator@example.com",
         isDeleted: false,
       })
       creatorUserId = creator.id
@@ -236,7 +236,7 @@ describe("user.service", () => {
       })
     })
 
-    it("should throw 403 if creating a non-whitelisted non-gov.sg email with any role", async () => {
+    it("should throw 403 if creating a non-whitelisted non-whitelisted email with any role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
 
@@ -254,7 +254,7 @@ describe("user.service", () => {
       await expect(result).rejects.toThrow(
         new TRPCError({
           code: "FORBIDDEN",
-          message: "There are non-gov.sg domains that need to be whitelisted.",
+          message: "There are non-whitelisted domains that need to be whitelisted.",
         }),
       )
 
@@ -263,7 +263,7 @@ describe("user.service", () => {
       expect(auditLogs).toHaveLength(0)
     })
 
-    it("should throw 403 if assigning a non-whitelisted non-gov.sg email with admin role", async () => {
+    it("should throw 403 if assigning a non-whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
 
@@ -282,7 +282,7 @@ describe("user.service", () => {
       await expect(result).rejects.toThrow(
         new TRPCError({
           code: "FORBIDDEN",
-          message: "There are non-gov.sg domains that need to be whitelisted.",
+          message: "There are non-whitelisted domains that need to be whitelisted.",
         }),
       )
 
@@ -291,7 +291,7 @@ describe("user.service", () => {
       expect(auditLogs).toHaveLength(0)
     })
 
-    it("should create a temporarily (vendor) whitelisted non-gov.sg email with admin role", async () => {
+    it("should create a temporarily (vendor) whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test-vendor-whitelisted@coolvendor.com"
       const oneYearFromNow = new Date()
@@ -313,7 +313,7 @@ describe("user.service", () => {
       expect(result).toEqual(expect.anything())
     })
 
-    it("should create a whitelisted non-gov.sg email with admin role", async () => {
+    it("should create a whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       await setUpWhitelist({ email: nonGovSgEmail })
@@ -333,7 +333,7 @@ describe("user.service", () => {
       expect(result).toEqual(expect.anything())
     })
 
-    it("should create a non-gov.sg email with non-admin role", async () => {
+    it("should create a non-whitelisted email with non-admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       await setUpWhitelist({ email: nonGovSgEmail })

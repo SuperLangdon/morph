@@ -63,7 +63,7 @@ const generateArgs = ({
     {
       id: "3",
       title:
-        "Date of Government Gazette Notification on Dissolution of Parliament",
+        "Date of the last quarterly review",
       tagged: taggedOptionIds,
       permalink: "/collection-1/item-1",
       layout: "article",
@@ -97,7 +97,7 @@ const generateArgs = ({
     },
     {
       id: "5",
-      title: "Where does Government revenue come from?",
+      title: "Where does our funding come from?",
       tagged: taggedOptionIds,
       permalink: "/collection-1/item-3",
       layout: "article",

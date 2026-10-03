@@ -68,7 +68,7 @@ via `FormControl isInvalid` + `FormErrorMessage`. See
 display-only `File` object backing an upload widget, an open/closed toggle, a
 hover state. Form *data* flows through react-hook-form (`register` / `control` /
 `setValue`); local state just drives presentation. See
-`features/gazettes/components/GazetteModal/GazetteFormFields.tsx:62` for a
+`features/settings` form schemas for a
 sanctioned mix.
 
 ## How to detect

@@ -25,7 +25,7 @@ vi.mock("~/hooks/useIsAdvancedRedirectsEnabled", () => ({
 const REDIRECT_ROW = {
   id: "1",
   source: "/old-news",
-  destination: "https://www.example.gov.sg",
+  destination: "https://www.example.org",
   publishedAt: new Date("2026-01-01T00:00:00Z"),
 }
 

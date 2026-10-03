@@ -50,7 +50,7 @@ const generateArgs = ({
     {
       title: "Card with short title",
       description:
-        "Card description, 200 chars. In the kingdom of Veridonia, the government operates as a benevolent monarchy, guided by ancient traditions and the wisdom of its sovereign.",
+        "Card description, 200 chars. In the kingdom of Veridonia, the realm prospers under ancient traditions, benevolent councils, and the wisdom of its elders.",
       imageUrl:
         "https://craftypixels.com/placeholder-image/800x400/ffffff/000000&text=Image+with+white+background",
       imageAlt: "alt text",
@@ -59,7 +59,7 @@ const generateArgs = ({
     {
       title: "Hover on me to see me change colors",
       description:
-        "Card description, 200 chars. In the kingdom of Veridonia, the government operates as a benevolent monarchy, guided by ancient traditions and the wisdom of its sovereign.",
+        "Card description, 200 chars. In the kingdom of Veridonia, the realm prospers under ancient traditions, benevolent councils, and the wisdom of its elders.",
       imageUrl: "https://placehold.co/800x200",
       imageAlt: "alt text",
       imageFit: "contain",
@@ -116,9 +116,9 @@ const generateArgs = ({
 
   return {
     layout: layout,
-    title: "Section title ministry highlights",
+    title: "Section title — what we do",
     subtitle:
-      "Section subtitle, maximum 150 chars. These are some of the things we are working on. As a ministry, we focus on delivering value to the members of public.",
+      "Section subtitle, maximum 150 chars. These are some of the things we are working on. As an organisation, we focus on delivering value to the public.",
     maxColumns: maxColumns,
     variant,
     cards: allCards,

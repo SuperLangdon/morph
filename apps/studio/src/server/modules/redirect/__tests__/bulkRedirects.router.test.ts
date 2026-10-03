@@ -349,7 +349,7 @@ describe("redirect.router bulk upload", async () => {
     it("flags a row split by an unquoted comma in the destination", async () => {
       // Arrange: an unquoted comma splits the destination into a stray column,
       // which would otherwise silently truncate it and publish a wrong redirect.
-      const csv = `${BULK_REDIRECT_CSV_HEADERS.source},${BULK_REDIRECT_CSV_HEADERS.destination}\n/old,https://example.gov.sg/a,b`
+      const csv = `${BULK_REDIRECT_CSV_HEADERS.source},${BULK_REDIRECT_CSV_HEADERS.destination}\n/old,https://example.org/a,b`
 
       // Act
       const result = await caller.bulkValidate({ siteId, csv })
@@ -364,7 +364,7 @@ describe("redirect.router bulk upload", async () => {
         siteId,
         csv: csvOf([
           ["/old-one", "/new-one"],
-          ["/old-two", "https://example.gov.sg"],
+          ["/old-two", "https://example.org"],
         ]),
       })
 
@@ -417,7 +417,7 @@ describe("redirect.router bulk upload", async () => {
         siteId,
         csv: csvOf([
           ["/old-one", "/new-one"],
-          ["/old-two", "https://example.gov.sg"],
+          ["/old-two", "https://example.org"],
         ]),
       })
 
@@ -433,7 +433,7 @@ describe("redirect.router bulk upload", async () => {
         .execute()
       expect(live).toEqual([
         { source: "/old-one", destination: "/new-one" },
-        { source: "/old-two", destination: "https://example.gov.sg" },
+        { source: "/old-two", destination: "https://example.org" },
       ])
     })
 

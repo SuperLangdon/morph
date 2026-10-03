@@ -31,7 +31,7 @@ import { isomerAdminsCount, setupIsomerAdmins } from "./utils"
 const createCaller = createCallerFactory(userRouter)
 
 describe("user.router", () => {
-  const TEST_EMAIL = "test@open.gov.sg"
+  const TEST_EMAIL = "test@example.com"
 
   let caller: ReturnType<typeof createCaller>
   let session: Awaited<ReturnType<typeof applyAuthedSession>>
@@ -236,7 +236,7 @@ describe("user.router", () => {
       expect(auditLogs).toHaveLength(0)
     })
 
-    it("should throw 403 if creating a non-whitelisted non-gov.sg email with any role", async () => {
+    it("should throw 403 if creating a non-whitelisted non-whitelisted email with any role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       await setupAdminPermissions({ userId: session.userId, siteId })
@@ -251,7 +251,7 @@ describe("user.router", () => {
       await expect(result).rejects.toThrow(
         new TRPCError({
           code: "FORBIDDEN",
-          message: "There are non-gov.sg domains that need to be whitelisted.",
+          message: "There are non-whitelisted domains that need to be whitelisted.",
         }),
       )
 
@@ -260,7 +260,7 @@ describe("user.router", () => {
       expect(auditLogs).toHaveLength(0)
     })
 
-    it("should throw 403 if assigning a non-whitelisted non-gov.sg email with admin role", async () => {
+    it("should throw 403 if assigning a non-whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       await setupAdminPermissions({ userId: session.userId, siteId })
@@ -275,7 +275,7 @@ describe("user.router", () => {
       await expect(result).rejects.toThrow(
         new TRPCError({
           code: "FORBIDDEN",
-          message: "There are non-gov.sg domains that need to be whitelisted.",
+          message: "There are non-whitelisted domains that need to be whitelisted.",
         }),
       )
 
@@ -284,7 +284,7 @@ describe("user.router", () => {
       expect(auditLogs).toHaveLength(0)
     })
 
-    it("should create a temporarily (vendor) whitelisted non-gov.sg email with admin role", async () => {
+    it("should create a temporarily (vendor) whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test-vendor-whitelisted@coolvendor.com"
       const oneYearFromNow = new Date()
@@ -302,7 +302,7 @@ describe("user.router", () => {
       expect(result).toEqual(expect.anything())
     })
 
-    it("should create a whitelisted non-gov.sg email with admin role", async () => {
+    it("should create a whitelisted non-whitelisted email with admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       await setupAdminPermissions({ userId: session.userId, siteId })
@@ -318,7 +318,7 @@ describe("user.router", () => {
       expect(result).toEqual(expect.anything())
     })
 
-    it("should create a whitelisted non-gov.sg email with non-admin role", async () => {
+    it("should create a whitelisted non-whitelisted email with non-admin role", async () => {
       // Arrange
       const nonGovSgEmail = "test@coolvendor.com"
       const role = RoleType.Editor
@@ -687,7 +687,7 @@ describe("user.router", () => {
       await setupAdminPermissions({ userId: session.userId, siteId })
 
       const isomerAdmin = await setupUser({
-        email: "testisomeradmin@open.gov.sg",
+        email: "testisomeradmin@example.com",
         isDeleted: false,
       })
       await setupAdminPermissions({ userId: isomerAdmin.id, siteId })
@@ -1247,7 +1247,7 @@ describe("user.router", () => {
 
       for (let i = 0; i < 15; i++) {
         const editorUser = await setupUser({
-          email: `editor.user.${i}@open.gov.sg`,
+          email: `editor.user.${i}@example.com`,
           isDeleted: false,
         })
         await setupEditorPermissions({ userId: editorUser.id, siteId })
@@ -1266,7 +1266,7 @@ describe("user.router", () => {
 
       for (let i = 0; i < 15; i++) {
         const editorUser = await setupUser({
-          email: `editor.user.${i}@open.gov.sg`,
+          email: `editor.user.${i}@example.com`,
           isDeleted: false,
         })
         await setupEditorPermissions({ userId: editorUser.id, siteId })
@@ -1285,15 +1285,15 @@ describe("user.router", () => {
 
       // Create users with emails in non-alphabetical order
       const userC = await setupUser({
-        email: "charlie@example.gov.sg",
+        email: "charlie@example.org",
         isDeleted: false,
       })
       const userA = await setupUser({
-        email: "alice@example.gov.sg",
+        email: "alice@example.org",
         isDeleted: false,
       })
       const userB = await setupUser({
-        email: "bob@example.gov.sg",
+        email: "bob@example.org",
         isDeleted: false,
       })
       await Promise.all(
@@ -1308,9 +1308,9 @@ describe("user.router", () => {
       // Assert
       expect(result).toHaveLength(4) // current user + 3 new users
       expect(result.map((user) => user.email).slice(0, 3)).toEqual([
-        "alice@example.gov.sg",
-        "bob@example.gov.sg",
-        "charlie@example.gov.sg",
+        "alice@example.org",
+        "bob@example.org",
+        "charlie@example.org",
       ])
     })
   })
@@ -1632,7 +1632,7 @@ describe("user.router", () => {
     // user whose whitelist entry later expires keeps whatever role they
     // already have, and if they're re-whitelisted (even temporarily), they
     // don't need to go through this check again to keep/regain that role.
-    it("should update a non-whitelisted non-gov.sg email to admin role successfully", async () => {
+    it("should update a non-whitelisted non-whitelisted email to admin role successfully", async () => {
       // Arrange
       await setupAdminPermissions({ userId: session.userId, siteId })
 
@@ -1659,7 +1659,7 @@ describe("user.router", () => {
       )
     })
 
-    it("should update a whitelisted non-gov.sg email to admin role successfully", async () => {
+    it("should update a whitelisted non-whitelisted email to admin role successfully", async () => {
       // Arrange
       await setupAdminPermissions({ userId: session.userId, siteId })
 
@@ -1687,7 +1687,7 @@ describe("user.router", () => {
       )
     })
 
-    it("should update a temporarily (vendor) whitelisted non-gov.sg email to admin role successfully", async () => {
+    it("should update a temporarily (vendor) whitelisted non-whitelisted email to admin role successfully", async () => {
       // Arrange
       await setupAdminPermissions({ userId: session.userId, siteId })
 
@@ -1720,7 +1720,7 @@ describe("user.router", () => {
       )
     })
 
-    it("should update a non-gov.sg email with non-admin role successfully", async () => {
+    it("should update a non-whitelisted email with non-admin role successfully", async () => {
       // Arrange
       await setupAdminPermissions({ userId: session.userId, siteId })
 

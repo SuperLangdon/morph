@@ -20,7 +20,7 @@ describe("whitelist.service", () => {
       email: "vendor-expired@example.com",
       expiry: oneYearAgo,
     })
-    await setUpWhitelist({ email: ".gov.sg" })
+    await setUpWhitelist({ email: ".example.com" })
     await setUpWhitelist({
       email: "@vendor.com.sg",
     })
@@ -103,7 +103,7 @@ describe("whitelist.service", () => {
 
   it("should show email as whitelisted if the suffix of the email domain is whitelisted and expiry is NULL", async () => {
     // Arrange
-    const email = "user@agency.gov.sg"
+    const email = "user@agency.example.com"
 
     // Act
     const result = await isEmailWhitelisted(email)

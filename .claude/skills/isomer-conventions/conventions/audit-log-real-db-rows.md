@@ -70,7 +70,7 @@ Creates log `{ before: null, after: <created row> }`; deletes log
 part of a `FullResource` changed (e.g. the blob but not the resource row), the
 unchanged half may reuse its fetched row — it's still a real DB row. See the
 move handler `resource.router.ts:356` for the fetch → mutate → re-fetch → log
-idiom, and `gazette.router.ts` for create/delete.
+idiom.
 
 ## How to detect
 
