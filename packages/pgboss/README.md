@@ -9,7 +9,7 @@ Internal wrapper around `pg-boss` for PostgreSQL-backed background job schedulin
 - `registerPgbossJob()` — register a named cron job with a handler
 - `stopAllPgbossJobs()` — graceful shutdown
 
-Default timezone is `Asia/Singapore`.
+Default timezone is the server's local timezone (`TZ`), falling back to `UTC`.
 
 Workers and schedules are registered only when `ENABLE_CRON_WORKERS=true`. The
 flag defaults to `false`; opt in locally only when connected to a local database.

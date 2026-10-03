@@ -1,20 +1,51 @@
-# Isomer Next
+# Morph
 
-This is a monorepo for the Isomer Next project.
+Morph is an open-source CMS and static site publishing platform. Editors write
+pages in a block-based editor, manage media, collections and navigation, and
+publish a fully static website — no government infrastructure, no proprietary
+identity provider, no vendor lock-in.
 
-[![DPG Badge](https://img.shields.io/badge/Verified-DPG-3333AB?logo=data:image/svg%2bxml;base64,PHN2ZyB3aWR0aD0iMzEiIGhlaWdodD0iMzMiIHZpZXdCb3g9IjAgMCAzMSAzMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE0LjIwMDggMjEuMzY3OEwxMC4xNzM2IDE4LjAxMjRMMTEuNTIxOSAxNi40MDAzTDEzLjk5MjggMTguNDU5TDE5LjYyNjkgMTIuMjExMUwyMS4xOTA5IDEzLjYxNkwxNC4yMDA4IDIxLjM2NzhaTTI0LjYyNDEgOS4zNTEyN0wyNC44MDcxIDMuMDcyOTdMMTguODgxIDUuMTg2NjJMMTUuMzMxNCAtMi4zMzA4MmUtMDVMMTEuNzgyMSA1LjE4NjYyTDUuODU2MDEgMy4wNzI5N0w2LjAzOTA2IDkuMzUxMjdMMCAxMS4xMTc3TDMuODQ1MjEgMTYuMDg5NUwwIDIxLjA2MTJMNi4wMzkwNiAyMi44Mjc3TDUuODU2MDEgMjkuMTA2TDExLjc4MjEgMjYuOTkyM0wxNS4zMzE0IDMyLjE3OUwxOC44ODEgMjYuOTkyM0wyNC44MDcxIDI5LjEwNkwyNC42MjQxIDIyLjgyNzdMMzAuNjYzMSAyMS4wNjEyTDI2LjgxNzYgMTYuMDg5NUwzMC42NjMxIDExLjExNzdMMjQuNjI0MSA5LjM1MTI3WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==)](https://digitalpublicgoods.net/r/isomer)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/opengovsg/isomer)
+Morph is derived from [Isomer](https://github.com/opengovsg/isomer) by Open
+Government Products; it is an independent, unaffiliated distribution. See
+[NOTICE.md](./NOTICE.md) for attribution and
+[MORPH.md](./MORPH.md) for the exact differences from upstream.
 
-## Getting Started
+## Monorepo layout
 
-This monorepo uses pnpm and Turborepo. From the repository root:
+| Path | What it is |
+| --- | --- |
+| `apps/studio` | The CMS application (Next.js 16, tRPC, Prisma + Kysely) |
+| `apps/template` | The published-site renderer / local preview target |
+| `packages/components` | Site component library and rendering engine |
+| `packages/db` | Prisma schema and migrations |
+| `tooling/build` | Publishing pipeline (database → static export) |
+| `brand/` | SVG source of truth for Morph brand assets |
+
+## Getting started
+
+The monorepo uses pnpm and Turborepo. From the repository root:
 
 ```bash
 corepack enable
 pnpm install
 ```
 
-The `turbo` CLI is available via `pnpm exec turbo` / `pnpm turbo` after install.
+### Run locally
+
+```bash
+# from the repo root
+pnpm setup   # starts PostgreSQL (Docker) + migrations + seed data
+pnpm dev     # Studio on :3000, published-site preview on :3001
+```
+
+Sign in with **email OTP**: enter one of the seeded accounts (see
+`apps/studio/prisma/seed.ts`, e.g. `admin@example.com`), request a login code,
+and read the code from the Studio server console — when no SMTP server is
+configured, outgoing mail (including OTPs) is logged to the console instead of
+being sent.
+
+To send real email, set the `SMTP_*` variables in your env (any SMTP provider
+works). See `.env.example`.
 
 ### Local publishing
 
@@ -43,53 +74,27 @@ when provided; otherwise it falls back to its `DB_*` connection settings.
 - Replacement uses a backup and two renames, with rollback if installation fails;
   it is not an atomic directory swap.
 
-### Credentials
-
-There are a few steps to getting started:
-
-1. First, ensure that you are added to the Okta SSO. This can be verified via going to the `all-might` repository located [here](https://github.com/opengovsg/all-might)
-   a. ensure that the user has a `/users/<name>.yml` file
-   b. next, add the user to the relevant groups in `/groups`
-   c. lastly, add the user to the relevant `applications`
-
-2. Next, add the user to the AWS opengovsg org. This is done via configuration on the sso repo [here](https://github.com/opengovsg/opengovsg-aws-org-configs)
-   a. follow the same process as above - add the users to `/config/users/<name>.yml`
-   b. thereafter, add the user to either `/config/groups/isomer-admins.yaml` if they require admin permissions (engineer) or to `/config/groups/isomer-users.yaml` if they are not an engineer
-
-3. Thirdly, get the credentials for 1Password
-4. Add the user to the `isomerpages` organisation by adding them to the file [here](https://github.com/opengovsg/isomer-infra/blob/main/src/github/constants.ts)
-5. Add the user to the relevant github teams [here](https://github.com/orgs/opengovsg/teams?query=isomer) by asking the maintainer
-
-### Cutting a release
-
-We run releases via the `publish` event. Hence, in order to cut a release, we have to go through the following steps:
-
-1. first, select the release commit
-2. generate a tag for the release commit from the previous tag as follows:
-   - if you're making a hotfix, add a 0.0.1 to the previous version
-   - if you're making a minor upgrade, add a 0.1 to the previous version.
-   - for all purposes, all our releases are minor upgrades so we will not be incrementing the major version number
-3. push the tag to the remote origin
-4. go to github and click on `Tags`
-5. next, click on releases and draft a new release
-6. choose the tag you have previously created
-7. generate release notes (this can be done automatically via the button)
-8. publish the release
+No AWS account or other external service is needed for the local loop. For
+production publishing, Studio can drive AWS CodeBuild per site (generic AWS SDK
+usage — bring your own account); see `apps/studio/src/server/modules/aws/`.
 
 ### Running database migrations
 
-1. first, add the relevant `.pem` file to the `apps/studio/ssh` folder
-   - this can be found by searching for `AWS Isomer Next <env> Bastion SSH Key` in your 1Password vault
-2. Next, duplicate the `.env.example` in `apps/studio` to `.ssh/.env.<env>`
-3. Fill in the relevant information by searching for `Isomer Next <env> Database` inside 1password
-4. Next, run `pnpm run jump:<env>` from within the `apps/studio` folder
-5. Next, run `pnpm run migrate:<env>` from within the `apps/studio` folder
-6. (Optional) If you need to run a seed, run `pnpm run db:seed`
+Against your own database (local or self-hosted):
 
-### Extra tools
+```bash
+# from apps/studio
+pnpm migrate:dev    # create/apply migrations
+pnpm db:seed        # optional: seed demo data
+```
 
-1. Vercel
-   a. To get access to vercel, go to 1Password (1PW) and find the credentials for `isomeradmin`. Login via that Github account and you should have access
-2. Database GUI
-   a. we have a tableplus subscription. Download the Tableplus software [here](https://tableplus.com/download) and find the credentials in 1Password by searching for `Tableplus License`
-3. For a stacked PR workflow, we also have access to [Graphite](https://graphite.dev/). Click on [this](https://app.graphite.dev/invite/github/opengovsg?inviter=0qpsjhZ8WQoruHDLa64F&team=509074568&name=Open%2520Government%2520Products) link to get access.
+## Tracking upstream
+
+Morph tracks the upstream Isomer repository so fixes and features continue to
+flow in. See [UPSTREAM.md](./UPSTREAM.md) for the sync procedure and
+[MORPH.md](./MORPH.md) for conflict-resolution rules per change category.
+
+## License
+
+MIT (inherited from upstream Isomer, including its arbitration rider) — see
+[LICENSE](./LICENSE) and [NOTICE.md](./NOTICE.md).

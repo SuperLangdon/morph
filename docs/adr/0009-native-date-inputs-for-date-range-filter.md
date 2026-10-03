@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-Collection date filters need a date-range control in `packages/components`, which ships to every published Isomer site. Dependencies in that package have an outsized bundle-size cost.
+Collection date filters need a date-range control in `packages/components`, which ships to every published site. Dependencies in that package have an outsized bundle-size cost.
 
 An earlier approach used `@react-aria/calendar`, `@react-stately/calendar`, and `@internationalized/date` to build a custom calendar with a masked text field. That gave full control over UX but added calendar-only dependencies and substantial component code for a single filter input.
 

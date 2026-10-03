@@ -9,7 +9,7 @@ that directory. Nested files add area-specific guidance to this root file.
 
 ## Project Overview
 
-Isomer Next is a monorepo for a government CMS/site builder platform (Open Government Products, Singapore). It uses Turborepo with pnpm workspaces.
+Morph is a monorepo for an open-source CMS/static site publishing platform. It is derived from upstream Isomer (see NOTICE.md / MORPH.md). It uses Turborepo with pnpm workspaces.
 
 ## Common Commands
 
@@ -45,7 +45,7 @@ pnpm typecheck        # TypeScript type checking
 ### Database (from apps/studio)
 ```bash
 pnpm run setup        # Full setup: docker, migrations, seed
-pnpm services:setup   # Start PostgreSQL and Mockpass containers
+pnpm services:setup   # Start PostgreSQL container
 pnpm migrate:dev      # Create new migration
 pnpm db:seed          # Seed database
 pnpm db:reset         # Reset database
@@ -58,9 +58,8 @@ pnpm generate         # Regenerate Prisma client
   production database connection command.** This is an absolute prohibition
   for agents and automation, including read-only work and attempts to inspect
   the command with `--help` or `--dry-run`.
-- Do not invoke `apps/studio/scripts/connectRds.sh prod` directly or create an
-  equivalent SSH, bastion, port-forwarding, or assumed-role connection to the
-  production database.
+- Do not create an SSH, bastion, port-forwarding, or assumed-role connection
+  to a production database.
 - If production database access appears necessary, stop and ask the developer
   to perform the operation themselves or provide a safe local/non-production
   alternative.
@@ -119,8 +118,8 @@ pnpm clean            # Clean build artifacts
 
 ## Environment Setup
 
-1. Copy `apps/studio/.env.example` to `apps/studio/.env`
-2. Get secrets from 1Password (search "Isomer Next")
+1. Copy `.env.example` to `.env` (repo root) and `apps/studio/.env.example` to `apps/studio/.env`
+2. Set at minimum `DATABASE_URL` and `SESSION_SECRET`; configure `SMTP_*` to send real email (otherwise mail is logged to the console)
 3. Run `pnpm run setup` from `apps/studio` to start services and seed DB
 
 ## Formatting Configuration

@@ -8,8 +8,8 @@ Accepted
 
 Isomer sites already publish a Schema.org `WebSite` JSON-LD object. That object
 identifies the website, but it does not describe the organisation responsible
-for the site. Site configuration already contains the site name, agency name,
-canonical URL, logo, and government status. The footer separately contains the
+for the site. Site configuration already contains the site name, organisation
+name, canonical URL, and logo. The footer separately contains the
 contact-page link and official social-media profiles.
 
 Editors also need a structured way to provide metadata that cannot be derived:
@@ -30,9 +30,12 @@ canonical URL, language, and last-modified date. Stable `isPartOf` and
 nodes. This page metadata does not introduce additional editor configuration.
 
 The supported organisation types are `Organization`,
-`GovernmentOrganization`, `EducationalOrganization`, and `NGO`. If an editor
-does not select a type, government sites use `GovernmentOrganization` and
-non-government sites use `Organization`.
+`EducationalOrganization`, and `NGO`. If an editor does not select a type,
+`Organization` is used.
+
+> Morph note: the upstream `GovernmentOrganization` type and the
+> `isGovernment` site flag were removed in Morph; this ADR records the
+> remaining generic behaviour.
 
 The organisation node reuses these existing settings:
 

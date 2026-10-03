@@ -61,6 +61,6 @@ To propose a new category for the allow-list:
 1. Collect ≥5 examples of recent merged PRs in the proposed category.
 2. Verify each PR fits the allow-list rules above (local, deterministic, bounded LOC).
 3. Open a PR adding the category to this file with the examples linked in the PR body.
-4. The PR needs sign-off from two engineers active on Isomer.
+4. The PR needs sign-off from two engineers active on Morph.
 
 Removing a category needs only one engineer's call — if the agent ships a regression, narrow the allow-list immediately.

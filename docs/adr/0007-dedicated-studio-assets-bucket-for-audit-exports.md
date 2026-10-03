@@ -4,7 +4,7 @@ status: accepted
 
 # Audit Log Exports live in a dedicated private studio assets bucket, not the website assets bucket
 
-Audit-log CSV exports are written to a **dedicated private S3 bucket** for Studio-generated artifacts (provisioned in `isomer-next-infra` as `{name}-studio-assets`, resolved at runtime via `S3_STUDIO_ASSETS_BUCKET_NAME` from the `/s3/studio-assets/bucket` SSM parameter), under the `audit-log-exports/{siteId}/{requestId}/` key prefix. The original implementation reused the public-facing website assets bucket with only the key prefix as an isolation boundary; that choice was never documented and this ADR replaces it.
+Audit-log CSV exports are written to a **dedicated private S3 bucket** for Studio-generated artifacts (provisioned by the infrastructure layer as `{name}-studio-assets`, resolved at runtime via `S3_STUDIO_ASSETS_BUCKET_NAME`), under the `audit-log-exports/{siteId}/{requestId}/` key prefix. The original implementation reused the public-facing website assets bucket with only the key prefix as an isolation boundary; that choice was never documented and this ADR replaces it.
 
 ## Why not the website assets bucket
 

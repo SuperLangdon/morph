@@ -1,6 +1,6 @@
-# Isomer Studio
+# Morph Studio
 
-A government CMS and site builder for Singapore public agencies. Editors create and publish pages within collections; admins control the structure and taxonomy of those collections.
+A CMS and static site builder. Editors create and publish pages within collections; admins control the structure and taxonomy of those collections.
 
 ## Language
 
@@ -21,7 +21,7 @@ _Avoid_: category (now ambiguous — prefer "legacy category" or "category strin
 
 ### Taxonomy — tags
 
-**Tag Category**: A named filter group defined by an Isomer Admin on a Collection Index. Contains ordered Tag Options. Can be marked required, meaning editors must select at least one option before publishing.
+**Tag Category**: A named filter group defined by a Morph Admin on a Collection Index. Contains ordered Tag Options. Can be marked required, meaning editors must select at least one option before publishing.
 _Avoid_: filter category, tag group, tag type
 
 **Tag Option**: A selectable value within a Tag Category, identified by a UUID and a label. Editors pick from Tag Options when tagging a Collection Item.
@@ -40,14 +40,6 @@ _Avoid_: trigger point (overloaded), exit (window close is not a Measuring Point
 
 **Measuring Period**: The recurrence window within which a given user is shown the editing survey at most once. Defined and enforced in the survey tool's frequency settings, not by Studio.
 _Avoid_: survey cooldown, quarter (the period is configurable, not fixed)
-
-### Gazette search
-
-**Search Record**: One Algolia record for a gazette, holding a single chunk of the gazette PDF's text plus its classification fields. A gazette produces one Search Record per text chunk; records are what search queries match against.
-_Avoid_: document (ambiguous with the SearchSG "document", which is one-per-gazette, not one-per-chunk), search object
-
-**Object Group**: The identity shared by all Search Records of one gazette — its S3 object key. Used to address a gazette's records as a unit (e.g. removing them all).
-_Avoid_: object key (true but hides the grouping role), ref (that's the leading-slash page field the Object Group is derived from)
 
 ### Page editor — tables
 
@@ -68,11 +60,11 @@ _Avoid_: add button, plus button, insert control
 
 ### Roles and surfaces
 
-**Isomer Admin**: A user with the Core or Migrator role. The only role that can manage taxonomy (create, edit, delete Tag Categories and Tag Options) via the Manage Filters panel.
+**Morph Admin**: A user with the Core or Migrator role (`IsomerAdmin` table). The only role that can manage taxonomy (create, edit, delete Tag Categories and Tag Options) via the Manage Filters panel.
 _Avoid_: admin, site admin (different concept — refers to site-level admin permissions)
 
-**Site Admin**: A user holding the `Admin` role on a specific site (`ResourcePermission.role = Admin`). Can manage that site's users and permissions. Distinct from Isomer Admin.
-_Avoid_: admin (ambiguous), Isomer Admin (a different, platform-level role)
+**Site Admin**: A user holding the `Admin` role on a specific site (`ResourcePermission.role = Admin`). Can manage that site's users and permissions. Distinct from Morph Admin.
+_Avoid_: admin (ambiguous), Morph Admin (a different, platform-level role)
 
 ### Redirects
 
@@ -108,7 +100,7 @@ _Avoid_: audit log request (ambiguous with the Audit Log itself), job (the queue
 **Export Artifact**: The generated CSV file for one report type over one Export Range of a site, stored durably and delivered by emailed link. Identified by site, Export Range, and report type — never by who requested it; identical asks reuse the same Artifact.
 _Avoid_: the export (ambiguous with the request or the workflow), file, link (the delivery mechanism, not the artifact)
 
-**Export Range**: The half-open span of SGT calendar days an Export covers. A full past month, or — for the in-progress month — the month's start through the day of the request (inclusive).
+**Export Range**: The half-open span of UTC calendar days an Export covers. A full past month, or — for the in-progress month — the month's start through the day of the request (inclusive).
 _Avoid_: month (the picker's input, not the stored span), start/duration
 
 **Complete Artifact**: An Export Artifact generated after its Export Range had fully elapsed. Its content is final — audit records are append-only, so no later event can fall inside the range. Only Complete Artifacts may be reused to fulfil later Export Requests; an artifact generated mid-range (any in-progress-month export) is a point-in-time snapshot and is never reused.
